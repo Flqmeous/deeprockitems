@@ -226,9 +226,9 @@ Mods: {
 
 			CryoMineletsOC: {
 				DisplayName: Overclock: Cryo Minelets
-				Tooltip: Shots will produce frostburn mines on the ground, but shots deal half damage
+				Tooltip: Shots will produce frostburn mines on the ground, but shots deal 0.75x damage
 				Positives: "[c/23DF24:▲Shoot the ground to create a frostburn mine!]"
-				Negatives: "[c/F01318:▼0.5x damage]"
+				Negatives: "[c/F01318:▼0.75x damage]"
 			}
 		}
 
@@ -245,21 +245,31 @@ Mods: {
 				DisplayName: Mission Control
 
 				TownNPCMood: {
+					// Neutral mood
 					Content: This is... fine. Better than the surface of Hoxxes!
+					// Messages pertaining to housing
 					NoHome: Just because I'm a dwarf doesn't mean I'll go live in a cave!
-					FarFromHome: Where... am I?
+					FarFromHome: What did you do? I'm supposed to keep an eye on things!
+					// Messages regarding crowding
 					LoveSpace: Ah, I love the alone time I get! No one bothering me--except you I guess.
 					DislikeCrowded: I miss the days of having the space rig to myself.
 					HateCrowded: Get me out of here! I feel like a dwarf in a glyphid storm.
-					LikeNPC_Princess: Have you seen {NPCName}? She has a certain charm around her...
-					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
-					LikeNPC: I feel I really understand {NPCName}. She's pretty talented.
-					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
-					DislikeNPC: "{NPCName} pries on me too much. So what if I need a lot of gunk seeds?"
-					HateNPC: If I have to sit here with {NPCName} one more time and hear one more bald joke, I'm going to lose it.
-					LoveBiome: I love the upper atmosphere; I love being able to watch from above. Safer up here than down there.
+					// Biome messages
+					LoveBiome: I enjoy the upper atmosphere; I get to observe from above. Safer up here than down there.
 					LikeBiome: "{BiomeName} really makes me feel at home. I am contempt here."
 					HateBiome: I really hate it here.
+					// NPC levels. All NPCs are disliked with a few exceptions
+					// Tax collector and goblin
+					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
+					// Steampunker
+					LikeNPC: I wish I could get {NPCName} to work with R&D... She's so talented!
+					// Default
+					DislikeNPC: "{NPCName} pries on me too much. So what if I need a lot of gunk seeds?"
+					// Only the stylist is hated
+					HateNPC: Me and {NPCName} really don't get along. It's probably the lack of hair.
+					// This is Princess messages
+					LikeNPC_Princess: Have you seen {NPCName}? She's incredibly charismatic, even by my standards!
+					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
 				}
 			}
 		}
