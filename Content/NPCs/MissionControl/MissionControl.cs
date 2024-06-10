@@ -27,50 +27,61 @@ namespace deeprockitems.Content.NPCs.MissionControl
 
             NPCID.Sets.ExtraFramesCount[Type] = 8;
             NPCID.Sets.AttackFrameCount[Type] = 4;
-            NPCID.Sets.DangerDetectRange[Type] = 700; // The amount of pixels away from the center of the npc that it tries to attack enemies.
+            NPCID.Sets.DangerDetectRange[Type] = 1600; // The amount of pixels away from the center of the npc that it tries to attack enemies.
             NPCID.Sets.AttackType[Type] = 1;
             NPCID.Sets.PrettySafe[Type] = 400;
             NPCID.Sets.AttackTime[Type] = 90; // The amount of time it takes for the NPC's attack animation to be over once it starts.
             NPCID.Sets.AttackAverageChance[Type] = 30;
             NPCID.Sets.HatOffsetY[Type] = 4; // For when a party is active, the party hat spawns at a Y offset.
 
-            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Velocity = 1f,
                 Direction = 1
             };
 
-
             NPC.Happiness
-                .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love)
-                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
-                .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate);
-            foreach (int id in NPCID.Sets.TownNPCBestiaryPriority)
+                .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love) // Loves space!
+                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like) // Likes the underground
+                .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate); // Hates snow
+            for (int id = 0; id < NPCID.Count; id++)
             {
-                AffectionLevel level = AffectionLevel.Dislike;
-                if (id == NPCID.GoblinTinkerer)
+                NPC npc;
+                if (!ContentSamples.NpcsByNetId.TryGetValue(id, out npc))
                 {
-                    level = AffectionLevel.Love;
+                    continue;
                 }
-                if (id == NPCID.TaxCollector)
+                if (npc.townNPC)
                 {
-                    level = AffectionLevel.Love;
+                    AffectionLevel level = AffectionLevel.Dislike;
+                    switch (id)
+                    {
+                        case NPCID.GoblinTinkerer:
+                            level = AffectionLevel.Love;
+                            break;
+                        case NPCID.TaxCollector:
+                            level = AffectionLevel.Love;
+                            break;
+                        case NPCID.Steampunker:
+                            level = AffectionLevel.Like;
+                            break;
+                        case NPCID.Princess:
+                            level = AffectionLevel.Like;
+                            break;
+                        case NPCID.Stylist:
+                            level = AffectionLevel.Hate;
+                            break;
+                        default:
+                            break;
+                    }
+                    NPC.Happiness.SetNPCAffection(id, level);
                 }
-                if (id == NPCID.Steampunker)
-                {
-                    level = AffectionLevel.Like;
-                }
-                if (id == NPCID.Stylist)
-                {
-                    level = AffectionLevel.Hate;
-                }
-                if (id == NPCID.Princess)
-                {
-                    level = AffectionLevel.Like;
-                }
-                NPC.Happiness.SetNPCAffection(id, level);
             }
 
+        }
+        public override bool CanGoToStatue(bool toKingStatue)
+        {
+            return toKingStatue;
         }
         public override void SetDefaults()
         {

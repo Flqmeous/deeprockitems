@@ -12,7 +12,6 @@ namespace deeprockitems.Content.Buffs
             Main.debuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
         }
-        private int timer = 0;
         public override void Update(NPC npc, ref int buffIndex)
         {
             if (npc.buffTime[buffIndex] == 180)
@@ -21,6 +20,7 @@ namespace deeprockitems.Content.Buffs
                 Vector2 spawnpos = new Vector2(npc.Center.X + rand, npc.Center.Y - Main.screenPosition.Y);
                 Projectile.NewProjectile(npc.GetSource_FromAI(), spawnpos, new Vector2(0, 10), ModContent.ProjectileType<ResupplyPodDrills>(), 500, .1f, ai0: npc.position.Y);
                 npc.DelBuff(buffIndex);
+                buffIndex -= 1;
             }
         }
         public override bool ReApply(NPC npc, int time, int buffIndex)
