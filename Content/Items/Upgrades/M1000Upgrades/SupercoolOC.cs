@@ -4,6 +4,7 @@ using Terraria.ID;
 using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
 {
@@ -25,6 +26,13 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
 
+        }
+        public override void ProjectileOnSpawn(Projectile projectile, IEntitySource source)
+        {
+            if (projectile.ai[1] <= 900 && projectile.ai[1] > 0)
+            {
+                projectile.damage *= 3;
+            }
         }
     }
 }

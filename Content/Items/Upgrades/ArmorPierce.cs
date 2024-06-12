@@ -31,5 +31,14 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
+        public override void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.defense < 10)
+            {
+                modifiers.FinalDamage.Flat += target.defense;
+                return;
+            }
+            modifiers.FinalDamage.Flat += 10;
+        }
     }
 }

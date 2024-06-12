@@ -76,14 +76,14 @@ namespace deeprockitems.Common.Weapons
         }
         public override void AI(Projectile projectile)
         {
-            *//*if (fromM1000 && projectile.type != ProjectileID.ChlorophyteBullet && projectile.type != ModContent.ProjectileType<M1000Helper>())
+            if (fromM1000 && projectile.type != ProjectileID.ChlorophyteBullet && projectile.type != ModContent.ProjectileType<M1000Helper>())
             {
 
                 if (projectile.type != ProjectileID.ChlorophyteBullet)
                 {
                     projectile.velocity.Y -= 0.1f; // You wouldn't understand the gravity of this situation...
                 }
-            }*//*
+            }
             base.AI(projectile);
         }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)

@@ -26,7 +26,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override void ProjectileOnKillWhenEquipped(Projectile projectile, int timeLeft)
+        public override bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
             Point spawnTile = projectile.Center.ToTileCoordinates();
             // Move projectile right
@@ -52,6 +52,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             // Spawn projectile at this new position.
             Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<Content.Projectiles.ZhukovProjectiles.CryoMineletProjectile>(), projectile.damage, 0f, projectile.owner, ai0: 40f, ai1: spawnTile.X, ai2: spawnTile.Y);
             proj.position += projectile.velocity * 2f;
+            return true;
         }
     }
 }

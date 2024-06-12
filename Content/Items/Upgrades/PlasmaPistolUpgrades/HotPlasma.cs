@@ -23,5 +23,9 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
+        public override void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+        }
     }
 }
