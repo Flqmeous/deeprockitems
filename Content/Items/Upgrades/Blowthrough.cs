@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -29,6 +30,12 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddIngredient(ItemID.CrystalBullet, 15)
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
+        }
+        public override void ProjectileOnSpawnWhenEquipped(Projectile projectile, IEntitySource source)
+        {
+            projectile.penetrate = 5;
+            projectile.maxPenetrate = 5;
+            Main.NewText(projectile.whoAmI);
         }
     }
 }
