@@ -96,7 +96,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);

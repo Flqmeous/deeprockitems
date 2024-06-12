@@ -73,7 +73,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
                 Projectile.velocity *= 1.5f;
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (timeLeft > 0)
             {

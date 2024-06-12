@@ -149,7 +149,7 @@ public abstract class HeldProjectileBase : ModProjectile
     public virtual void WhileHeldAtCharge() { }
 
     // This is for when the projectile is killed. Spawn the new projectile, play sound, etc.
-    public override void Kill(int timeLeft)
+    public override void OnKill(int timeLeft)
     {
 
         if (!SpecialKill(timeLeft)) { return; }
