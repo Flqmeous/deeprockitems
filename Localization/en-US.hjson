@@ -230,6 +230,11 @@ Mods: {
 				Positives: "[c/23DF24:▲Shoot the ground to create a frostburn mine!]"
 				Negatives: "[c/F01318:▼0.75x damage]"
 			}
+
+			EmbeddedDetsOC: {
+				DisplayName: Embedded Dets O C
+				Tooltip: ""
+			}
 		}
 
 		Misc: {
