@@ -76,27 +76,5 @@ namespace deeprockitems.Content.Items.Weapons
             SludgePump.AddTile(TileID.Solidifier);
             SludgePump.Register();
         }
-        public override void UniqueUpgrades()
-        {
-            if (Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))
-            {
-                CurrentOverclock = "AG Mixture";
-                OverclockPositives = "▶Shots are no longer affected by gravity";
-                OverclockNegatives = "";
-            }
-            else if (Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()))
-            {
-                CurrentOverclock = "Waste Ordnance";
-                OverclockPositives = "▶Charge shots explode with a large range";
-                OverclockNegatives = "▶Charge shots don't fragment when destroyed";
-            }
-            else if (Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()))
-            {
-                CurrentOverclock = "Goo Bomber Special";
-                OverclockPositives = "▶Charge shots leave trails behind";
-                OverclockNegatives = "▶Charge shots don't fragment when destroyed\n" +
-                                     "▶Normal shots deal less damage";
-            }
-        }
     }
 }
