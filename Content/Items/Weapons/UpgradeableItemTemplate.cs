@@ -1,6 +1,7 @@
 ﻿using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.UI.UpgradeItem;
 using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -16,9 +17,9 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
-        protected int original_damage;
-        protected float DamageScale;
-        protected float useTimeModifier;
+        internal int original_damage;
+        internal float DamageScale;
+        internal float useTimeModifier;
         /// <summary>
         /// The item useTime before being affected by useTimeModifier.
         /// </summary>
@@ -177,16 +178,18 @@ namespace deeprockitems.Content.Items.Weapons
         {
             DamageScale = 1f;
             useTimeModifier = 1f;
-            UniqueUpgrades();
 
-            if (Upgrades.Contains(ModContent.ItemType<DamageUpgrade>()))
+            // Hook injection
+            ItemStatChange?.Invoke(this, Upgrades);
+
+            /*if (Upgrades.Contains(ModContent.ItemType<DamageUpgrade>()))
             {
                 Item.damage = (int)Floor(original_damage * DamageScale) + 5;
             }
             else
             {
                 Item.damage = (int)Floor(original_damage * DamageScale);
-            }
+            }*/
             if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
             {
                 useTimeModifier *= .83f;
@@ -194,6 +197,13 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useTime = (int)Ceiling(oldUseTime * useTimeModifier);
             Item.useAnimation = (int)Ceiling(oldUseAnimation * useTimeModifier);
         }
+        public delegate void HandleItemStatChange(UpgradeableItemTemplate sender, int[] upgrades);
+        public static event HandleItemStatChange ItemStatChange;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            
+        }
+        public delegate bool HandleItemShoot(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades);
         public virtual void UniqueUpgrades()
         {
             

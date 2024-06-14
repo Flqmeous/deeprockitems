@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using System;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -29,6 +30,10 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddIngredient(ItemID.WrathPotion, 5)
             .AddTile(TileID.Anvils);
             upgrade.Register();
+        }
+        public override void ItemStatChange(UpgradeableItemTemplate modItem)
+        {
+            modItem.Item.damage = (int)MathF.Floor(modItem.original_damage * modItem.DamageScale) + 5;
         }
     }
 }

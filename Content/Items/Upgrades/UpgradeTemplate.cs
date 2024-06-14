@@ -40,7 +40,9 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeProjectile.ProjectileModifyNPC += UpgradeProjectile_ModifyHitNPC;
             UpgradeProjectile.ProjectileHitTile += UpgradeProjectile_OnTileCollide;
             UpgradeProjectile.ProjectileKilled += UpgradeProjectile_OnKill;
+            UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChange;
         }
+
         #region Public event virtual methods
         public virtual void ProjectileOnSpawn(Projectile projectile, IEntitySource source) { }
         public virtual void ProjectileAI(Projectile projectile) { }
@@ -49,6 +51,7 @@ namespace deeprockitems.Content.Items.Upgrades
         public virtual void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
         public virtual bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) => null;
         public virtual void ProjectileOnKill(Projectile projectile, int timeLeft) { }
+        public virtual void ItemStatChange(UpgradeableItemTemplate modItem) { }
         #endregion
         #region Private event handlers
         private void UpgradeProjectile_OnSpawn(Projectile sender, IEntitySource source, int[] upgrades)
@@ -100,6 +103,13 @@ namespace deeprockitems.Content.Items.Upgrades
             if (upgrades.Contains(Item.type))
             {
                 ProjectileOnKill(sender, timeLeft);
+            }
+        }
+        private void UpgradeableItemTemplate_ItemStatChange(UpgradeableItemTemplate sender, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                ItemStatChange(sender);
             }
         }
         #endregion
