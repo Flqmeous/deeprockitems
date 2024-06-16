@@ -41,6 +41,10 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeProjectile.ProjectileHitTile += UpgradeProjectile_OnTileCollide;
             UpgradeProjectile.ProjectileKilled += UpgradeProjectile_OnKill;
             UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChange;
+            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeableItemTemplate_ItemModifyShootPrimaryUse;
+            UpgradeableItemTemplate.ItemShootPrimaryUse += UpgradeableItemTemplate_ItemShootPrimaryUse;
+            UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeableItemTemplate_ItemModifyShootAltUse;
+            UpgradeableItemTemplate.ItemShootAltUse += UpgradeableItemTemplate_ItemShootAltUse;
         }
 
         #region Public event virtual methods
@@ -52,6 +56,11 @@ namespace deeprockitems.Content.Items.Upgrades
         public virtual bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) => null;
         public virtual void ProjectileOnKill(Projectile projectile, int timeLeft) { }
         public virtual void ItemStatChange(UpgradeableItemTemplate modItem) { }
+        public virtual void ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+        public virtual bool ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+        public virtual void ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+        public virtual bool ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+
         #endregion
         #region Private event handlers
         private void UpgradeProjectile_OnSpawn(Projectile sender, IEntitySource source, int[] upgrades)
@@ -111,6 +120,36 @@ namespace deeprockitems.Content.Items.Upgrades
             {
                 ItemStatChange(sender);
             }
+        }
+        private void UpgradeableItemTemplate_ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                ItemModifyShootPrimaryUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
+            }
+        }
+        private bool UpgradeableItemTemplate_ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                return ItemShootPrimaryUse(sender, player, source, position, velocity, type, damage, knockback);
+            }
+            return false;
+        }
+        private void UpgradeableItemTemplate_ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                ItemModifyShootAltUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
+            }
+        }
+        private bool UpgradeableItemTemplate_ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                return ItemShootAltUse(sender, player, source, position, velocity, type, damage, knockback);
+            }
+            return false;
         }
         #endregion
     }

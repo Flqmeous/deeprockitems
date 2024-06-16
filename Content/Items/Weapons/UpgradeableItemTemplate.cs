@@ -2,6 +2,7 @@
 using deeprockitems.UI.UpgradeItem;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
+using SmartFormat.Core.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -17,9 +18,9 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
-        internal int original_damage;
-        internal float DamageScale;
-        internal float useTimeModifier;
+        public int OriginalDamage { get; set; }
+        public float DamageScale { get; set; } = 1f;
+        public float UseTimeScale { get; set; }
         /// <summary>
         /// The item useTime before being affected by useTimeModifier.
         /// </summary>
@@ -44,7 +45,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             saved_upgrades = new int[4];
             Upgrades = new int[4];
-            useTimeModifier = 1f;
+            UseTimeScale = 1f;
             ValidUpgrades = new()
             {
                 ModContent.ItemType<DamageUpgrade>(),
@@ -54,7 +55,7 @@ namespace deeprockitems.Content.Items.Weapons
             SafeDefaults();
             oldUseTime = Item.useTime;
             oldUseAnimation = Item.useAnimation;
-            original_damage = Item.damage;
+            OriginalDamage = Item.damage;
             base.SetDefaults();
         }
         public override void UpdateInventory(Player player)
@@ -177,7 +178,7 @@ namespace deeprockitems.Content.Items.Weapons
         public void UpdateUpgrades()
         {
             DamageScale = 1f;
-            useTimeModifier = 1f;
+            UseTimeScale = 1f;
 
             // Hook injection
             ItemStatChange?.Invoke(this, Upgrades);
@@ -190,20 +191,78 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 Item.damage = (int)Floor(original_damage * DamageScale);
             }*/
-            if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
-            {
-                useTimeModifier *= .83f;
-            }
-            Item.useTime = (int)Ceiling(oldUseTime * useTimeModifier);
-            Item.useAnimation = (int)Ceiling(oldUseAnimation * useTimeModifier);
+
+            Item.useTime = (int)Ceiling(oldUseTime * UseTimeScale);
+            Item.useAnimation = (int)Ceiling(oldUseAnimation * UseTimeScale);
         }
         public delegate void HandleItemStatChange(UpgradeableItemTemplate sender, int[] upgrades);
         public static event HandleItemStatChange ItemStatChange;
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+
+
+        public sealed override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            
+            // When the weapon is fired with right click (presumably unused)
+            if (player.altFunctionUse == 1)
+            {
+                // Call upgrade hook, then alt shoot
+                ItemModifyShootAltUse?.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, Upgrades);
+                ModifyShootAltUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                return;
+            }
+            // Call upgrade hook, then primary shoot
+            ItemModifyShootPrimaryUse?.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, Upgrades);
+            ModifyShootPrimaryUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
-        public delegate bool HandleItemShoot(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades);
+
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.ModifyShootStats"/> and should replace it.
+        /// </summary>
+        public virtual void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.ModifyShootStats"/>, however this only activates when the weapon is fired with alternate use (right click).
+        /// </summary>
+        public virtual void ModifyShootAltUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+
+
+        public delegate void HandleItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades);
+        public delegate void HandleItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades);
+
+        public static event HandleItemModifyShootPrimaryUse ItemModifyShootPrimaryUse;
+        public static event HandleItemModifyShootAltUse ItemModifyShootAltUse;
+
+
+
+
+        public sealed override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            // When the weapon is fired with right click (presumably unused)
+            if (player.altFunctionUse == 1)
+            {
+                // Call upgrade hook, then alt shoot
+                ItemShootAltUse?.Invoke(this, player, source, position, velocity, type, damage, knockback, Upgrades);
+                return ShootAltUse(player, source, position, velocity, type, damage, knockback);
+            }
+            // Call upgrade hook, then primary shoot
+            ItemShootPrimaryUse?.Invoke(this, player, source, position, velocity, type, damage, knockback, Upgrades);
+            return ShootPrimaryUse(player, source, position, velocity, type, damage, knockback);
+        }
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.Shoot"/> and should replace it.
+        /// </summary>
+        public virtual bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.Shoot"/>, however this only activates when the weapon is fired with alternate use (right click).
+        /// </summary>
+        public virtual bool ShootAltUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+
+
+        public delegate bool HandleItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades);
+        public delegate bool HandleItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades);
+
+        public static event HandleItemShootPrimaryUse ItemShootPrimaryUse;
+        public static event HandleItemShootAltUse ItemShootAltUse;
+
+
         public virtual void UniqueUpgrades()
         {
             
