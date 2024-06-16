@@ -117,7 +117,7 @@ namespace deeprockitems.Content.Items.Weapons
             else if (Overclock == ModContent.ItemType<SupercoolOC>())
             {
                 Item.channel = true;
-                useTimeModifier *= 1.25f;
+                UseTimeScale *= 1.25f;
             }
             else
             {

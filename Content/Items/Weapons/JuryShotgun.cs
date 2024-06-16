@@ -42,7 +42,12 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<WhitePhosphorus>());
             ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        /// <summary>
+        /// The numebr of projectiles this shotgun will shoot, minus randomization and the projectile that is shot perfectly accurate.
+        /// </summary>
+        public int ProjectileCount { get; set; } = 4;
+        public double Spread { get; set; } = PI / 13;
+        public override bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int numberProjectiles = 4 + Main.rand.Next(1, 3);
             double spread = PI / 13;
@@ -83,7 +88,7 @@ namespace deeprockitems.Content.Items.Weapons
                 WPIgnite();
             }
 
-            return false;
+            return true;
         }
         public override void AddRecipes()
         {

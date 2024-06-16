@@ -33,7 +33,7 @@ namespace deeprockitems.Content.Items.Upgrades
         }
         public override void ItemStatChange(UpgradeableItemTemplate modItem)
         {
-            modItem.Item.damage = (int)MathF.Floor(modItem.original_damage * modItem.DamageScale) + 5;
+            modItem.Item.damage = (int)MathF.Floor(modItem.OriginalDamage * modItem.DamageScale) + 5;
         }
     }
 }
