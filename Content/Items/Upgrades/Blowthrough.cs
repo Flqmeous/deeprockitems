@@ -35,7 +35,6 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             projectile.penetrate = 5;
             projectile.maxPenetrate = 5;
-            Main.NewText(projectile.whoAmI);
         }
     }
 }
