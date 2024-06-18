@@ -174,7 +174,7 @@ namespace deeprockitems.UI
             item2 = placeholder;
             SoundEngine.PlaySound(SoundID.Grab);
             parentItem.Upgrades[_slotID] = item2.type;
-            parentItem.UpdateUpgrades();
+            parentItem.RegisterStatUpgrades();
             UpgradeUISystem.UpgradeUIPanel.ShowItems();
         }
         public override void LeftMouseDown(UIMouseEvent evt)
