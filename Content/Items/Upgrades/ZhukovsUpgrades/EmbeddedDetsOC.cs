@@ -1,7 +1,10 @@
-﻿using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
+﻿using deeprockitems.Common.NPCs;
+using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 using deeprockitems.Content.Items.Weapons;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,6 +27,34 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             .AddIngredient(ItemID.Grenade, 15)
             .AddTile(TileID.Anvils);
             upgrade.Register();*/
+        }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            // Always true
+            if (modItem is Zhukovs zhukovs)
+            {
+                zhukovs.CanAltUse = true;
+                zhukovs.DamageScale *= 0.75f;
+                zhukovs.UseTimeScale = 0.75f;
+            }
+        }
+        public override void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (target.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC))
+            {
+                modNPC.IsEmbedded = true;
+                return;
+            }
+        }
+        public override void ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC) && modNPC.IsEmbedded)
+                {
+                    modNPC.ExplodeThisNPC(npc, player);
+                }
+            }
         }
     }
 }

@@ -49,11 +49,11 @@ Mods: {
 
 			DamageUpgrade: {
 				DisplayName: Upgrade: Small Damage Upgrade
-				Tooltip: +5 base damage
+				Tooltip: +15% base damage
 			}
 
 			DiggingRoundsOC: {
-				DisplayName: Overclock: Digger Rounds
+				DisplayName: Overclock: Digging Rounds
 				Tooltip: Focus shots fire through tiles
 				Positives: "[c/23DF24:▲Focus shots travel through blocks]"
 				Negatives: ""
@@ -226,14 +226,20 @@ Mods: {
 
 			CryoMineletsOC: {
 				DisplayName: Overclock: Cryo Minelets
-				Tooltip: Shots will produce frostburn mines on the ground, but shots deal 0.75x damage
-				Positives: "[c/23DF24:▲Shoot the ground to create a frostburn mine!]"
-				Negatives: "[c/F01318:▼0.75x damage]"
+				Tooltip: Shots will produce frostburn mines on the ground
+				Positives: "[c/23DF24:▲Frostburn mines]"
+				Negatives: ""
 			}
 
 			EmbeddedDetsOC: {
-				DisplayName: Embedded Dets O C
-				Tooltip: ""
+				DisplayName: Overclock: Embedded Detonators
+				Tooltip: Shots will lodge remote bombs in enemies which explode with right click
+				Positives: "[c/23DF24:▲Detonators embed on hit]"
+				Negatives:
+					'''
+					[c/F01318:▼0.75x direct damage]
+					[c/F01318:▼0.75x fire rate]
+					'''
 			}
 		}
 
@@ -254,15 +260,15 @@ Mods: {
 					Content: This is... fine. Better than the surface of Hoxxes!
 					// Messages pertaining to housing
 					NoHome: Just because I'm a dwarf doesn't mean I'll go live in a cave!
-					FarFromHome: What did you do? I'm supposed to keep an eye on things!
+					FarFromHome: What did you do? I can't observe from here!
 					// Messages regarding crowding
 					LoveSpace: Ah, I love the alone time I get! No one bothering me--except you I guess.
-					DislikeCrowded: I miss the days of having the space rig to myself.
+					DislikeCrowded: I miss the days of having the rig to myself.
 					HateCrowded: Get me out of here! I feel like a dwarf in a glyphid storm.
 					// Biome messages
-					LoveBiome: I enjoy the upper atmosphere; I get to observe from above. Safer up here than down there.
-					LikeBiome: "{BiomeName} really makes me feel at home. I am contempt here."
-					HateBiome: I really hate it here.
+					LoveBiome: This place is excellent; it reminds me of the space rig.
+					LikeBiome: "{BiomeName} really makes me feel at home."
+					HateBiome: This sucks. I would demote you if I could.
 					// NPC levels. All NPCs are disliked with a few exceptions
 					// Tax collector and goblin
 					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
@@ -270,8 +276,8 @@ Mods: {
 					LikeNPC: I wish I could get {NPCName} to work with R&D... She's so talented!
 					// Default
 					DislikeNPC: "{NPCName} pries on me too much. So what if I need a lot of gunk seeds?"
-					// Only the stylist is hated
-					HateNPC: Me and {NPCName} really don't get along. It's probably the lack of hair.
+					// Only the stylist is hated, lol bald
+					HateNPC: Me and {NPCName} really don't get along. I think you can figure out why...
 					// This is Princess messages
 					LikeNPC_Princess: Have you seen {NPCName}? She's incredibly charismatic, even by my standards!
 					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
