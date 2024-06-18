@@ -31,9 +31,9 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override void ItemStatChange(UpgradeableItemTemplate modItem)
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {
-            modItem.Item.damage = (int)MathF.Floor(modItem.OriginalDamage * modItem.DamageScale) + 5;
+            modItem.DamageScale *= 1.15f;
         }
     }
 }

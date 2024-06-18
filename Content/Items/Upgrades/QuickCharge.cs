@@ -30,7 +30,7 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override void ItemStatChange(UpgradeableItemTemplate modItem)
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {
             modItem.UseTimeScale *= 0.83f;
         }

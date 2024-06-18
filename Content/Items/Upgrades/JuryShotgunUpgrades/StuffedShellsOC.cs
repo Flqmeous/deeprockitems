@@ -32,5 +32,14 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            // Will always be true
+            if (modItem is JuryShotgun shotgun)
+            {
+                shotgun.SpreadMultiplier = 2f;
+                shotgun.ProjectileMultiplier = 2f;
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using deeprockitems.UI.UpgradeItem;
 using Terraria.DataStructures;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -31,6 +32,15 @@ namespace deeprockitems.Content.Items.Upgrades
         /// Used for drawing the slot to show valid upgrades through IL edits. Don't touch.
         /// </summary>
         private uint _drawTimer = 0;
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (IsOverclock)
+            {
+                string positive = this.GetLocalizedValue("Positives");
+                string negative = this.GetLocalizedValue("Negatives");
+                TooltipHelpers.InsertTooltip(tooltips, new TooltipLine(Mod, "UpgradeEffects", positive + (negative == "" ? "" : "\n" + negative)), "OneDropLogo");
+            }
+        }
         public override void SetStaticDefaults()
         {
             UpgradeProjectile.ProjectileSpawned += UpgradeProjectile_OnSpawn;
@@ -40,11 +50,13 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeProjectile.ProjectileModifyNPC += UpgradeProjectile_ModifyHitNPC;
             UpgradeProjectile.ProjectileHitTile += UpgradeProjectile_OnTileCollide;
             UpgradeProjectile.ProjectileKilled += UpgradeProjectile_OnKill;
-            UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChange;
-            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeableItemTemplate_ItemModifyShootPrimaryUse;
+            UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnEquip;
+            UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnRemove;
             UpgradeableItemTemplate.ItemShootPrimaryUse += UpgradeableItemTemplate_ItemShootPrimaryUse;
-            UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeableItemTemplate_ItemModifyShootAltUse;
             UpgradeableItemTemplate.ItemShootAltUse += UpgradeableItemTemplate_ItemShootAltUse;
+/*            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeableItemTemplate_ItemModifyShootPrimaryUse;
+              UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeableItemTemplate_ItemModifyShootAltUse;
+*/
         }
 
         #region Public event virtual methods
@@ -55,12 +67,12 @@ namespace deeprockitems.Content.Items.Upgrades
         public virtual void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
         public virtual bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) => null;
         public virtual void ProjectileOnKill(Projectile projectile, int timeLeft) { }
-        public virtual void ItemStatChange(UpgradeableItemTemplate modItem) { }
-        public virtual void ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
-        public virtual bool ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
-        public virtual void ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
-        public virtual bool ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
-
+        public virtual void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem) { }
+        public virtual void ItemStatChangeOnRemove(UpgradeableItemTemplate modItem) { }
+        public virtual void ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
+        public virtual void ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
+        /*public virtual void ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+        public virtual void ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }*/
         #endregion
         #region Private event handlers
         private void UpgradeProjectile_OnSpawn(Projectile sender, IEntitySource source, int[] upgrades)
@@ -114,27 +126,40 @@ namespace deeprockitems.Content.Items.Upgrades
                 ProjectileOnKill(sender, timeLeft);
             }
         }
-        private void UpgradeableItemTemplate_ItemStatChange(UpgradeableItemTemplate sender, int[] upgrades)
+        private void UpgradeableItemTemplate_ItemStatChangeOnEquip(UpgradeableItemTemplate sender, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
             {
-                ItemStatChange(sender);
+                ItemStatChangeOnEquip(sender);
             }
         }
-        private void UpgradeableItemTemplate_ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
+        private void UpgradeableItemTemplate_ItemStatChangeOnRemove(UpgradeableItemTemplate sender, int[] upgrades)
+        {
+            if (!upgrades.Contains(Item.type))
+            {
+                ItemStatChangeOnRemove(sender);
+            }
+        }
+        private void UpgradeableItemTemplate_ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                ItemShootPrimaryUse(sender, player, source, position, velocity, type, damage, knockback);
+            }
+        }
+        private void UpgradeableItemTemplate_ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
+        {
+            if (upgrades.Contains(Item.type))
+            {
+                ItemShootAltUse(sender, player, source, position, velocity, type, damage, knockback);
+            }
+        }
+/*        private void UpgradeableItemTemplate_ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
             {
                 ItemModifyShootPrimaryUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
             }
-        }
-        private bool UpgradeableItemTemplate_ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                return ItemShootPrimaryUse(sender, player, source, position, velocity, type, damage, knockback);
-            }
-            return false;
         }
         private void UpgradeableItemTemplate_ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
         {
@@ -142,15 +167,7 @@ namespace deeprockitems.Content.Items.Upgrades
             {
                 ItemModifyShootAltUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
             }
-        }
-        private bool UpgradeableItemTemplate_ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                return ItemShootAltUse(sender, player, source, position, velocity, type, damage, knockback);
-            }
-            return false;
-        }
+        }*/
         #endregion
     }
 }

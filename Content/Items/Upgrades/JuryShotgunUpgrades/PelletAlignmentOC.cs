@@ -26,5 +26,14 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            // Always true
+            if (modItem is JuryShotgun shotgun)
+            {
+                shotgun.SpreadMultiplier = 0.5f;
+                shotgun.VelocityLowerBound = 1f;
+            }
+        }
     }
 }

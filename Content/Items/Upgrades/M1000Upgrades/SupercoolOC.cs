@@ -34,5 +34,9 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
                 projectile.damage *= 3;
             }
         }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            modItem.UseTimeScale = 1.50f;
+        }
     }
 }

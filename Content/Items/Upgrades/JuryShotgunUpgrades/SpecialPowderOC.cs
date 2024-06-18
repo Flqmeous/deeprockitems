@@ -5,6 +5,9 @@ using deeprockitems.Content.Items.Upgrades.M1000Upgrades;
 using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using System;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
@@ -33,6 +36,20 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
             .AddIngredient(ItemID.SoulofFlight, 10)
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
+        }
+        const float SPEED_CAP = 15f;
+        public override void ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Vector2 mousePos = Main.MouseWorld - player.Center;
+            player.velocity -= Vector2.Normalize(mousePos) * 10;
+            if (Math.Abs(player.velocity.X) > SPEED_CAP)
+            {
+                player.velocity.X = SPEED_CAP * Math.Sign(player.velocity.X);
+            }
+            if (player.velocity.Y < 5f)
+            {
+                player.fallStart = (int)player.position.Y / 16;
+            }
         }
     }
 }

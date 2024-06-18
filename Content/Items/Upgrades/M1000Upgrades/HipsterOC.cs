@@ -25,5 +25,10 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            modItem.Item.channel = false;
+            modItem.DamageScale *= 1.25f;
+        }
     }
 }
