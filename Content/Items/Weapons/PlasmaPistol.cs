@@ -44,11 +44,11 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void AddRecipes()
         {
-            Recipe plasmaPistol = Recipe.Create(ModContent.ItemType<PlasmaPistol>())
+            Recipe.Create(ModContent.ItemType<PlasmaPistol>())
                 .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
                 .AddIngredient(ItemID.Amethyst, 8)
-                .AddIngredient(ItemID.FallenStar, 5);
-            plasmaPistol.Register();
+                .AddIngredient(ItemID.FallenStar, 5)
+            .Register();
         }
     }
 }
