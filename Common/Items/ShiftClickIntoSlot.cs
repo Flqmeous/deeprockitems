@@ -114,7 +114,7 @@ namespace deeprockitems.Common.Items
                 }
             }
 
-            parentItem.UpdateUpgrades();
+            parentItem.RegisterStatUpgrades();
             // We have no way to know which slot was which :(
             panel.ShowItems();
             SoundEngine.PlaySound(SoundID.Grab);
