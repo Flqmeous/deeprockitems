@@ -16,7 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : UpgradeableItemTemplate
     {
-        public int TIMER = 0;
+        public int _sludgeTracerTimer = 0;
         public static int MAX_TIMER = 30;
         public override void SetStaticDefaults()
         {
@@ -55,26 +55,26 @@ namespace deeprockitems.Content.Items.Weapons
         {
             if (player == Main.LocalPlayer && Upgrades.Contains(ModContent.ItemType<TracerRounds>()))
             {
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Overclock);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: _sludgeTracerTimer, ai1: Overclock);
             }
-            TIMER++;
-            if (TIMER > MAX_TIMER)
+            _sludgeTracerTimer++;
+            if (_sludgeTracerTimer > MAX_TIMER)
             {
-                TIMER = 0;
+                _sludgeTracerTimer = 0;
             }
         }
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<SludgeHelper>();
         }
         public override void AddRecipes()
         {
-            Recipe SludgePump = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.SludgePump>());
-            SludgePump.AddIngredient(ItemID.HellstoneBar, 15);
-            SludgePump.AddIngredient(ItemID.Gel, 50);
-            SludgePump.AddIngredient(ItemID.Bone, 15);
-            SludgePump.AddTile(TileID.Solidifier);
-            SludgePump.Register();
+            Recipe.Create(ModContent.ItemType<SludgePump>())
+            .AddIngredient(ItemID.HellstoneBar, 15)
+            .AddIngredient(ItemID.Gel, 50)
+            .AddIngredient(ItemID.Bone, 15)
+            .AddTile(TileID.Solidifier)
+            .Register();
         }
     }
 }

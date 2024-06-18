@@ -58,7 +58,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             int MAX_DISTANCE = 1600;
             for (int i = 0; i < MAX_DISTANCE; i++)
             {
-                if (((i - parentItem.TIMER) % (SludgePump.MAX_TIMER + 1)) == parentItem.TIMER)
+                if (((i - parentItem._sludgeTracerTimer) % (SludgePump.MAX_TIMER + 1)) == parentItem._sludgeTracerTimer)
                 {
                     flag = !flag;
                 }
