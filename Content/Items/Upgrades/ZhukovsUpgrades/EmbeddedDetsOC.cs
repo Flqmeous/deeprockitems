@@ -35,14 +35,14 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             {
                 zhukovs.CanAltUse = true;
                 zhukovs.DamageScale *= 0.75f;
-                zhukovs.UseTimeScale = 0.75f;
+                zhukovs.UseTimeScale *= 1.25f;
             }
         }
         public override void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC))
             {
-                modNPC.IsEmbedded = true;
+                modNPC.EmbeddedCount++;
                 return;
             }
         }
@@ -50,7 +50,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
         {
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC) && modNPC.IsEmbedded)
+                if (npc.active && npc.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC) && modNPC.EmbeddedCount > 0)
                 {
                     modNPC.ExplodeThisNPC(npc, player);
                 }

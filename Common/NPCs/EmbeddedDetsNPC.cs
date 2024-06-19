@@ -2,18 +2,19 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using System;
 
 namespace deeprockitems.Common.NPCs
 {
     public class EmbeddedDetsNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
-        public bool IsEmbedded { get; set; } = false;
+        public int EmbeddedCount { get; set; } = 0;
         public void ExplodeThisNPC(NPC npc, Player player)
         {
-            IsEmbedded = false;
             SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, position: npc.Center);
-            player.StrikeNPCDirect(npc, new NPC.HitInfo() { Damage = 150, Knockback = 1f });
+            player.StrikeNPCDirect(npc, new NPC.HitInfo() { Damage = (int)Math.Floor(150 + 400*Math.Log10(EmbeddedCount)), Knockback = 1f });
+            EmbeddedCount = 0;
         }
     }
 }
