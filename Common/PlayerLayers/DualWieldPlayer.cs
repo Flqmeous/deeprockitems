@@ -18,7 +18,7 @@ namespace deeprockitems.Common.PlayerLayers
         private Vector2 _offHandOriginOffset;
         public override void PostUpdate()
         {
-            if (Main.myPlayer == Player.whoAmI)
+            /*if (Main.myPlayer == Player.whoAmI)
             {
                 // This will come in handy!
                 ThisPlayerMouseWorld = Main.MouseWorld;
@@ -44,7 +44,7 @@ namespace deeprockitems.Common.PlayerLayers
                 {
                     OffHandItemRotation = OffHandItemRotation + (OffHandItemRotation - Player.itemRotation) % MathHelper.TwoPi * (distance / 4000);
                 }
-                /*// Stepup? Good bird, apollo!
+                // Stepup? Good bird, apollo!
                 int height_difference = (int)(Player.Bottom.Y - _offHandItemLocation.Y);
                 int width_left = (int)(_offHandItemLocation.X - Player.Left.X);
                 int width_right = (int)(Player.Right.X - _offHandItemLocation.X);
@@ -58,13 +58,14 @@ namespace deeprockitems.Common.PlayerLayers
                 else if (Player.velocity.X > 0)
                 {
                     Collision.StepUp(ref _offHandItemLocation, ref Player.velocity, width_right, height_difference, ref dummy_step, ref dummy_gfxoffy);
-                }*/
-            }
+                }
+            }*/
         }
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
             if (drawInfo.heldItem.type != ModContent.ItemType<Content.Items.Weapons.Zhukovs>()) return;
+            if (ZhukovsFrontLayer.ZhukovsTexture.Height == 1) return;
 
             PlayerDrawLayers.HeldItem.Hide();
         }
