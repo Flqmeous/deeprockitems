@@ -248,7 +248,7 @@ namespace deeprockitems.Content.Items.Weapons
         /// <summary>
         /// Functions identically to <see cref="ModItem.Shoot"/> and should replace it.
         /// </summary>
-        public virtual bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+        public virtual bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => true;
         /// <summary>
         /// Functions identically to <see cref="ModItem.Shoot"/>, however this only activates when the weapon is fired with alternate use (right click).
         /// </summary>
@@ -260,6 +260,18 @@ namespace deeprockitems.Content.Items.Weapons
 
         public static event HandleItemShootPrimaryUse ItemShootPrimaryUse;
         public static event HandleItemShootAltUse ItemShootAltUse;
+
+
+        public delegate void HandleItemHold(UpgradeableItemTemplate sender, Player player, int[] upgrades);
+        public static event HandleItemHold ItemHold;
+
+        public sealed override void HoldItem(Player player)
+        {
+            ItemHold?.Invoke(this, player, Upgrades);
+            ItemOnHold(player);
+        }
+        public virtual void ItemOnHold(Player player) { }
+
 
 
         public virtual void UniqueUpgrades()

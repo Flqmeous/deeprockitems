@@ -16,8 +16,6 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : UpgradeableItemTemplate
     {
-        public int _sludgeTracerTimer = 0;
-        public static int MAX_TIMER = 30;
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
@@ -48,20 +46,8 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());
 
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
-            ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
+            // ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
 
-        }
-        public override void HoldItem(Player player)
-        {
-            if (player == Main.LocalPlayer && Upgrades.Contains(ModContent.ItemType<TracerRounds>()))
-            {
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: _sludgeTracerTimer, ai1: Overclock);
-            }
-            _sludgeTracerTimer++;
-            if (_sludgeTracerTimer > MAX_TIMER)
-            {
-                _sludgeTracerTimer = 0;
-            }
         }
         public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
