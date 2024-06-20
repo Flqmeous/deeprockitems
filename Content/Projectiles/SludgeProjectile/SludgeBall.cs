@@ -14,8 +14,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeBall : ModProjectile
     {
-        SludgePump parentItem;
         float GooTimer = 5f;
+
 
         public override void SetDefaults()
         {
@@ -96,26 +96,18 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 }
             }
         }
-        public override void OnKill(int timeLeft)
+        public override bool PreKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 12; i++)
             {
                 Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
-
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>()) return;
-            if (Projectile.ai[2] == ModContent.ItemType<SludgeExplosionOC>())
-            {
-                if (Projectile.ai[1] <= 900 && Projectile.ai[1] > 0)
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)Floor(Projectile.damage * .8), Projectile.knockBack, Projectile.owner);
-                }
-                return;
-            }
-
-
+            return true;
+        }
+        public override void OnKill(int timeLeft)
+        {
             if (Projectile.ai[1] <= 900 && Projectile.ai[1] > 0 && Main.myPlayer == Projectile.owner)
             {
                 for (int i = 0; i < 10; i++)

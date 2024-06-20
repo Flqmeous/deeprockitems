@@ -3,6 +3,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using deeprockitems.Content.Projectiles.SludgeProjectile;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
@@ -31,6 +34,11 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
             .AddIngredient(ItemID.Bomb, 5)
             .AddTile(TileID.Anvils);
             upgrade.Register();
+        }
+        public override bool? ProjectileOnKill(Projectile projectile, int timeLeft)
+        {
+            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)Math.Floor(projectile.damage * .8), projectile.knockBack, projectile.owner);
+            return false;
         }
     }
 }

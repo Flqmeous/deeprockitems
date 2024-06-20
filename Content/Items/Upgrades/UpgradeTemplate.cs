@@ -54,9 +54,10 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnRemove;
             UpgradeableItemTemplate.ItemShootPrimaryUse += UpgradeableItemTemplate_ItemShootPrimaryUse;
             UpgradeableItemTemplate.ItemShootAltUse += UpgradeableItemTemplate_ItemShootAltUse;
-/*            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeableItemTemplate_ItemModifyShootPrimaryUse;
-              UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeableItemTemplate_ItemModifyShootAltUse;
-*/
+            /*            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeableItemTemplate_ItemModifyShootPrimaryUse;
+                          UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeableItemTemplate_ItemModifyShootAltUse;
+            */
+            UpgradeableItemTemplate.ItemHold += UpgradeableItemTemplate_ItemHold;
         }
 
         #region Public event virtual methods
@@ -66,10 +67,11 @@ namespace deeprockitems.Content.Items.Upgrades
         public virtual void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) { }
         public virtual void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
         public virtual bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) => null;
-        public virtual void ProjectileOnKill(Projectile projectile, int timeLeft) { }
+        public virtual bool? ProjectileOnKill(Projectile projectile, int timeLeft) => null;
         public virtual void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem) { }
         public virtual void ItemStatChangeOnRemove(UpgradeableItemTemplate modItem) { }
         public virtual void ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
+        public virtual void ItemHold(UpgradeableItemTemplate sender, Player player) { }
         public virtual void ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
         /*public virtual void ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
         public virtual void ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }*/
@@ -119,12 +121,21 @@ namespace deeprockitems.Content.Items.Upgrades
             }
             return null;
         }
-        private void UpgradeProjectile_OnKill(Projectile sender, int timeLeft, int[] upgrades)
+        /// <summary>
+        /// Called before <see cref="ModProjectile.OnKill(int)"/> if the corresponding upgrade is equipped.<br/>
+        /// Return false to prevent OnKill() from being called. Return null to allow vanilla behavior to dictate what happens on kill.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="timeLeft"></param>
+        /// <param name="upgrades"></param>
+        /// <returns></returns>
+        private bool? UpgradeProjectile_OnKill(Projectile sender, int timeLeft, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
             {
-                ProjectileOnKill(sender, timeLeft);
+                return ProjectileOnKill(sender, timeLeft);
             }
+            return null;
         }
         private void UpgradeableItemTemplate_ItemStatChangeOnEquip(UpgradeableItemTemplate sender, int[] upgrades)
         {
@@ -154,20 +165,27 @@ namespace deeprockitems.Content.Items.Upgrades
                 ItemShootAltUse(sender, player, source, position, velocity, type, damage, knockback);
             }
         }
-/*        private void UpgradeableItemTemplate_ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
+        /*        private void UpgradeableItemTemplate_ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
+                {
+                    if (upgrades.Contains(Item.type))
+                    {
+                        ItemModifyShootPrimaryUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                    }
+                }
+                private void UpgradeableItemTemplate_ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
+                {
+                    if (upgrades.Contains(Item.type))
+                    {
+                        ItemModifyShootAltUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                    }
+                }*/
+        private void UpgradeableItemTemplate_ItemHold(UpgradeableItemTemplate sender, Player player, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
             {
-                ItemModifyShootPrimaryUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                ItemHold(sender, player);
             }
         }
-        private void UpgradeableItemTemplate_ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ItemModifyShootAltUse(sender, player, ref position, ref velocity, ref type, ref damage, ref knockback);
-            }
-        }*/
         #endregion
     }
 }
