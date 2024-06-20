@@ -1,13 +1,17 @@
-﻿using Terraria;
+﻿/*using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using deeprockitems.Content.Projectiles.SludgeProjectile;
+using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
     public class TracerRounds : UpgradeTemplate
     {
+        public int _sludgeTracerTimer = 0;
+        public static int MAX_TIMER = 30;
         public override bool IsOverclock => false;
         public override void SetDefaults()
         {
@@ -32,5 +36,15 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
+        public override void ItemHold(UpgradeableItemTemplate sender, Player player)
+        {
+            Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: _sludgeTracerTimer, ai1: sender.Upgrades[^1]);
+            _sludgeTracerTimer++;
+            if (_sludgeTracerTimer > MAX_TIMER)
+            {
+                _sludgeTracerTimer = 0;
+            }
+        }
     }
 }
+*/

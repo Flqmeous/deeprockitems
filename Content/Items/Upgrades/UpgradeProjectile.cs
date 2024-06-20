@@ -63,12 +63,17 @@ namespace deeprockitems.Content.Items.Upgrades
             }
             return base.OnTileCollide(projectile, oldVelocity);
         }
-        public override void OnKill(Projectile projectile, int timeLeft)
+        public override bool PreKill(Projectile projectile, int timeLeft)
         {
             if (_upgrades is not null)
             {
-                ProjectileKilled?.Invoke(projectile, timeLeft, _upgrades);
+                bool? result = ProjectileKilled?.Invoke(projectile, timeLeft, _upgrades);
+                if (result is not null)
+                {
+                    return (bool)result;
+                } 
             }
+            return base.PreKill(projectile, timeLeft);
         }
         #endregion
         #region Delegates for events
@@ -78,7 +83,7 @@ namespace deeprockitems.Content.Items.Upgrades
         public delegate void HandleOnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone, int[] upgrades);
         public delegate void HandleModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers, int[] upgrades);
         public delegate bool? HandleOnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades);
-        public delegate void HandleOnKill(Projectile sender, int timeLeft, int[] upgrades);
+        public delegate bool? HandleOnKill(Projectile sender, int timeLeft, int[] upgrades);
         #endregion
         #region Static events
         public static event HandleOnSpawn ProjectileSpawned;
