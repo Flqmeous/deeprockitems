@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Common.PlayerLayers
 {
-    public class DualWieldPlayer : ModPlayer
+    public class ZhukovsDrawPlayer : ModPlayer
     {
         public static readonly Vector2 OFFHAND_DRAWING_OFFSET = new(6f, -6f);
         public Vector2 ThisPlayerMouseWorld { get; set; }
@@ -65,7 +65,6 @@ namespace deeprockitems.Common.PlayerLayers
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
             if (drawInfo.heldItem.type != ModContent.ItemType<Content.Items.Weapons.Zhukovs>()) return;
-            if (ZhukovsFrontLayer.ZhukovsTexture.Height == 1) return;
 
             PlayerDrawLayers.HeldItem.Hide();
         }

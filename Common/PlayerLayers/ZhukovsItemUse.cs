@@ -5,57 +5,44 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
 using System;
+using deeprockitems.Assets.Textures;
 
 namespace deeprockitems.Common.PlayerLayers
 {
-    public class ZhukovsFrontLayer : PlayerDrawLayer
+    public class ZhukovsItemUse : PlayerDrawLayer
     {
-        public static Texture2D ZhukovsTexture { get; set; }
         public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.SolarShield, PlayerDrawLayers.ArmOverItem);
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            if (ZhukovsTexture.Height == 1)
-            {
-                // Try and get the zhukovs texture
-                try
-                {
-                    ZhukovsTexture = (Texture2D)ModContent.Request<Texture2D>("deeprockitems/Content/Items/Weapons/ZhukovsHeld");
-                }
-                catch
-                {
-                    Mod drg = ModContent.GetInstance<deeprockitems>();
-                    drg.Logger.Warn("Unable to retrieve Zhukovs' held item texture. Zhukovs will draw like a regular item.");
-                    return;
-                }
-            }
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
             if (drawInfo.drawPlayer.JustDroppedAnItem) return;
             if (drawInfo.shadow != 0f) return;
-            if (ZhukovsTexture is null) return;
+            if (DRGTextures.Zhukovs is null) return;
 
             // Set Draw Info defaults
             drawInfo.heldItem = drawInfo.drawPlayer.HeldItem; // Make sure that the held item is updated
             // Gets the lighting of the player's center.
             drawInfo.itemColor = Lighting.GetColor((int)(drawInfo.Position.X + drawInfo.drawPlayer.width * 0.5) / 16, (int)((drawInfo.Position.Y + drawInfo.drawPlayer.height * 0.5) / 16.0));
             float adjustedItemScale = drawInfo.drawPlayer.GetAdjustedItemScale(drawInfo.heldItem); // As it says on the tin
-
             // Draw.
             if (drawInfo.heldItem.type == ModContent.ItemType<Zhukovs>())
             {
                 // This is where the item will be drawed from
                 Vector2 itemPosition = drawInfo.drawPlayer.itemLocation - Main.screenPosition;
                 // This is the frame of the zhukov's sprite
-                Rectangle frame = new Rectangle(0, 0, ZhukovsTexture.Width, ZhukovsTexture.Height);
+                Rectangle frame = new Rectangle(0, 0, DRGTextures.Zhukovs.Width, DRGTextures.Zhukovs.Height);
                 // Is just item rotation
                 float rotation = drawInfo.drawPlayer.itemRotation;
                 // X offset used for the player's direction
-                float xOffset = drawInfo.drawPlayer.direction == 1 ? -8f : 48f;
+                float xOffset = drawInfo.drawPlayer.direction == 1 ? -4f : 48f;
                 // Vertical offset used for the player's gravity
-                float yOffset = frame.Height * 3 / 5f;
+                float yOffset = 30f;
                 // Rotation origin, this must be shifted if the player's direction changes.
                 Vector2 drawOrigin = new Vector2((int)xOffset, (int)(frame.Height * 4/5));
 
-                DrawData zhukovsFrontLayer = new DrawData(ZhukovsTexture, new Vector2((int)itemPosition.X, (int)itemPosition.Y + yOffset), frame, drawInfo.itemColor, rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
+                DrawData zhukovsFrontLayer = new DrawData(DRGTextures.Zhukovs, new Vector2((int)itemPosition.X, (int)itemPosition.Y + yOffset), frame, drawInfo.itemColor, rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
+                DrawData zhukovsBackLayer = new DrawData(DRGTextures.Zhukovs, new Vector2((int)itemPosition.X - (drawInfo.drawPlayer.direction * 8f), (int)itemPosition.Y + yOffset), frame, new Color(drawInfo.itemColor.ToVector3() * 0.75f), rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
+                drawInfo.DrawDataCache.Add(zhukovsBackLayer);
                 drawInfo.DrawDataCache.Add(zhukovsFrontLayer);
 
                 /*Vector2 hitBoxCenter = new Vector2((int)(drawInfo.heldItem.width / 2f), (int)(drawInfo.heldItem.height / 2f));
