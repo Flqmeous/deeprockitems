@@ -35,10 +35,5 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override bool? ProjectileOnKill(Projectile projectile, int timeLeft)
-        {
-            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)Math.Floor(projectile.damage * .8), projectile.knockBack, projectile.owner);
-            return false;
-        }
     }
 }

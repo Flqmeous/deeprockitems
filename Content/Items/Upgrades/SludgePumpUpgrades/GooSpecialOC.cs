@@ -32,9 +32,5 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
-        public override bool? ProjectileOnKill(Projectile projectile, int timeLeft)
-        {
-            return false;
-        }
     }
 }
