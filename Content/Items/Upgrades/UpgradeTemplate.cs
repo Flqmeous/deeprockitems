@@ -45,7 +45,6 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             UpgradeProjectile.ProjectileSpawned += UpgradeProjectile_OnSpawn;
             UpgradeProjectile.ProjectileAI += UpgradeProjectile_AI;
-            UpgradeProjectile.ProjectileCanDamage += UpgradeProjectile_CanDamage;
             UpgradeProjectile.ProjectileHitNPC += UpgradeProjectile_OnHitNPC;
             UpgradeProjectile.ProjectileModifyNPC += UpgradeProjectile_ModifyHitNPC;
             UpgradeProjectile.ProjectileHitTile += UpgradeProjectile_OnTileCollide;
@@ -63,11 +62,10 @@ namespace deeprockitems.Content.Items.Upgrades
         #region Public event virtual methods
         public virtual void ProjectileOnSpawn(Projectile projectile, IEntitySource source) { }
         public virtual void ProjectileAI(Projectile projectile) { }
-        public virtual bool? ProjectileCanDamage(Projectile projectile) => null;
         public virtual void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) { }
         public virtual void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
-        public virtual bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) => null;
-        public virtual bool? ProjectileOnKill(Projectile projectile, int timeLeft) => null;
+        public virtual void ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) { }
+        public virtual void ProjectileOnKill(Projectile projectile, int timeLeft) { }
         public virtual void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem) { }
         public virtual void ItemStatChangeOnRemove(UpgradeableItemTemplate modItem) { }
         public virtual void ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
@@ -91,14 +89,6 @@ namespace deeprockitems.Content.Items.Upgrades
                 ProjectileAI(sender);
             }
         }
-        private bool? UpgradeProjectile_CanDamage(Projectile sender, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                return ProjectileCanDamage(sender);
-            }
-            return null;
-        }
         private void UpgradeProjectile_OnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
@@ -113,29 +103,19 @@ namespace deeprockitems.Content.Items.Upgrades
                 ProjectileModifyHitNPC(sender, target, ref modifiers);
             }
         }
-        private bool? UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades)
+        private void UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
             {
-                return ProjectileOnTileCollide(sender, oldVelocity);
+                ProjectileOnTileCollide(sender, oldVelocity);
             }
-            return null;
         }
-        /// <summary>
-        /// Called before <see cref="ModProjectile.OnKill(int)"/> if the corresponding upgrade is equipped.<br/>
-        /// Return false to prevent OnKill() from being called. Return null to allow vanilla behavior to dictate what happens on kill.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="timeLeft"></param>
-        /// <param name="upgrades"></param>
-        /// <returns></returns>
-        private bool? UpgradeProjectile_OnKill(Projectile sender, int timeLeft, int[] upgrades)
+        private void UpgradeProjectile_OnKill(Projectile sender, int timeLeft, int[] upgrades)
         {
             if (upgrades.Contains(Item.type))
             {
-                return ProjectileOnKill(sender, timeLeft);
+                ProjectileOnKill(sender, timeLeft);
             }
-            return null;
         }
         private void UpgradeableItemTemplate_ItemStatChangeOnEquip(UpgradeableItemTemplate sender, int[] upgrades)
         {

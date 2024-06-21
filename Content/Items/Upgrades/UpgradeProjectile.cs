@@ -29,14 +29,6 @@ namespace deeprockitems.Content.Items.Upgrades
                 ProjectileAI?.Invoke(projectile, _upgrades);
             }
         }
-        public override bool? CanDamage(Projectile projectile)
-        {
-            if (_upgrades is not null)
-            {
-                return ProjectileCanDamage?.Invoke(projectile, _upgrades);
-            }
-            return base.CanDamage(projectile);
-        }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (_upgrades is not null)
@@ -55,40 +47,29 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             if (_upgrades is not null)
             {
-                bool? killed = ProjectileHitTile?.Invoke(projectile, oldVelocity, _upgrades);
-                if (killed is not null)
-                {
-                    return (bool)killed;
-                }
+                ProjectileHitTile?.Invoke(projectile, oldVelocity, _upgrades);
             }
             return base.OnTileCollide(projectile, oldVelocity);
         }
-        public override bool PreKill(Projectile projectile, int timeLeft)
+        public override void OnKill(Projectile projectile, int timeLeft)
         {
             if (_upgrades is not null)
             {
-                bool? result = ProjectileKilled?.Invoke(projectile, timeLeft, _upgrades);
-                if (result is not null)
-                {
-                    return (bool)result;
-                } 
+                ProjectileKilled?.Invoke(projectile, timeLeft, _upgrades);
             }
-            return base.PreKill(projectile, timeLeft);
         }
         #endregion
         #region Delegates for events
         public delegate void HandleOnSpawn(Projectile sender, IEntitySource source, int[] upgrades);
         public delegate void HandleAI(Projectile sender, int[] upgrades);
-        public delegate bool? HandleCanDamage(Projectile sender, int[] upgrades);
         public delegate void HandleOnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone, int[] upgrades);
         public delegate void HandleModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers, int[] upgrades);
-        public delegate bool? HandleOnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades);
-        public delegate bool? HandleOnKill(Projectile sender, int timeLeft, int[] upgrades);
+        public delegate void HandleOnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades);
+        public delegate void HandleOnKill(Projectile sender, int timeLeft, int[] upgrades);
         #endregion
         #region Static events
         public static event HandleOnSpawn ProjectileSpawned;
         public static event HandleAI ProjectileAI;
-        public static event HandleCanDamage ProjectileCanDamage;
         public static event HandleOnHitNPC ProjectileHitNPC;
         public static event HandleModifyHitNPC ProjectileModifyNPC;
         public static event HandleOnTileCollide ProjectileHitTile;
