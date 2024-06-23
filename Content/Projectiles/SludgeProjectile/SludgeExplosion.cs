@@ -25,6 +25,17 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             Main.projFrames[Projectile.type] = 5;
         }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.Center.X > Projectile.Center.X)
+            {
+                modifiers.HitDirectionOverride = 1;
+            }
+            else
+            {
+                modifiers.HitDirectionOverride = -1;
+            }
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 300);
