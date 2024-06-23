@@ -91,8 +91,8 @@ Mods: {
 
 			SludgeExplosionOC: {
 				DisplayName: Overclock: Waste Ordnance
-				Tooltip: Focus shots produce an explosion instead of fragmenting
-				Positives: "[c/23DF24:▲Focus shots produce an explosion with concussive force]"
+				Tooltip: Regular shots explode on contact
+				Positives: "[c/23DF24:▲Shots explode when hitting targets]"
 				Negatives: "[c/F01318:▼Focus shots no longer fragment when destroyed]"
 			}
 

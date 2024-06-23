@@ -40,7 +40,7 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
             callBase = true;
             if (sender.ModProjectile is SludgeBall)
             {
-                Projectile.NewProjectile(sender.GetSource_FromThis(), sender.Center, sender.velocity, ModContent.ProjectileType<SludgeExplosion>(), (int)Math.Floor(sender.damage * 1.5f), sender.knockBack, sender.owner);
+                var proj = Projectile.NewProjectileDirect(sender.GetSource_FromThis(), sender.Center, sender.velocity, ModContent.ProjectileType<SludgeExplosion>(), (int)Math.Floor(sender.damage * 1.5f), sender.knockBack, sender.owner);
                 return false;
             }
             return base.UpgradeProjectile_PreKill(sender, timeLeft, out callBase);
