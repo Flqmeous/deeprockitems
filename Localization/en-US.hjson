@@ -54,8 +54,8 @@ Mods: {
 
 			DiggingRoundsOC: {
 				DisplayName: Overclock: Digging Rounds
-				Tooltip: Focus shots fire through tiles
-				Positives: "[c/23DF24:▲Focus shots travel through blocks]"
+				Tooltip: All bullets fired from this gun will pass through terrain
+				Positives: "[c/23DF24:▲Shots travel through blocks]"
 				Negatives: ""
 			}
 

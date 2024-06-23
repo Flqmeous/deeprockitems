@@ -5,6 +5,7 @@ using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
 {
@@ -34,10 +35,9 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
-        public override bool? UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, out bool callBase)
+        public override void ProjectileOnSpawn(Projectile projectile, IEntitySource source)
         {
-            callBase = true;
-            return false;
+            projectile.tileCollide = false;
         }
     }
 }
