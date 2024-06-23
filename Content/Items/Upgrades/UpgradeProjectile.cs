@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
 using Microsoft.Xna.Framework;
+using deeprockitems.Utilities;
+using System.Linq;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -47,16 +49,53 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             if (_upgrades is not null)
             {
-                ProjectileHitTile?.Invoke(projectile, oldVelocity, _upgrades);
+                foreach (var hook in ProjectileHitTile.GetInvocationList().Cast<HandleOnTileCollide>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
+                        if (_upgrades.Contains(upgrade.Type))
+                        {
+                            bool? shouldContinue = hook.Invoke(projectile, oldVelocity, out bool callBase);
+                            if (shouldContinue is not null)
+                            {
+                                if (callBase)
+                                {
+                                    projectile.ModProjectile?.OnTileCollide(oldVelocity);
+                                }
+                                return (bool)shouldContinue;
+                            }
+                        }
+                    }
+                }
             }
             return base.OnTileCollide(projectile, oldVelocity);
         }
-        public override void OnKill(Projectile projectile, int timeLeft)
+        public override bool PreKill(Projectile projectile, int timeLeft)
         {
             if (_upgrades is not null)
             {
-                ProjectileKilled?.Invoke(projectile, timeLeft, _upgrades);
+                foreach (HandlePreKill hook in ProjectileKilled.GetInvocationList().Cast<HandlePreKill>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
+                        if (_upgrades.Contains(upgrade.Type))
+                        {
+                            bool? shouldContinue = hook.Invoke(projectile, timeLeft, out bool callBase);
+                            if (shouldContinue is not null)
+                            {
+                                if (callBase)
+                                {
+                                    projectile.ModProjectile?.PreKill(timeLeft);
+                                }
+                                return (bool)shouldContinue;
+                            }
+                        }
+                    }
+                }
             }
+            return base.PreKill(projectile, timeLeft);
         }
         #endregion
         #region Delegates for events
@@ -64,8 +103,8 @@ namespace deeprockitems.Content.Items.Upgrades
         public delegate void HandleAI(Projectile sender, int[] upgrades);
         public delegate void HandleOnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone, int[] upgrades);
         public delegate void HandleModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers, int[] upgrades);
-        public delegate void HandleOnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades);
-        public delegate void HandleOnKill(Projectile sender, int timeLeft, int[] upgrades);
+        public delegate bool? HandleOnTileCollide(Projectile sender, Vector2 oldVelocity, out bool callBase);
+        public delegate bool? HandlePreKill(Projectile sender, int timeLeft, out bool callBase);
         #endregion
         #region Static events
         public static event HandleOnSpawn ProjectileSpawned;
@@ -73,7 +112,7 @@ namespace deeprockitems.Content.Items.Upgrades
         public static event HandleOnHitNPC ProjectileHitNPC;
         public static event HandleModifyHitNPC ProjectileModifyNPC;
         public static event HandleOnTileCollide ProjectileHitTile;
-        public static event HandleOnKill ProjectileKilled;
+        public static event HandlePreKill ProjectileKilled;
         #endregion
     }
 }

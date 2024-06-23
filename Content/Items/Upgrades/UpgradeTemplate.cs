@@ -17,7 +17,7 @@ namespace deeprockitems.Content.Items.Upgrades
 {
     public abstract class UpgradeTemplate : ModItem
     {
-        public virtual bool IsOverclock { get; set; }   
+        public virtual bool IsOverclock { get; set; }
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Pink;
@@ -48,7 +48,7 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeProjectile.ProjectileHitNPC += UpgradeProjectile_OnHitNPC;
             UpgradeProjectile.ProjectileModifyNPC += UpgradeProjectile_ModifyHitNPC;
             UpgradeProjectile.ProjectileHitTile += UpgradeProjectile_OnTileCollide;
-            UpgradeProjectile.ProjectileKilled += UpgradeProjectile_OnKill;
+            UpgradeProjectile.ProjectileKilled += UpgradeProjectile_PreKill;
             UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnEquip;
             UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnRemove;
             UpgradeableItemTemplate.ItemShootPrimaryUse += UpgradeableItemTemplate_ItemShootPrimaryUse;
@@ -103,19 +103,15 @@ namespace deeprockitems.Content.Items.Upgrades
                 ProjectileModifyHitNPC(sender, target, ref modifiers);
             }
         }
-        private void UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, int[] upgrades)
+        public virtual bool? UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, out bool callBase)
         {
-            if (upgrades.Contains(Item.type))
-            {
-                ProjectileOnTileCollide(sender, oldVelocity);
-            }
+            callBase = true;
+            return null;
         }
-        private void UpgradeProjectile_OnKill(Projectile sender, int timeLeft, int[] upgrades)
+        public virtual bool? UpgradeProjectile_PreKill(Projectile sender, int timeLeft, out bool callBase)
         {
-            if (upgrades.Contains(Item.type))
-            {
-                ProjectileOnKill(sender, timeLeft);
-            }
+            callBase = true;
+            return null;
         }
         private void UpgradeableItemTemplate_ItemStatChangeOnEquip(UpgradeableItemTemplate sender, int[] upgrades)
         {
