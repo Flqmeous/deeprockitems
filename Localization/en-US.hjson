@@ -98,8 +98,8 @@ Mods: {
 
 			SpecialPowderOC: {
 				DisplayName: Overclock: Special Powder
-				Tooltip: Recoil from shots propels you, but damage is slightly reduced
-				Positives: "[c/23DF24:▲2x focus shot damage]"
+				Tooltip: WHEEEEEEEEE!
+				Positives: "[c/23DF24:▲Shooting while airbone propels you]"
 				Negatives: "[c/F01318:▼Slight damage decrease]"
 			}
 
