@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,6 +20,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             DrawOriginOffsetY = Projectile.height / 2;
 
         }
+        public override bool ShouldUpdatePosition() => false;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;
