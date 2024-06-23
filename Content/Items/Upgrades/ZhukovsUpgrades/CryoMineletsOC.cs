@@ -26,8 +26,9 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        public override bool? UpgradeProjectile_OnTileCollide(Projectile projectile, Vector2 oldVelocity, out bool callBase)
         {
+            callBase = true;
             Point spawnTile = projectile.Center.ToTileCoordinates();
             // Move projectile right
             if (oldVelocity.X > projectile.velocity.X)

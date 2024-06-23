@@ -34,6 +34,10 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
-        public override bool? ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) => false;
+        public override bool? UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, out bool callBase)
+        {
+            callBase = true;
+            return false;
+        }
     }
 }
