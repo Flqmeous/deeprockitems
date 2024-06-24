@@ -36,7 +36,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 18f;
+            Item.shootSpeed = 22f;
             Item.rare = ItemRarityID.Orange;
 
             Item.value = Item.sellPrice(0, 5, 30, 0);
@@ -46,7 +46,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());
 
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
-            // ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
+            ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
 
         }
         public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
