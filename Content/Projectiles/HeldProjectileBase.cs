@@ -173,6 +173,9 @@ public abstract class HeldProjectileBase : ModProjectile
                 Vector2 adjusted_speed = velocity.RotatedByRandom(Spread);
 
                 Projectile proj = Projectile.NewProjectileDirect(projectileOwner.GetSource_ItemUse_WithPotentialAmmo(sourceItem, ammoUsed), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI, ai0: 0f, ai1: timeLeft, ai2: Projectile.ai[2]);
+                // Make sure projectile is _right_ on the center
+                proj.Center = projectileOwner.Center;
+
 
                 // Make sure the projectile goes the right direction after charging
 
