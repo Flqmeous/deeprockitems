@@ -20,7 +20,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override SoundStyle? FireSound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
         public override void WhenReachedFullCharge()
         {
-            Projectile.damage = (int)Floor(Projectile.damage * 1.35f);
+            Projectile.damage = (int)Floor(Projectile.damage * 1.75f);
         }
     }
 }
