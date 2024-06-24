@@ -99,7 +99,7 @@ Mods: {
 			SpecialPowderOC: {
 				DisplayName: Overclock: Special Powder
 				Tooltip: WHEEEEEEEEE!
-				Positives: "[c/23DF24:▲Shooting while airbone propels you]"
+				Positives: "[c/23DF24:▲Shooting propels you backward]"
 				Negatives: "[c/F01318:▼Slight damage decrease]"
 			}
 
