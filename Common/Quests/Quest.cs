@@ -3,12 +3,12 @@ using Terraria.ID;
 
 namespace deeprockitems.Common.Quests
 {
-    public interface IQuest
+    public class Quest
     {
         /// <summary>
         /// The ID of the icon to display in the bottom right of the Quest textbox.
         /// </summary>
-        public int ItemIcon { get => ItemID.None; }
+        public virtual int ItemIcon => ItemID.None;
         /// <summary>
         /// The units of this quest completed.
         /// </summary>
@@ -20,16 +20,15 @@ namespace deeprockitems.Common.Quests
         /// <summary>
         /// Whether the class has been completed. Shorthand for <c><see cref="Progress"/> == <see cref="AmountRequired"/></c>
         /// </summary>
-        public sealed bool Completed { get => Progress == AmountRequired; }
+        public bool Completed { get => Progress == AmountRequired; }
         /// <summary>
         /// Whether the quest has been rewarded to the player this quest refers to.
         /// </summary>
         public bool HasQuestBeenRewarded { get; set; }
-        public void OnQuestProgressIncrease(Player player);
         /// <summary>
         /// The ID of this quest.
         /// </summary>
-        public QuestTypeID QuestType => QuestTypeID.None;
+        public virtual QuestTypeID QuestType => QuestTypeID.None;
         public enum QuestTypeID
         {
             None = 0,
