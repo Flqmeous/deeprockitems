@@ -7,6 +7,7 @@ using deeprockitems.Assets.Textures;
 using deeprockitems.Content.Items.Weapons;
 using System.Linq;
 using System;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
@@ -36,25 +37,26 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                 // This is the top left of the projectile. The projectile's center spawns on the player's center
                 Vector2 position = new Vector2(start.X - 0.5f * width, start.Y - 0.5f * height);
                 // How close together to put the dots
-                const float distanceMultiplier = 1f;
+                const float distanceMultiplier = 10f;
                 // Base distance
-                const float distance = 600;
-                bool lavaWet = false;
+                const float distance = 120;
+                // Test for wetness very first
                 bool wet = Collision.WetCollision(position, width, height);
+                Color playerColor = DRGHelpers.GetTeamColor(drawInfo.drawPlayer.team); // Get a color corresponding to team color
+
+                // Iteration count
+                int timer = 0;
 
                 // Total distance of the dots
-                for (int i = 0; i < distance * distanceMultiplier; i++)
+                for (int i = 0; i < distance; i++)
                 {
-                    bool visibleLine = i % 4 == 0;
-
                     // Simulate AI (gravity)
-                    velocity.Y += gravityStrength * (1 / distanceMultiplier);
+                    velocity.Y += gravityStrength;
 
                     // Determine if projectile is wet
                     bool justGotWet;
                     try
                     {
-                        lavaWet = Collision.LavaCollision(position, width, height);
                         justGotWet = Collision.WetCollision(position, width, height);
                     }
                     catch
@@ -62,6 +64,7 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                         return;
                     }
 
+                    // This sets wetness on the frame _after_ entering water.
                     if (justGotWet)
                     {
                         wet = true;
@@ -71,12 +74,7 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                         wet = false;
                     }
 
-                    if (!wet)
-                    {
-                        lavaWet = false;
-                    }
-
-                    // Set velocities
+                    // Set velocities depending on the fluid.
                     Vector2 wetVelocity = new Vector2(0, 0);
                     if (wet)
                     {
@@ -93,20 +91,27 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                             wetVelocity = velocity * 0.5f;
                         }
                     }
-
-                    // Slope collision
-
-                    if (wet)
+                    // Interpolation. This yields something slightly different to a parabola, but it looks close enough
+                    for (int j = 0; j < distanceMultiplier; j++)
                     {
-                        position += wetVelocity * (1 / distanceMultiplier);
+                        // Use wet velocity if wet
+                        if (wet)
+                        {
+                            position += wetVelocity * (1 / distanceMultiplier);
+                        }
+                        else
+                        {
+                            position += velocity * (1 / distanceMultiplier);
+                        }
+                        computedCenter = new(position.X + 0.5f * width, position.Y + 0.5f * height);
+                        // Check visibility
+                        if ((30 + timer - ((int)Main.timeForVisualEffects % 30)) % 30 < 15)
+                        {
+                            // Draw the individual squares
+                            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.WhitePixel, new Rectangle((int)(computedCenter.X - Main.screenPosition.X - 0.5f * tracerWidth), (int)(computedCenter.Y - Main.screenPosition.Y - 0.5f * tracerHeight), tracerWidth, tracerHeight), playerColor));
+                        }
+                        timer++;
                     }
-                    else
-                    {
-                        position += velocity * (1 / distanceMultiplier);
-                    }
-                    computedCenter = new(position.X + 0.5f * width, position.Y + 0.5f * height);
-                    drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.WhitePixel, new Rectangle((int)(computedCenter.X - Main.screenPosition.X - 0.5f * tracerWidth), (int)(computedCenter.Y - Main.screenPosition.Y - 0.5f * tracerHeight), tracerWidth, tracerHeight), Color.White));
-
 
                 }
             }
