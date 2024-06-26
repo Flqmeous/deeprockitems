@@ -142,8 +142,8 @@ namespace deeprockitems.Content.NPCs.MissionControl
         }
         public override string GetChat()
         {
-            DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
-            if (modPlayer is null) return "This message should not appear. Contact the mod author if it does."; // Return if null.
+            //DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
+            //if (modPlayer is null) return "This message should not appear. Contact the mod author if it does."; // Return if null.
 
             WeightedRandom<string> dialogue = new WeightedRandom<string>();
 
@@ -153,12 +153,12 @@ namespace deeprockitems.Content.NPCs.MissionControl
             dialogue.Add(Language.GetTextValue(location + "StandardDialogue3"));
 
             // Only available if quest is ongoing, with a 75% chance of pulling one of these 3
-            if (modPlayer.CurrentQuestInformation[0] > 0)
+            /*if (modPlayer.CurrentQuestInformation[0] > 0)
             {
                 dialogue.Add(Language.GetTextValue(location + "QuestOngoing1"), 3);
                 dialogue.Add(Language.GetTextValue(location + "QuestOngoing2"), 3);
                 dialogue.Add(Language.GetTextValue(location + "QuestOngoing3"), 3);
-            }
+            }*/
 
             return dialogue;
         }
@@ -166,7 +166,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
         {
             button = Language.GetTextValue("LegacyInterface.64");
         }
-        public override void OnChatButtonClicked(bool firstButton, ref string shop)
+        /*public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
             // Quest logic!! It's its own method because i thought it was unreadable
             if (firstButton)
@@ -231,7 +231,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                         break;
                 }
             }
-        }
+        }*/
     }
     public static class Extensions
     {

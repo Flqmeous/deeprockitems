@@ -1,4 +1,4 @@
-﻿using Terraria;
+﻿/*using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
@@ -18,11 +18,11 @@ namespace deeprockitems.Common.Quests
 
 
             
-            /*if (modPlayer.CurrentQuestInformation[0] == 3 && modPlayer.CurrentQuestInformation[1] == npc.type && npc.lastInteraction == Main.myPlayer)
+            *//*if (modPlayer.CurrentQuestInformation[0] == 3 && modPlayer.CurrentQuestInformation[1] == npc.type && npc.lastInteraction == Main.myPlayer)
             {
                 modPlayer.CurrentQuestInformation[3]--;
                 QuestsBase.DecrementProgress(modPlayer);
-            }*/
+            }*//*
 
 
             int bannerID = Item.NPCtoBanner(BannerID(npc.type, npc.netID)); // Fingers crossed, this converts the NPC id correctly...
@@ -44,3 +44,4 @@ namespace deeprockitems.Common.Quests
         }
     }
 }
+*/

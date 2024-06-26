@@ -1,4 +1,15 @@
-﻿using Terraria;
+﻿using Terraria.ModLoader;
+
+namespace deeprockitems.Common.Quests
+{
+    public class QuestModPlayer : ModPlayer
+    {
+        public Quest ActiveQuest { get; set; }
+        public int TotalQuestsCompleted { get; set; }
+        public int QuestsCompletedThisSession { get; set; }
+    }
+}
+/*using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using System;
@@ -38,3 +49,4 @@ namespace deeprockitems.Common.Items
         }
     }
 }
+*/

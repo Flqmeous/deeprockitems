@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using deeprockitems.Utilities;
@@ -29,7 +29,7 @@ namespace deeprockitems.Common.Quests
             MiningQuestInformation.Clear();
             GatherQuestInformation.Clear();
             FightingQuestInformation.Clear();
-            /*int[] newAndShinyOres = { TileID.Tin, TileID.Lead, TileID.Tungsten, TileID.Platinum, TileID.Crimtane, TileID.Palladium, TileID.Orichalcum, TileID.Titanium };
+            *//*int[] newAndShinyOres = { TileID.Tin, TileID.Lead, TileID.Tungsten, TileID.Platinum, TileID.Crimtane, TileID.Palladium, TileID.Orichalcum, TileID.Titanium };
             BitsByte hasNewAndShinyOres = new();
             for (int i = 0; i < Main.tile.Width; i++)
             {
@@ -43,7 +43,7 @@ namespace deeprockitems.Common.Quests
                         }
                     }
                 }
-            }*/
+            }*//*
 
             // IMPORTANT INFORMATION: These first 3 major blocks of code are set after skeletron has been defeated.
             
@@ -180,7 +180,7 @@ namespace deeprockitems.Common.Quests
             modPlayer.PlayerHasClaimedRewards = false;
             modPlayer.CurrentQuestInformation[0] = -1;
         }
-        /*public override void SaveWorldData(TagCompound tag)
+        *//*public override void SaveWorldData(TagCompound tag)
         {
             tag["CurrentQuest"] = CurrentQuest;
             tag["QuestProgress"] = Progress;
@@ -194,7 +194,7 @@ namespace deeprockitems.Common.Quests
                 CurrentQuest = (int[])tag["CurrentQuest"];
                 Progress = (int)tag["QuestProgress"];
             }
-        }*/
+        }*//*
         public override void OnWorldLoad()
         {
             InitializeQuests();
@@ -254,3 +254,4 @@ namespace deeprockitems.Common.Quests
     }
 
 }
+*/

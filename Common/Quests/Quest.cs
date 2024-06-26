@@ -1,9 +1,11 @@
-﻿using Terraria;
+﻿using System;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 
 namespace deeprockitems.Common.Quests
 {
-    public class Quest
+    public abstract class Quest
     {
         /// <summary>
         /// The ID of the icon to display in the bottom right of the Quest textbox.
@@ -29,12 +31,17 @@ namespace deeprockitems.Common.Quests
         /// The ID of this quest.
         /// </summary>
         public virtual QuestTypeID QuestType => QuestTypeID.None;
+        public bool Hardmode { get; set; }
         public enum QuestTypeID
         {
             None = 0,
             Mining = 1,
             Gathering = 2,
             Fighting = 3,
+        }
+        protected class QuestInformation
+        {
+
         }
     }
 }
