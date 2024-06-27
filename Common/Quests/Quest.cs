@@ -5,24 +5,20 @@ using Terraria.ID;
 
 namespace deeprockitems.Common.Quests
 {
-    public abstract class Quest
+    public class Quest
     {
         /// <summary>
         /// The ID of the icon to display in the bottom right of the Quest textbox.
         /// </summary>
-        public virtual int ItemIcon => ItemID.None;
+        public int ItemIcon { get; set; }
         /// <summary>
         /// The units of this quest completed.
         /// </summary>
         public int Progress { get; set; }
         /// <summary>
-        /// Total amount of units required to complete this quest.
-        /// </summary>
-        public int AmountRequired { get; set; }
-        /// <summary>
         /// Whether the class has been completed. Shorthand for <c><see cref="Progress"/> == <see cref="AmountRequired"/></c>
         /// </summary>
-        public bool Completed { get => Progress == AmountRequired; }
+        public bool Completed { get => Progress == Data.AmountRequired; }
         /// <summary>
         /// Whether the quest has been rewarded to the player this quest refers to.
         /// </summary>
@@ -30,18 +26,24 @@ namespace deeprockitems.Common.Quests
         /// <summary>
         /// The ID of this quest.
         /// </summary>
-        public virtual QuestTypeID QuestType => QuestTypeID.None;
-        public bool Hardmode { get; set; }
-        public enum QuestTypeID
+        public QuestID Type { get; set; }
+        public QuestData Data { get; set; }
+        public Quest(QuestID id, QuestData data)
         {
-            None = 0,
-            Mining = 1,
-            Gathering = 2,
-            Fighting = 3,
+            Type = id;
+            Data = data;
         }
-        protected class QuestInformation
+        public Quest(QuestID id, int typeToQuestFor, int amountRequired, bool hardmode)
         {
-
+            Type = id;
+            Data = new QuestData(id, typeToQuestFor, amountRequired, hardmode);
         }
+    }
+    public enum QuestID
+    {
+        None = 0,
+        Mining = 1,
+        Gathering = 2,
+        Fighting = 3,
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -6,14 +7,24 @@ using Terraria.ModLoader;
 
 namespace deeprockitems.Common.Quests
 {
-    public class MiningQuest : Quest
+    public class MiningQuest : IQuest
     {
-        public override int ItemIcon => ItemID.IronPickaxe;
-        public override QuestTypeID QuestType => QuestTypeID.Mining;
+        public int ItemIcon => ItemID.IronPickaxe;
+        public QuestID QuestType => QuestID.Mining;
+        public QuestData Data { get; set; }
+        public int Progress { get; set; }
+        public bool HasQuestBeenRewarded { get; set; }
 
-        
+        public MiningQuest(int typeToQuestFor, int amountRequired, bool hardmode)
+        {
+            Data = new QuestData();
+            Data.QuestTypeID = QuestType;
+            Data.TypeRequired = typeToQuestFor;
+            Data.AmountRequired = amountRequired;
+            Data.Hardmode = hardmode;
+        }
     }
-    /*public class MiningQuestTracker : GlobalTile
+    *//*public class MiningQuestTracker : GlobalTile
     {
         public int WhoLastInteractedWithThisTile { get; set; } = -1;
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
@@ -66,5 +77,6 @@ namespace deeprockitems.Common.Quests
                 }
             }
         }
-    }*/
+    }*//*
 }
+*/
