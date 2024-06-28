@@ -32,11 +32,23 @@ namespace deeprockitems.Common.Quests
         {
             Type = id;
             Data = data;
+            SetCornerItem(id);
         }
         public Quest(QuestID id, int typeToQuestFor, int amountRequired, bool hardmode)
         {
             Type = id;
             Data = new QuestData(id, typeToQuestFor, amountRequired, hardmode);
+            SetCornerItem(id);
+        }
+        private void SetCornerItem(QuestID id)
+        {
+            ItemIcon = id switch
+            {
+                QuestID.Mining => ItemID.IronPickaxe,
+                QuestID.Gathering => ItemID.StaffofRegrowth,
+                QuestID.Fighting => ItemID.CopperShortsword,
+                _ => ItemID.None,
+            };
         }
     }
     public enum QuestID
