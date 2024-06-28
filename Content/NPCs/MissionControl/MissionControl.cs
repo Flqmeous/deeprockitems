@@ -20,7 +20,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
     [AutoloadHead]
     public class MissionControl : ModNPC
     {
-        readonly string location = "Mods.deeprockitems.Dialogue.MissionControl.";
+        readonly static string location = "Mods.deeprockitems.Dialogue.MissionControl.";
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 23;
@@ -142,43 +142,100 @@ namespace deeprockitems.Content.NPCs.MissionControl
         }
         public override string GetChat()
         {
-            /*//DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
-            //if (modPlayer is null) return "This message should not appear. Contact the mod author if it does."; // Return if null.
+            // Try getting modplayer
+            if (!Main.LocalPlayer.TryGetModPlayer(out QuestModPlayer modPlayer)) return "Quest ModPlayer unable to instantiate. Create a bug report on https://scottysimply.github.com/deeprockitems";
 
+            // Create RNG to pull quest
             WeightedRandom<string> dialogue = new WeightedRandom<string>();
 
-            // Always available
-            dialogue.Add(Language.GetTextValue(location + "StandardDialogue1", Main.LocalPlayer.name));
-            dialogue.Add(Language.GetTextValue(location + "StandardDialogue2"));
-            dialogue.Add(Language.GetTextValue(location + "StandardDialogue3"));
+            // Add general dialogue
+            AddChat(dialogue, "StandardDialogue1", 1, Main.LocalPlayer.name);
+            AddChat(dialogue, "StandardDialogue2");
+            AddChat(dialogue, "StandardDialogue3");
 
-            // Only available if quest is ongoing, with a 75% chance of pulling one of these 3
-            *//*if (modPlayer.CurrentQuestInformation[0] > 0)
+            // If quest is ongoing, add quest-specific dialogue
+            if (modPlayer.ActiveQuest is not null)
             {
-                dialogue.Add(Language.GetTextValue(location + "QuestOngoing1"), 3);
-                dialogue.Add(Language.GetTextValue(location + "QuestOngoing2"), 3);
-                dialogue.Add(Language.GetTextValue(location + "QuestOngoing3"), 3);
-            }*//*
+                AddChat(dialogue, "QuestOngoing1", 3);
+                AddChat(dialogue, "QuestOngoing2", 3);
+                AddChat(dialogue, "QuestOngoing3", 3);
+            }
 
-            return dialogue;*/
-
-            // Testing genvars
-            var quest = ModContent.GetInstance<QuestSystem>().CurrentQuest;
-            return quest.TypeRequired.ToString();
+            return dialogue;
+        }
+        private static void AddChat(WeightedRandom<string> dialogue, string key, double weight = 1, params object[] format)
+        {
+            dialogue.Add(Language.GetTextValue(location + key, format), weight);
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.64");
         }
-        /*public override void OnChatButtonClicked(bool firstButton, ref string shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
-            // Quest logic!! It's its own method because i thought it was unreadable
+            // If the quest button was clicked
             if (firstButton)
             {
-                QuestButtonClicked();
+                // Get modplayer
+                if (!Main.LocalPlayer.TryGetModPlayer(out QuestModPlayer modPlayer)) return;
+
+                // Give player a quest if they don't have one.
+                if (modPlayer.ActiveQuest is null)
+                {
+                    // Get system
+                    QuestSystem system = ModContent.GetInstance<QuestSystem>();
+                    // Give quest from system
+                    modPlayer.ActiveQuest = system.CurrentQuest.CreateQuestFromThis();
+                }
+
+                // If player is owed quest rewards, give them rewards
+                if (modPlayer.ActiveQuest.Completed && !modPlayer.ActiveQuest.HasQuestBeenRewarded)
+                {
+                    // Give rewards
+
+                    // Set chat
+                    WeightedRandom<string> dialogue = new();
+                    AddChat(dialogue, "QuestCompleted1");
+                    AddChat(dialogue, "QuestCompleted2");
+                    AddChat(dialogue, "QuestCompleted3");
+                    Main.npcChatText = dialogue;
+
+                    // Disable rewards
+                    modPlayer.ActiveQuest.HasQuestBeenRewarded = true;
+                }
+                // Else if quest has been completed
+                else if (modPlayer.ActiveQuest.Completed)
+                {
+                    // Set chat
+                    WeightedRandom<string> dialogue = new();
+                    AddChat(dialogue, "QuestInactive1");
+                    AddChat(dialogue, "QuestInactive2");
+                    AddChat(dialogue, "QuestInactive3");
+                    Main.npcChatText = dialogue;
+                }
+                // Else, give player quest and display the correct chat message
+                else
+                {
+                    // Set dialogue variation
+                    int chatVariation = Main.rand.Next(1, 3);
+
+                    // Get types and amounts
+                    int type = modPlayer.ActiveQuest.Data.TypeRequired;
+                    int amount = modPlayer.ActiveQuest.Data.AmountRequired;
+
+                    // Switch dialogue
+                    Main.npcChatText = modPlayer.ActiveQuest.Type switch
+                    {
+                        QuestID.Mining => Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetMapObjectName(MapHelper.tileLookup[type]).Pluralizer(amount), amount),
+                        QuestID.Gathering => Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount),
+                        QuestID.Fighting => Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount),
+                        _ => "",
+                    };
+                    Main.npcChatCornerItem = modPlayer.ActiveQuest.ItemIcon;
+                }
             }
         }
-        private void QuestButtonClicked()
+        /*private void QuestButtonClicked()
         {
             // This is the modplayer of the player who talked to the NPC.
             DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
