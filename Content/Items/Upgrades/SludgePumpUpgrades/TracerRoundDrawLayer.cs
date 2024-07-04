@@ -8,6 +8,7 @@ using deeprockitems.Content.Items.Weapons;
 using System.Linq;
 using System;
 using deeprockitems.Utilities;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
@@ -111,6 +112,18 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                             drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.WhitePixel, new Rectangle((int)(computedCenter.X - Main.screenPosition.X - 0.5f * tracerWidth), (int)(computedCenter.Y - Main.screenPosition.Y - 0.5f * tracerHeight), tracerWidth, tracerHeight), playerColor));
                         }
                         timer++;
+
+                        // If hit tile, kill and draw X
+                        if (Collision.SolidCollision(position, width, height))
+                        {
+                            int hitWidth = DRGTextures.TracerHit.Width;
+                            int hitHeight = DRGTextures.TracerHit.Height;
+                            float rotation = drawInfo.drawPlayer.direction * ((timer) / (distance * distanceMultiplier));
+                            Vector2 origin = new(hitWidth * 0.5f, hitHeight * 0.5f);
+
+                            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.TracerHit, new Rectangle((int)(computedCenter.X - Main.screenPosition.X), (int)(computedCenter.Y - Main.screenPosition.Y), hitWidth, hitHeight), null, playerColor, rotation, origin, SpriteEffects.None));
+                            return;
+                        }
                     }
 
                 }
