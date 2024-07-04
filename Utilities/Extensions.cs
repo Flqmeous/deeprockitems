@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 
 namespace deeprockitems.Utilities
 {
-    public static class DRGExtensions
+    public static class Extensions
     {
         public static int VelocityClamp_GetExtraUpdates(this Vector2 velocity, float max_speed = 16f)
         {
@@ -24,6 +25,11 @@ namespace deeprockitems.Utilities
         public static Vector3 RGBToVector3(this Vector3 color)
         {
             return color / 255;
+        }
+        public static List<T> DirectAdd<T>(this List<T> list, T item)
+        {
+            list.Add(item);
+            return list;
         }
     }
 }
