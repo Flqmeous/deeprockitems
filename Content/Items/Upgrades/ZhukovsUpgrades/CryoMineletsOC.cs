@@ -14,7 +14,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Lime;
         }
         public override void AddRecipes()
         {
