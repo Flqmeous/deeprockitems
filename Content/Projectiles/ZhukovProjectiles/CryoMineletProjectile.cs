@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Terraria.ID;
 using Terraria.Audio;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
 {
@@ -86,8 +87,8 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
             {
                 if (Projectile.Center.DistanceSQ(npc.Center) <= 5000)
                 {
-                    // Apply frostburn as a test.
-                    npc.AddBuff(BuffID.Frostburn, 120);
+                    // Apply freeze
+                    npc.AddBuff(ModContent.BuffType<FrozenEnemy>(), 120);
                 }
             }
         }
