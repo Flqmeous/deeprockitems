@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader.IO;
 
 namespace deeprockitems.Common.Quests
 {
-    public class Quest
+    public class Quest : TagSerializable
     {
         /// <summary>
         /// The ID of the icon to display in the bottom right of the Quest textbox.
@@ -28,16 +29,20 @@ namespace deeprockitems.Common.Quests
         /// </summary>
         public QuestID Type { get; set; }
         public QuestData Data { get; set; }
-        public Quest(QuestID id, QuestData data)
+        public Quest(QuestID id, QuestData data, int progress = 0, bool questRewarded = false)
         {
             Type = id;
             Data = data;
+            Progress = progress;
+            HasQuestBeenRewarded = questRewarded;
             SetCornerItem(id);
         }
-        public Quest(QuestID id, int typeToQuestFor, int amountRequired, bool hardmode)
+        public Quest(QuestID id, int typeToQuestFor, int amountRequired, bool hardmode, int progress = 0, bool questRewarded = false)
         {
             Type = id;
             Data = new QuestData(id, typeToQuestFor, amountRequired, hardmode);
+            Progress = progress;
+            HasQuestBeenRewarded = questRewarded;
             SetCornerItem(id);
         }
         private void SetCornerItem(QuestID id)
@@ -50,6 +55,26 @@ namespace deeprockitems.Common.Quests
                 _ => ItemID.None,
             };
         }
+
+        public TagCompound SerializeData()
+        {
+            return new TagCompound()
+            {
+                ["Progress"] = Progress,
+                ["QuestID"] = (int)Type,
+                ["QuestData"] = Data,
+                ["QuestWasRewarded"] = HasQuestBeenRewarded,
+            };
+        }
+        public static Quest Load(TagCompound tag)
+        {
+            int progress = (int)tag["Progress"];
+            QuestID id = (QuestID)tag["QuestID"];
+            QuestData data = tag.Get<QuestData>("QuestData");
+            bool rewarded = tag.GetBool("QuestWasRewarded");
+            return new(id, data, progress, rewarded);
+        }
+        public static readonly Func<TagCompound, Quest> DESERIALIZER = Load;
     }
     public enum QuestID
     {

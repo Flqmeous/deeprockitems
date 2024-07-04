@@ -93,7 +93,16 @@ namespace deeprockitems.Common.Quests
         }
         public void GenerateQuest()
         {
-            QuestCollection questsToChooseFrom = Main.hardMode ? Quests : (QuestCollection)Quests.Where((q) => q.Hardmode);
+            // Reset quests for all
+            foreach (Player player in Main.player)
+            {
+                if (!player.TryGetModPlayer(out QuestModPlayer modPlayer))
+                {
+                    continue;
+                }
+                modPlayer.ActiveQuest = null;
+            }
+            QuestCollection questsToChooseFrom = Main.hardMode ? Quests : Quests.Where((q) => !q.Hardmode);
             CurrentQuest = questsToChooseFrom.TakeRandom();
         }
     }

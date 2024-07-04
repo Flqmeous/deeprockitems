@@ -36,6 +36,18 @@ namespace deeprockitems.Common.Quests
                 _quests = newQuests;
             }
         }
+        public QuestCollection Where(Func<QuestData, bool> predicate)
+        {
+            QuestCollection toReturn = new();
+            foreach (QuestData data in this)
+            {
+                if (predicate.Invoke(data))
+                {
+                    toReturn.Add(data);
+                }
+            }
+            return toReturn;
+        }
         /// <summary>
         /// Returns a random element from this collection using Terraria's randomization algorithm.
         /// </summary>
@@ -111,7 +123,8 @@ namespace deeprockitems.Common.Quests
 
         public bool MoveNext()
         {
-            return _index++ < _quests.Length;
+            _index++;
+            return _index < _quests.Length;
         }
 
         public void Reset()

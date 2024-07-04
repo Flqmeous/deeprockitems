@@ -1,4 +1,10 @@
-﻿using Terraria.ModLoader;
+﻿using deeprockitems.Content.Items.Misc;
+using Microsoft.Xna.Framework;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace deeprockitems.Common.Quests
 {
@@ -7,6 +13,123 @@ namespace deeprockitems.Common.Quests
         public Quest ActiveQuest { get; set; }
         public int TotalQuestsCompleted { get; set; }
         public int QuestsCompletedThisSession { get; set; }
+        public override void LoadData(TagCompound tag)
+        {
+            if (tag.ContainsKey("DRGQuestsCompleted") && tag.ContainsKey("DRGActiveQuest"))
+            {
+                TotalQuestsCompleted = (int)tag["DRGQuestsCompleted"];
+                ActiveQuest = tag.Get<Quest>("DRGActiveQuest");
+            }
+        }
+        public override void SaveData(TagCompound tag)
+        {
+            tag.Add("DRGQuestsCompleted", TotalQuestsCompleted);
+            tag.Add("DRGActiveQuest", ActiveQuest);
+            base.SaveData(tag);
+        }
+        public void AddProgressToQuest()
+        {
+            // Add progress to quest if not completed
+            if (!ActiveQuest.Completed)
+            {
+                ActiveQuest.Progress++;
+                Color color = new(190, 60, 165);
+                // If quest was completed afterawrd, give congratulatory message
+                if (ActiveQuest.Completed)
+                {
+                    // Give popup message
+                    AdvancedPopupRequest message = new AdvancedPopupRequest()
+                    {
+                        Text = "Quest complete!",
+                        Color = color,
+                        DurationInFrames = 180,
+                        Velocity = new(0, -20),
+                    };
+                    PopupText.NewText(message, Player.Center);
+                }
+                else // Else, give progress message
+                {
+                    // Display combattext
+                    Rectangle destination = new Rectangle((int)Player.position.X - 10, (int)Player.position.Y, 40, 10);
+                    CombatText.NewText(destination, color, $"{ActiveQuest.Data.AmountRequired - ActiveQuest.Progress} left!");
+                }
+            }
+            
+        }
+        public void GiveDeepRockReward()
+        {
+            // Increment quests completed
+            TotalQuestsCompleted++;
+            QuestsCompletedThisSession++;
+
+            // Give matrix core and/or upgrade token
+            if (TotalQuestsCompleted % 4 == 0)
+            {
+                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), ModContent.ItemType<MatrixCore>());
+            }
+            else
+            {
+                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), ModContent.ItemType<UpgradeToken>());
+            }
+
+            // Get how many vanilla bosses were killed
+            bool[] bosses =
+            {
+                NPC.downedBoss1,
+                NPC.downedBoss2,
+                NPC.downedBoss3,
+                NPC.downedQueenBee,
+                NPC.downedDeerclops,
+                Main.hardMode,
+                NPC.downedQueenSlime,
+                NPC.downedMechBoss1,
+                NPC.downedMechBoss2,
+                NPC.downedMechBoss3,
+                NPC.downedPlantBoss,
+                NPC.downedGolemBoss,
+                NPC.downedEmpressOfLight,
+                NPC.downedFishron,
+                NPC.downedAncientCultist,
+            };
+
+            // Get number of common reward rerolls using the number of bosses killed
+            int commonRewardCount = (int)MathF.Floor(0.4f * bosses.Count(true) + 1);
+            // Get chance increase to unique rewards. Doing 10 quests in a session will cap out the probability at 3x the base chance, which increases again in hardmode
+            float uniqueChance = (Main.hardMode ? 1 / 60f : 1 / 120f) * MathF.Max(3 * QuestsCompletedThisSession / 10f, 3);
+
+            // Generate max weight for common rewards
+            int maxWeight = QuestRewardSystem.CommonRewards.Sum(r => r.Weight);
+
+            // Pull common rewards
+            for (int i = 0; i < commonRewardCount; i++)
+            {
+                // Generate weighted index
+                int weightedIndex = Main.rand.Next(0, maxWeight);
+                int weightToChoose = 0;
+                int index = 0;
+
+                // Convert to weighted index
+                QuestRewardSystem.CommonRewards.ForEach((r) => {
+                    weightToChoose += r.Weight;
+                    if (weightToChoose >= weightedIndex)
+                    {
+                        // Spawn reward
+                        Player.QuickSpawnItem(Player.GetSource_DropAsItem(), QuestRewardSystem.CommonRewards[index].RewardType);
+                        return; // Break loop
+                    }
+                    index++;
+                });
+            }
+            // Pull unique rewards
+            float chance = Main.rand.NextFloat();
+            if (chance <= uniqueChance)
+            {
+                // Pick random index
+                int index = Main.rand.Next(0, QuestRewardSystem.UniqueRewards.Count);
+                // Spawn reward
+                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), QuestRewardSystem.UniqueRewards[index].RewardType);
+            }
+        }
     }
 }
 /*using Terraria;
