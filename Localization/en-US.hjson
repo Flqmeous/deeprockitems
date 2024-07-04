@@ -342,6 +342,11 @@ Mods: {
 				DisplayName: Pet M.U.L.E
 				Description: Molly is following you
 			}
+
+			FrozenEnemy: {
+				DisplayName: Frozen
+				Description: You are frozen!
+			}
 		}
 	}
 }
