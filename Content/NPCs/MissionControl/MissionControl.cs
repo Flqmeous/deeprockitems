@@ -154,7 +154,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
             AddChat(dialogue, "StandardDialogue3");
 
             // If quest is ongoing, add quest-specific dialogue
-            if (modPlayer.ActiveQuest is not null)
+            if (modPlayer.ActiveQuest is not null && !modPlayer.ActiveQuest.Completed)
             {
                 AddChat(dialogue, "QuestOngoing1", 3);
                 AddChat(dialogue, "QuestOngoing2", 3);
@@ -192,6 +192,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 if (modPlayer.ActiveQuest.Completed && !modPlayer.ActiveQuest.HasQuestBeenRewarded)
                 {
                     // Give rewards
+                    modPlayer.GiveDeepRockReward();
 
                     // Set chat
                     WeightedRandom<string> dialogue = new();
@@ -223,14 +224,25 @@ namespace deeprockitems.Content.NPCs.MissionControl
                     int type = modPlayer.ActiveQuest.Data.TypeRequired;
                     int amount = modPlayer.ActiveQuest.Data.AmountRequired;
 
-                    // Switch dialogue
-                    Main.npcChatText = modPlayer.ActiveQuest.Type switch
+                    // Change dialogue based on variation and what quest type
+                    switch (modPlayer.ActiveQuest.Type)
                     {
-                        QuestID.Mining => Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetMapObjectName(MapHelper.tileLookup[type]).Pluralizer(amount), amount),
-                        QuestID.Gathering => Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount),
-                        QuestID.Fighting => Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount),
-                        _ => "",
-                    };
+                        case QuestID.Mining:
+                            // Find if the map object name has a name--if else, use block name
+                            string typeName = Lang.GetMapObjectName(MapHelper.tileLookup[type]);
+                            if (typeName == "")
+                            {
+                                typeName = TileID.Search.GetName(type);
+                            }
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", typeName.Pluralizer(amount), amount);
+                            break;
+                        case QuestID.Gathering:
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                                break;
+                        case QuestID.Fighting:
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount);
+                                break;
+                    }
                     Main.npcChatCornerItem = modPlayer.ActiveQuest.ItemIcon;
                 }
             }
