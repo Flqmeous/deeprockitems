@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using deeprockitems.UI.UpgradeItem;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
+using Microsoft.Build.Utilities;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -43,66 +44,108 @@ namespace deeprockitems.Content.Items.Upgrades
         }
         public override void SetStaticDefaults()
         {
-            UpgradeProjectile.ProjectileSpawned += UpgradeProjectile_OnSpawn;
+            /*UpgradeProjectile.ProjectileSpawned += UpgradeProjectile_OnSpawn;
             UpgradeProjectile.ProjectileAI += UpgradeProjectile_AI;
             UpgradeProjectile.ProjectileHitNPC += UpgradeProjectile_OnHitNPC;
             UpgradeProjectile.ProjectileModifyNPC += UpgradeProjectile_ModifyHitNPC;
             UpgradeProjectile.ProjectileHitTile += UpgradeProjectile_OnTileCollide;
             UpgradeProjectile.ProjectileKilled += UpgradeProjectile_PreKill;
+            UpgradeProjectile.ProjectileSendData += UpgradeProjectile_SyncData;*/
             UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnEquip;
             UpgradeableItemTemplate.ItemStatChange += UpgradeableItemTemplate_ItemStatChangeOnRemove;
-            UpgradeableItemTemplate.ItemShootPrimaryUse += UpgradeableItemTemplate_ItemShootPrimaryUse;
-            UpgradeableItemTemplate.ItemShootAltUse += UpgradeableItemTemplate_ItemShootAltUse;
-            /*            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeableItemTemplate_ItemModifyShootPrimaryUse;
-                          UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeableItemTemplate_ItemModifyShootAltUse;
-            */
+            UpgradeableItemTemplate.ItemShootPrimaryUse += UpgradeItem_ShootPrimaryUse;
+            UpgradeableItemTemplate.ItemShootAltUse += UpgradeItem_ShootAltUse;
+            UpgradeableItemTemplate.ItemModifyShootPrimaryUse += UpgradeItem_ModifyShootStatsPrimary;
+            UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeItem_ModifyShootStatsPrimary;
+
             UpgradeableItemTemplate.ItemHold += UpgradeableItemTemplate_ItemHold;
         }
+        public abstract class UpgradeGlobalProjectile<T> : GlobalProjectile where T : UpgradeTemplate
+        {
+            protected int _type { get => ModContent.ItemType<T>(); }
+
+            public override bool InstancePerEntity => true;
+            public bool UpgradeEquipped { get; set; } = false;
+            public sealed override void OnSpawn(Projectile projectile, IEntitySource source)
+            {
+                if (source is EntitySource_ItemUse_WithAmmo { Item.ModItem: UpgradeableItemTemplate item })
+                {
+                    if (item.Upgrades.Contains(_type))
+                    {
+                        UpgradeEquipped = true;
+                        UpgradeOnSpawn(projectile, source);
+                    }
+                }
+            }
+            public virtual void UpgradeOnSpawn(Projectile projectile, IEntitySource source) { }
+            public sealed override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+            {
+                if (UpgradeEquipped)
+                {
+                    UpgradeOnHitNPC(projectile, target, hit, damageDone);
+                }
+            }
+            public override sealed void AI(Projectile projectile)
+            {
+                if (UpgradeEquipped)
+                {
+                    UpgradeAI(projectile);
+                }
+            }
+            public sealed override bool PreKill(Projectile projectile, int timeLeft)
+            {
+                if (UpgradeEquipped)
+                {
+                    return UpgradePreKill(projectile, timeLeft);
+                }
+                return base.PreKill(projectile, timeLeft);
+            }
+            public virtual bool UpgradePreKill(Projectile proejctile, int timeLeft) => true;
+            public override sealed void OnKill(Projectile projectile, int timeLeft)
+            {
+                if (UpgradeEquipped)
+                {
+                    UpgradeOnKill(projectile, timeLeft);
+                }
+            }
+            public virtual void UpgradeOnKill(Projectile projectile, int timeLeft) { }
+            public virtual void UpgradeAI(Projectile projectile) { }
+            public virtual void UpgradeOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) { }
+            public sealed override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+            {
+                if (UpgradeEquipped)
+                {
+                    return UpgradeOnTileCollide(projectile, oldVelocity);
+                }
+                return base.OnTileCollide(projectile, oldVelocity);
+            }
+            public virtual bool UpgradeOnTileCollide(Projectile projectile, Vector2 oldVelocity) => true;
+        }
+
+        public virtual void UpgradeProjectile_SyncData(Projectile sender, Dictionary<string, object> data) { }
 
         #region Public event virtual methods
-        public virtual void ProjectileOnSpawn(Projectile projectile, IEntitySource source) { }
-        public virtual void ProjectileAI(Projectile projectile) { }
-        public virtual void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) { }
-        public virtual void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
-        public virtual void ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity) { }
-        public virtual void ProjectileOnKill(Projectile projectile, int timeLeft) { }
         public virtual void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem) { }
         public virtual void ItemStatChangeOnRemove(UpgradeableItemTemplate modItem) { }
-        public virtual void ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
+        public virtual bool UpgradeItem_ShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase)
+        {
+            callBase = true;
+            return true;
+        }
         public virtual void ItemHold(UpgradeableItemTemplate sender, Player player) { }
-        public virtual void ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) { }
+        public virtual bool UpgradeItem_ShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase)
+        {
+            callBase = true;
+            return true;
+        }
         /*public virtual void ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
         public virtual void ItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }*/
         #endregion
         #region Private event handlers
-        private void UpgradeProjectile_OnSpawn(Projectile sender, IEntitySource source, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ProjectileOnSpawn(sender, source);
-            }
-        }
-        private void UpgradeProjectile_AI(Projectile sender, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ProjectileAI(sender);
-            }
-        }
-        private void UpgradeProjectile_OnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ProjectileOnHitNPC(sender, target, hit, damageDone);
-            }
-        }
-        private void UpgradeProjectile_ModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ProjectileModifyHitNPC(sender, target, ref modifiers);
-            }
-        }
+        public virtual void UpgradeProjectile_OnSpawn(Projectile sender, IEntitySource source) { }
+        public virtual void UpgradeProjectile_AI(Projectile sender) { }
+        public virtual void UpgradeProjectile_OnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone) { }
+        public virtual void UpgradeProjectile_ModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers) { }
         public virtual bool? UpgradeProjectile_OnTileCollide(Projectile sender, Vector2 oldVelocity, out bool callBase)
         {
             callBase = true;
@@ -112,6 +155,14 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             callBase = true;
             return null;
+        }
+        public virtual void UpgradeItem_ModifyShootStatsPrimary(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, out bool callBase)
+        {
+            callBase = true;
+        }
+        public virtual void UpgradeItem_ModifyShootStatsAlt(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, out bool callBase)
+        {
+            callBase = true;
         }
         private void UpgradeableItemTemplate_ItemStatChangeOnEquip(UpgradeableItemTemplate sender, int[] upgrades)
         {
@@ -125,20 +176,6 @@ namespace deeprockitems.Content.Items.Upgrades
             if (!upgrades.Contains(Item.type))
             {
                 ItemStatChangeOnRemove(sender);
-            }
-        }
-        private void UpgradeableItemTemplate_ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ItemShootPrimaryUse(sender, player, source, position, velocity, type, damage, knockback);
-            }
-        }
-        private void UpgradeableItemTemplate_ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades)
-        {
-            if (upgrades.Contains(Item.type))
-            {
-                ItemShootAltUse(sender, player, source, position, velocity, type, damage, knockback);
             }
         }
         /*        private void UpgradeableItemTemplate_ItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades)
