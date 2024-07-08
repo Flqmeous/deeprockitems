@@ -41,7 +41,7 @@ namespace deeprockitems.Common.Quests
                     if (!player.TryGetModPlayer(out QuestModPlayer modPlayer)) return;
 
                     // If quest type is mining and this was requested, count up progress
-                    if (modPlayer.ActiveQuest.Type == QuestID.Mining && modPlayer.ActiveQuest.Data.TypeRequired == Main.tile[i, j].TileType)
+                    if (modPlayer.ActiveQuest is not null && modPlayer.ActiveQuest.Type == QuestID.Mining && modPlayer.ActiveQuest.Data.TypeRequired == Main.tile[i, j].TileType)
                     {
                         modPlayer.AddProgressToQuest();
                     }
