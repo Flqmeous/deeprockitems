@@ -38,18 +38,22 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
             upgrade.Register();
         }
         const float SPEED_CAP = 15f;
-        public override void ItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool UpgradeItem_ShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase)
         {
+            // Get adjusted mouse position
             Vector2 mousePos = Main.MouseWorld - player.Center;
-            player.velocity -= Vector2.Normalize(mousePos) * 10;
+            player.velocity -= Vector2.Normalize(mousePos) * 10; // Actually launch the player
+            // Cap horizontal speed
             if (Math.Abs(player.velocity.X) > SPEED_CAP)
             {
                 player.velocity.X = SPEED_CAP * Math.Sign(player.velocity.X);
             }
+            // Cancel fall damage
             if (player.velocity.Y < 5f)
             {
                 player.fallStart = (int)player.position.Y / 16;
             }
+            return base.UpgradeItem_ShootPrimaryUse(sender, player, source, position, velocity, type, damage, knockback, out callBase);
         }
     }
 }

@@ -31,14 +31,12 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+        public class ArmorPierceProjectile : UpgradeGlobalProjectile<ArmorPierce>
         {
-            if (target.defense < 10)
+            public override void UpgradeModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
             {
-                modifiers.FinalDamage.Flat += target.defense;
-                return;
+                modifiers.ArmorPenetration += 10;
             }
-            modifiers.FinalDamage.Flat += 10;
         }
     }
 }

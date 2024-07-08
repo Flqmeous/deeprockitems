@@ -85,6 +85,14 @@ namespace deeprockitems.Content.Items.Upgrades
                     UpgradeOnHitNPC(projectile, target, hit, damageDone);
                 }
             }
+            public virtual void UpgradeModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
+            public sealed override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+            {
+                if (UpgradeEquipped)
+                {
+                    UpgradeModifyHitNPC(projectile, target, ref modifiers);
+                }
+            }
             public override sealed void AI(Projectile projectile)
             {
                 if (UpgradeEquipped)
@@ -100,7 +108,7 @@ namespace deeprockitems.Content.Items.Upgrades
                 }
                 return base.PreKill(projectile, timeLeft);
             }
-            public virtual bool UpgradePreKill(Projectile proejctile, int timeLeft) => true;
+            public virtual bool UpgradePreKill(Projectile projectile, int timeLeft) => true;
             public override sealed void OnKill(Projectile projectile, int timeLeft)
             {
                 if (UpgradeEquipped)

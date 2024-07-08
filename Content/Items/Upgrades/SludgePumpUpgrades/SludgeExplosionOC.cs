@@ -35,15 +35,23 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
-        public override bool? UpgradeProjectile_PreKill(Projectile sender, int timeLeft, out bool callBase)
+        public class SludgeExplosionProjectile : UpgradeGlobalProjectile<SludgeExplosionOC>
         {
-            callBase = true;
-            if (sender.ModProjectile is SludgeBall)
+            public override bool UpgradePreKill(Projectile projectile, int timeLeft)
             {
-                var proj = Projectile.NewProjectileDirect(sender.GetSource_FromThis(), sender.Center, sender.velocity, ModContent.ProjectileType<SludgeExplosion>(), (int)Math.Floor(sender.damage * 1.5f), sender.knockBack, sender.owner);
-                return false;
+                if (projectile.ModProjectile is SludgeBall ball)
+                {
+                    ball.CancelBaseKill = true;
+                }
+                return base.UpgradePreKill(projectile, timeLeft);
             }
-            return base.UpgradeProjectile_PreKill(sender, timeLeft, out callBase);
+            public override void UpgradeOnKill(Projectile projectile, int timeLeft)
+            {
+                if (projectile.ModProjectile is SludgeBall)
+                {
+                    Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, projectile.velocity, ModContent.ProjectileType<SludgeExplosion>(), (int)Math.Floor(projectile.damage * 1.5f), projectile.knockBack, projectile.owner);
+                }
+            }
         }
     }
 }

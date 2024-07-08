@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader;
+﻿/*using Terraria.ModLoader;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
@@ -6,13 +6,14 @@ using deeprockitems.Content.Items.Weapons;
 using Microsoft.Xna.Framework;
 using deeprockitems.Utilities;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
     public class UpgradeProjectile : GlobalProjectile
     {
 #nullable enable
-        int[]? _upgrades;
+        public int[]? Upgrades;
 #nullable disable
         #region Projectile lifecycle hooks.
         public override bool InstancePerEntity => true;
@@ -20,41 +21,81 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate { Upgrades: int[] upgrades } })
             {
-                _upgrades = upgrades;
-                ProjectileSpawned?.Invoke(projectile, source, upgrades);
+                Upgrades = upgrades;
+                foreach (var hook in ProjectileSpawned.GetInvocationList().Cast<HandleOnSpawn>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            hook.Invoke(projectile, source);
+                        }
+                    }
+                }
             }
         }
         public override void AI(Projectile projectile)
         {
-            if (_upgrades is not null)
+            if (Upgrades is not null)
             {
-                ProjectileAI?.Invoke(projectile, _upgrades);
+                foreach (var hook in ProjectileAI.GetInvocationList().Cast<HandleAI>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            hook.Invoke(projectile);
+                        }
+                    }
+                }
             }
         }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (_upgrades is not null)
+            if (Upgrades is not null)
             {
-                ProjectileHitNPC?.Invoke(projectile, target, hit, damageDone, _upgrades);
+                foreach (var hook in ProjectileHitNPC.GetInvocationList().Cast<HandleOnHitNPC>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            hook.Invoke(projectile, target, hit, damageDone);
+                        }
+                    }
+                }
             }
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (_upgrades is not null)
+            if (Upgrades is not null)
             {
-                ProjectileModifyNPC?.Invoke(projectile, target, ref modifiers, _upgrades);
+                foreach (var hook in ProjectileModifyNPC.GetInvocationList().Cast<HandleModifyHitNPC>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            hook.Invoke(projectile, target, ref modifiers);
+                        }
+                    }
+                }
             }
         }
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
-            if (_upgrades is not null)
+            if (Upgrades is not null)
             {
                 foreach (var hook in ProjectileHitTile.GetInvocationList().Cast<HandleOnTileCollide>())
                 {
                     if (hook.Target is UpgradeTemplate upgrade)
                     {
                         // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
-                        if (_upgrades.Contains(upgrade.Type))
+                        if (Upgrades.Contains(upgrade.Type))
                         {
                             bool? shouldContinue = hook.Invoke(projectile, oldVelocity, out bool callBase);
                             if (shouldContinue is not null)
@@ -71,16 +112,24 @@ namespace deeprockitems.Content.Items.Upgrades
             }
             return base.OnTileCollide(projectile, oldVelocity);
         }
+        public override bool PreAI(Projectile projectile)
+        {
+            if (Upgrades is not null)
+            {
+
+            }
+            return base.PreAI(projectile);
+        }
         public override bool PreKill(Projectile projectile, int timeLeft)
         {
-            if (_upgrades is not null)
+            if (Upgrades is not null)
             {
                 foreach (HandlePreKill hook in ProjectileKilled.GetInvocationList().Cast<HandlePreKill>())
                 {
                     if (hook.Target is UpgradeTemplate upgrade)
                     {
                         // THIS SHOULD ONLY MATCH ONE PROJECTILE. ALWAYS
-                        if (_upgrades.Contains(upgrade.Type))
+                        if (Upgrades.Contains(upgrade.Type))
                         {
                             bool? shouldContinue = hook.Invoke(projectile, timeLeft, out bool callBase);
                             if (shouldContinue is not null)
@@ -99,12 +148,13 @@ namespace deeprockitems.Content.Items.Upgrades
         }
         #endregion
         #region Delegates for events
-        public delegate void HandleOnSpawn(Projectile sender, IEntitySource source, int[] upgrades);
-        public delegate void HandleAI(Projectile sender, int[] upgrades);
-        public delegate void HandleOnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone, int[] upgrades);
-        public delegate void HandleModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers, int[] upgrades);
+        public delegate void HandleOnSpawn(Projectile sender, IEntitySource source);
+        public delegate void HandleAI(Projectile sender);
+        public delegate void HandleOnHitNPC(Projectile sender, NPC target, NPC.HitInfo hit, int damageDone);
+        public delegate void HandleModifyHitNPC(Projectile sender, NPC target, ref NPC.HitModifiers modifiers);
         public delegate bool? HandleOnTileCollide(Projectile sender, Vector2 oldVelocity, out bool callBase);
         public delegate bool? HandlePreKill(Projectile sender, int timeLeft, out bool callBase);
+        public delegate void HandleSendingData(Projectile sender, Dictionary<string, object> data);
         #endregion
         #region Static events
         public static event HandleOnSpawn ProjectileSpawned;
@@ -113,6 +163,8 @@ namespace deeprockitems.Content.Items.Upgrades
         public static event HandleModifyHitNPC ProjectileModifyNPC;
         public static event HandleOnTileCollide ProjectileHitTile;
         public static event HandlePreKill ProjectileKilled;
+        public static event HandleSendingData ProjectileSendData;
         #endregion
     }
 }
+*/

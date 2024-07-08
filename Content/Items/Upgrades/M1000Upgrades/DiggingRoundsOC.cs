@@ -35,9 +35,12 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
-        public override void ProjectileOnSpawn(Projectile projectile, IEntitySource source)
+        public class DiggingRoundsProjectile : UpgradeGlobalProjectile<DiggingRoundsOC>
         {
-            projectile.tileCollide = false;
+            public override void UpgradeOnSpawn(Projectile projectile, IEntitySource source)
+            {
+                projectile.tileCollide = false;
+            }
         }
     }
 }

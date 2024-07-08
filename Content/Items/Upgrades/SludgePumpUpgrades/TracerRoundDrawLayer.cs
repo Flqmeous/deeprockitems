@@ -116,18 +116,32 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                         // If hit tile, kill and draw X
                         if (Collision.SolidCollision(position, width, height))
                         {
-                            int hitWidth = DRGTextures.TracerHit.Width;
-                            int hitHeight = DRGTextures.TracerHit.Height;
-                            float rotation = drawInfo.drawPlayer.direction * ((timer) / (distance * distanceMultiplier));
-                            Vector2 origin = new(hitWidth * 0.5f, hitHeight * 0.5f);
-
-                            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.TracerHit, new Rectangle((int)(computedCenter.X - Main.screenPosition.X), (int)(computedCenter.Y - Main.screenPosition.Y), hitWidth, hitHeight), null, playerColor, rotation, origin, SpriteEffects.None));
+                            DrawHitSomething(ref drawInfo, computedCenter, distance, distanceMultiplier, timer, playerColor);
                             return;
+                        }
+
+                        // If hit NPC, kill and draw X
+                        foreach (var npc in Main.ActiveNPCs)
+                        {
+                            if (npc.Hitbox.Contains(new Rectangle((int)position.X, (int)position.Y, width, height)))
+                            {
+                                DrawHitSomething(ref drawInfo, computedCenter, distance, distanceMultiplier, timer, playerColor);
+                            }
                         }
                     }
 
                 }
             }
+        }
+        public void DrawHitSomething(ref PlayerDrawSet drawInfo, Vector2 computedCenter, float distance, float distanceMultiplier, int timer, Color playerColor)
+        {
+            int hitWidth = DRGTextures.TracerHit.Width;
+            int hitHeight = DRGTextures.TracerHit.Height;
+            float rotation = drawInfo.drawPlayer.direction * ((timer) / (distance * distanceMultiplier));
+            Vector2 origin = new(hitWidth * 0.5f, hitHeight * 0.5f);
+
+            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.TracerHit, new Rectangle((int)(computedCenter.X - Main.screenPosition.X), (int)(computedCenter.Y - Main.screenPosition.Y), hitWidth, hitHeight), null, playerColor, rotation, origin, SpriteEffects.None));
+            return;
         }
     }
 }

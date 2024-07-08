@@ -31,10 +31,18 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
-        public override void ProjectileOnSpawn(Projectile projectile, IEntitySource source)
+        public override void UpgradeProjectile_OnSpawn(Projectile projectile, IEntitySource source)
         {
             projectile.penetrate = 5;
             projectile.maxPenetrate = 5;
+        }
+        public class BlowthroughProjectile : UpgradeGlobalProjectile<Blowthrough>
+        {
+            public override void UpgradeOnSpawn(Projectile projectile, IEntitySource source)
+            {
+                projectile.penetrate = 5;
+                projectile.maxPenetrate = 5;
+            }
         }
     }
 }

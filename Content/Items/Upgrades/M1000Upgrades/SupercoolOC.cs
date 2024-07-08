@@ -27,11 +27,14 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
             upgrade.Register();
 
         }
-        public override void ProjectileOnSpawn(Projectile projectile, IEntitySource source)
+        public class SupercoolProjectile : UpgradeGlobalProjectile<SupercoolOC>
         {
-            if (projectile.ai[1] <= 900 && projectile.ai[1] > 0)
+            public override void UpgradeOnSpawn(Projectile projectile, IEntitySource source)
             {
-                projectile.damage *= 3;
+                if (projectile.ai[1] <= 900 && projectile.ai[1] > 0)
+                {
+                    projectile.damage *= 3;
+                }
             }
         }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)

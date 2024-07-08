@@ -18,16 +18,6 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             base.SetDefaults();
             Item.rare = ItemRarityID.Red;
         }
-        public override void AddRecipes()
-        {
-            /*Recipe upgrade = Recipe.Create(ModContent.ItemType<CryoMineletsOC>())
-            .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.HallowedBar, 10)
-            .AddIngredient(ItemID.FrostCore, 3)
-            .AddIngredient(ItemID.Grenade, 15)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();*/
-        }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {
             // Always true
@@ -38,7 +28,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                 zhukovs.UseTimeScale *= 1.25f;
             }
         }
-        public override void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+        public override void UpgradeProjectile_OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC))
             {
@@ -46,13 +36,25 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                 return;
             }
         }
-        public override void ItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool UpgradeItem_ShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase)
         {
+            // Explode embedded npcs
             foreach (NPC npc in Main.npc)
             {
                 if (npc.active && npc.TryGetGlobalNPC(out EmbeddedDetsNPC modNPC) && modNPC.EmbeddedCount > 0)
                 {
                     modNPC.ExplodeThisNPC(npc, player);
+                }
+            }
+            return base.UpgradeItem_ShootAltUse(sender, player, source, position, velocity, type, damage, knockback, out callBase);
+        }
+        public class EmbeddedDetsProjectile : UpgradeGlobalProjectile<EmbeddedDetsOC>
+        {
+            public override void UpgradeOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+            {
+                if (target.TryGetGlobalNPC(out EmbeddedDetsNPC npc))
+                {
+                    npc.EmbeddedCount++;
                 }
             }
         }
