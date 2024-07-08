@@ -23,7 +23,7 @@ namespace deeprockitems.Content.Items.Weapons
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeDefaults()
+        public override void NewSetDefaults()
         {
             Item.CloneDefaults(ItemID.Boomstick);
             Item.damage = 16;

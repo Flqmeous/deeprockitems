@@ -25,7 +25,7 @@ namespace deeprockitems.Content.Items.Weapons
 
         }
 
-        public override void SafeDefaults()
+        public override void NewSetDefaults()
         {
             Item.damage = 45;
             Item.DamageType = DamageClass.Ranged;

@@ -18,13 +18,13 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class Zhukovs : UpgradeableItemTemplate
     {
-        public override void SafeDefaults()
+        public override void NewSetDefaults()
         {
             Item.width = 52;
             Item.height = 46;
             Item.rare = ItemRarityID.Cyan;
 
-            Item.damage = 21;
+            Item.damage = 28;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Ranged;
             Item.crit = 12;
@@ -41,6 +41,7 @@ namespace deeprockitems.Content.Items.Weapons
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
+            ValidUpgrades.Add(ModContent.ItemType<StaticBlastOC>());
             ValidUpgrades.Add(ModContent.ItemType<EmbeddedDetsOC>());
         }
         public override bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

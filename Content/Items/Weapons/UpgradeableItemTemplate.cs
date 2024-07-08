@@ -18,17 +18,17 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
-        public int OriginalDamage { get; set; }
+        public int BaseDamage { get; private set; }
         public float DamageScale { get; set; } = 1f;
         public float UseTimeScale { get; set; }
         /// <summary>
         /// The item useTime before being affected by useTimeModifier.
         /// </summary>
-        protected int oldUseTime;
+        public int BaseUseTime { get; private set; }
         /// <summary>
         /// The item useAnimation before being affected by useTimeModifier.
         /// </summary>
-        protected int oldUseAnimation;
+        public int BaseUseAnimation { get; private set; }
         private int[] saved_upgrades;
         public int[] Upgrades { get; set; }
         public int Overclock { get => Upgrades[^1]; }
@@ -37,7 +37,7 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual string OverclockNegatives { get; set; } = "";
         public List<int> ValidUpgrades { get; set; }
         // private bool load_flag = false;
-        public virtual void SafeDefaults()
+        public virtual void NewSetDefaults()
         {
             
         }
@@ -52,10 +52,10 @@ namespace deeprockitems.Content.Items.Weapons
                 ModContent.ItemType<ArmorPierce>(),
                 ModContent.ItemType<Blowthrough>()
             };
-            SafeDefaults();
-            oldUseTime = Item.useTime;
-            oldUseAnimation = Item.useAnimation;
-            OriginalDamage = Item.damage;
+            NewSetDefaults();
+            BaseUseTime = Item.useTime;
+            BaseUseAnimation = Item.useAnimation;
+            BaseDamage = Item.damage;
             base.SetDefaults();
         }
         public override void UpdateInventory(Player player)
@@ -180,18 +180,20 @@ namespace deeprockitems.Content.Items.Weapons
             // Reset stats
             DamageScale = 1f;
             UseTimeScale = 1f;
-            Item.damage = OriginalDamage;
+            Item.damage = BaseDamage;
+            Item.useTime = BaseUseTime;
+            Item.useAnimation = BaseUseAnimation;
             ResetStats();
 
             // Hook injection
             ItemStatChange?.Invoke(this, Upgrades);
 
             // Set damage
-            Item.damage = (int)Math.Floor(OriginalDamage * DamageScale);
+            Item.damage = (int)Math.Floor(Item.damage * DamageScale);
 
             // Set usetime
-            Item.useTime = (int)Math.Ceiling(oldUseTime * UseTimeScale);
-            Item.useAnimation = (int)Math.Ceiling(oldUseAnimation * UseTimeScale);
+            Item.useTime = (int)Math.Ceiling(Item.useTime * UseTimeScale);
+            Item.useAnimation = (int)Math.Ceiling(Item.useAnimation * UseTimeScale);
         }
         public virtual void ResetStats() { }
         public delegate void HandleItemStatChange(UpgradeableItemTemplate sender, int[] upgrades);
@@ -201,16 +203,44 @@ namespace deeprockitems.Content.Items.Weapons
         public sealed override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             // When the weapon is fired with right click (presumably unused)
+            bool shouldCallBase = true;
             if (player.altFunctionUse == 2)
             {
-                // Call upgrade hook, then alt shoot
-                //ItemModifyShootAltUse?.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, Upgrades);
-                ModifyShootAltUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                // Call upgrade hooks
+                foreach (var hook in ItemModifyShootAltUse.GetInvocationList().Cast<HandleItemModifyShootAltUse>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            hook.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, out bool callBase);
+                            shouldCallBase = !(shouldCallBase || callBase);
+                        }
+                    }
+                }
+                if (shouldCallBase)
+                {
+                    ModifyShootAltUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                }
                 return;
             }
             // Call upgrade hook, then primary shoot
             //ItemModifyShootPrimaryUse?.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, Upgrades);
-            ModifyShootPrimaryUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+            foreach (var hook in ItemModifyShootPrimaryUse.GetInvocationList().Cast<HandleItemModifyShootPrimaryUse>())
+            {
+                if (hook.Target is UpgradeTemplate upgrade)
+                {
+                    if (Upgrades.Contains(upgrade.Type))
+                    {
+                        hook.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, out bool callBase);
+                        shouldCallBase = !(shouldCallBase || callBase);
+                    }
+                }
+            }
+            if (shouldCallBase)
+            {
+                ModifyShootPrimaryUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+            }
         }
 
         /// <summary>
@@ -223,26 +253,62 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual void ModifyShootAltUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
 
 
-/*        public delegate void HandleItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades);
-        public delegate void HandleItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, int[] upgrades);
+        public delegate void HandleItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, out bool callBase);
+        public delegate void HandleItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, out bool callBase);
 
         public static event HandleItemModifyShootPrimaryUse ItemModifyShootPrimaryUse;
         public static event HandleItemModifyShootAltUse ItemModifyShootAltUse;
-*/
+
 
 
 
         public sealed override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // When the weapon is fired with right click (presumably unused)
+            List<bool> callsBase = new();
+            List<bool> spawnsProjectile = new();
             if (player.altFunctionUse == 2)
             {
-                // Call upgrade hook, then alt shoot
-                ItemShootAltUse?.Invoke(this, player, source, position, velocity, type, damage, knockback, Upgrades);
+                // Call upgrade hooks
+                foreach (var hook in ItemShootAltUse.GetInvocationList().Cast<HandleItemShootAltUse>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            spawnsProjectile.Add(hook.Invoke(this, player, source, position, velocity, type, damage, knockback, out bool callBase));
+                            spawnsProjectile.Add(callBase);
+                        }
+                    }
+                }
+                for (int i = 0; i < callsBase.Count; i++)
+                {
+                    if (!callsBase[i])
+                    {
+                        return spawnsProjectile[i];
+                    }
+                }
                 return ShootAltUse(player, source, position, velocity, type, damage, knockback);
             }
-            // Call upgrade hook, then primary shoot
-            ItemShootPrimaryUse?.Invoke(this, player, source, position, velocity, type, damage, knockback, Upgrades);
+
+            foreach (var hook in ItemShootPrimaryUse.GetInvocationList().Cast<HandleItemShootPrimaryUse>())
+            {
+                if (hook.Target is UpgradeTemplate upgrade)
+                {
+                    if (Upgrades.Contains(upgrade.Type))
+                    {
+                        spawnsProjectile.Add(hook.Invoke(this, player, source, position, velocity, type, damage, knockback, out bool callBase));
+                        callsBase.Add(callBase);
+                    }
+                }
+            }
+            for (int i = 0; i < callsBase.Count; i++)
+            {
+                if (!callsBase[i])
+                {
+                    return spawnsProjectile[i];
+                }
+            }
             return ShootPrimaryUse(player, source, position, velocity, type, damage, knockback);
         }
         /// <summary>
@@ -255,8 +321,8 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual bool ShootAltUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
 
 
-        public delegate void HandleItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades);
-        public delegate void HandleItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, int[] upgrades);
+        public delegate bool HandleItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase);
+        public delegate bool HandleItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase);
 
         public static event HandleItemShootPrimaryUse ItemShootPrimaryUse;
         public static event HandleItemShootAltUse ItemShootAltUse;

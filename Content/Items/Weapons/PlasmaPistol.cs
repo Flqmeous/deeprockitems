@@ -10,7 +10,7 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class PlasmaPistol : UpgradeableItemTemplate
     {
-        public override void SafeDefaults()
+        public override void NewSetDefaults()
         {
             Item.damage = 15;
             Item.rare = ItemRarityID.Green;
