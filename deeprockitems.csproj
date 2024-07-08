@@ -28,6 +28,7 @@
   <ItemGroup>
     <None Remove="Assets\Textures\TracerHit.png" />
     <None Remove="Assets\Textures\WhitePixel.png" />
+    <None Remove="Content\Buffs\ElectrifiedEnemy.png" />
     <None Remove="Content\Buffs\FrozenEnemy.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
@@ -36,6 +37,7 @@
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PiercingPlasmaOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\VelocitySpeedup.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\StaticBlastOC.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
     <None Remove="Content\NPCs\MissionControl\MissionControl_Head.png" />
     <None Remove="Content\Pets\Molly\ChunkOfNitra.png" />

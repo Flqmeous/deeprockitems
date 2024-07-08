@@ -241,6 +241,18 @@ Mods: {
 					[c/F01318:▼0.75x fire rate]
 					'''
 			}
+
+			StaticBlastOC: {
+				DisplayName: Overclock: Static Blast
+				Tooltip: Bullets will arc electricity between them
+				Positives: "[c/23DF24:▲Bullets arc electricity]"
+				Negatives: "[c/F01318:▼Bullets shoot at the same time]"
+			}
+
+			MyItem: {
+				DisplayName: My Item
+				Tooltip: ""
+			}
 		}
 
 		Misc: {
@@ -346,6 +358,11 @@ Mods: {
 			FrozenEnemy: {
 				DisplayName: Frozen
 				Description: You are frozen!
+			}
+
+			ElectrifiedEnemy: {
+				DisplayName: Electrified Enemy
+				Description: Mods.deeprockitems.Buffs.ElectrifiedEnemy.Description
 			}
 		}
 	}
