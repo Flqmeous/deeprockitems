@@ -199,7 +199,6 @@ namespace deeprockitems.Content.Items.Weapons
         public delegate void HandleItemStatChange(UpgradeableItemTemplate sender, int[] upgrades);
         public static event HandleItemStatChange ItemStatChange;
 
-
         public sealed override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             // When the weapon is fired with right click (presumably unused)
@@ -226,21 +225,7 @@ namespace deeprockitems.Content.Items.Weapons
             }
             // Call upgrade hook, then primary shoot
             //ItemModifyShootPrimaryUse?.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, Upgrades);
-            foreach (var hook in ItemModifyShootPrimaryUse.GetInvocationList().Cast<HandleItemModifyShootPrimaryUse>())
-            {
-                if (hook.Target is UpgradeTemplate upgrade)
-                {
-                    if (Upgrades.Contains(upgrade.Type))
-                    {
-                        hook.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, out bool callBase);
-                        shouldCallBase = !(shouldCallBase || callBase);
-                    }
-                }
-            }
-            if (shouldCallBase)
-            {
-                ModifyShootPrimaryUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
-            }
+            ModifyShootPrimaryUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
 
         /// <summary>
