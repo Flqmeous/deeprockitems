@@ -60,9 +60,13 @@ namespace deeprockitems.Content.Items.Upgrades
 
             UpgradeableItemTemplate.ItemHold += UpgradeableItemTemplate_ItemHold;
         }
-        public abstract class UpgradeGlobalProjectile<T> : GlobalProjectile where T : UpgradeTemplate
+        public abstract class UpgradeGlobalItem<TUpgrade> : GlobalItem where TUpgrade : UpgradeTemplate
         {
-            protected int _type { get => ModContent.ItemType<T>(); }
+            protected int _type { get => ModContent.ItemType<TUpgrade>(); }
+        }
+        public abstract class UpgradeGlobalProjectile<TUpgrade> : GlobalProjectile where TUpgrade : UpgradeTemplate
+        {
+            protected int _type { get => ModContent.ItemType<TUpgrade>(); }
 
             public override bool InstancePerEntity => true;
             public bool UpgradeEquipped { get; set; } = false;
@@ -84,6 +88,7 @@ namespace deeprockitems.Content.Items.Upgrades
                 {
                     UpgradeOnHitNPC(projectile, target, hit, damageDone);
                 }
+                base.OnHitNPC(projectile, target, hit, damageDone);
             }
             public virtual void UpgradeModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) { }
             public sealed override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
@@ -92,6 +97,7 @@ namespace deeprockitems.Content.Items.Upgrades
                 {
                     UpgradeModifyHitNPC(projectile, target, ref modifiers);
                 }
+                base.ModifyHitNPC(projectile, target, ref modifiers);
             }
             public override sealed void AI(Projectile projectile)
             {
@@ -99,6 +105,7 @@ namespace deeprockitems.Content.Items.Upgrades
                 {
                     UpgradeAI(projectile);
                 }
+                base.AI(projectile);
             }
             public sealed override bool PreKill(Projectile projectile, int timeLeft)
             {
@@ -115,6 +122,7 @@ namespace deeprockitems.Content.Items.Upgrades
                 {
                     UpgradeOnKill(projectile, timeLeft);
                 }
+                base.OnKill(projectile, timeLeft);
             }
             public virtual void UpgradeOnKill(Projectile projectile, int timeLeft) { }
             public virtual void UpgradeAI(Projectile projectile) { }
