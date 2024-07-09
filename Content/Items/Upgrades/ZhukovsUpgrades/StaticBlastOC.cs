@@ -24,13 +24,21 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<StaticBlastOC>())
+            Recipe.Create(ModContent.ItemType<StaticBlastOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.HallowedBar, 10)
-            .AddIngredient(ItemID.FrostCore, 3)
-            .AddIngredient(ItemID.Grenade, 15)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 10)
+            .AddIngredient(ItemID.SoulofMight, 15)
+            .AddIngredient(ItemID.ThunderStaff)
+            .AddTile(TileID.MythrilAnvil)
+            .Register();
+
+            Recipe.Create(ModContent.ItemType<StaticBlastOC>())
+            .AddIngredient<Misc.MatrixCore>()
+            .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 10)
+            .AddIngredient(ItemID.SoulofMight, 15)
+            .AddIngredient(ItemID.ThunderSpear)
+            .AddTile(TileID.MythrilAnvil)
+            .Register();
         }
         public class StaticBlastProjectile : UpgradeGlobalProjectile<StaticBlastOC>
         {
@@ -92,7 +100,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 
                                 if (npc.Hitbox.Intersects(new Rectangle((int)pos.X - 6, (int)pos.Y - 6, 12, 12)))
                                 {
-                                    var info = npc.GetIncomingStrikeModifiers(coupledTo.DamageType, 0).ToHitInfo(coupledTo.damage * 1.5f, false, 0f, true);
+                                    var info = npc.GetIncomingStrikeModifiers(coupledTo.DamageType, 0).ToHitInfo(coupledTo.damage * 0.5f, false, 0f, true);
                                     Main.player[coupledTo.owner].StrikeNPCDirect(npc, info);
                                     npc.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 240);
                                     npc.immune[coupledTo.owner] += 10;
