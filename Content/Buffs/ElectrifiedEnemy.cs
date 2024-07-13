@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Buffs
@@ -22,12 +24,68 @@ namespace deeprockitems.Content.Buffs
         {
             IsElectrified = false;
         }
-        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        public override void AI(NPC npc)
         {
+            // If npc electirifed
             if (IsElectrified)
             {
-                npc.lifeRegen -= 20; // 10 dps
+                // Find buff index
+                int buffIndex = npc.FindBuffIndex(ModContent.BuffType<ElectrifiedEnemy>());
+                if (buffIndex != -1)
+                {
+                    // Determine if buff should tick
+                    if (npc.buffTime[buffIndex] % 60 == 0)
+                    {
+                        // Get adjusted whoAmI
+                        int adjustedWhoAmI = npc.whoAmI;
+                        if (npc.realLife >= 0)
+                        {
+                            adjustedWhoAmI = npc.realLife;
+                        }
+
+                        // If npc can be damaged
+                        if (!Main.npc[adjustedWhoAmI].immortal)
+                        {
+                            // Tick buff
+                            Main.npc[adjustedWhoAmI].life -= 30;
+                        }
+                        // Spawn dust
+                        Dust.NewDust(npc.Center, 8, 8, DustID.Electric, SpeedX: Main.rand.NextFloat() - 0.5f, SpeedY: Main.rand.NextFloat() - 0.5f, Scale: 0.8f);
+
+                        // Spawn combattext
+                        CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), CombatText.LifeRegenNegative, 15, dramatic: false, dot: true);
+
+                        // Kill NPC if life is 0.
+                        if (Main.npc[adjustedWhoAmI].life <= 0)
+                        {
+                            Main.npc[adjustedWhoAmI].life = 1;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                Main.npc[adjustedWhoAmI].StrikeInstantKill();
+                                if (Main.netMode == NetmodeID.Server)
+                                {
+                                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, adjustedWhoAmI, 9999f);
+                                }
+                            }
+                        }
+                    }
+                }
             }
+        }
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+            /*if (IsElectrified)
+            {
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+                npc.lifeRegen -= 30; // 10 dps
+                if (damage < 15)
+                {
+                    damage = 15;
+                }
+            }*/
         }
     }
 }
