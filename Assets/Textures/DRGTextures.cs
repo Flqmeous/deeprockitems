@@ -13,11 +13,13 @@ namespace deeprockitems.Assets.Textures
             Zhukovs = ModContent.Request<Texture2D>("deeprockitems/Content/Items/Weapons/ZhukovsHeld", AssetRequestMode.ImmediateLoad).Value;
             WhitePixel = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/WhitePixel", AssetRequestMode.ImmediateLoad).Value;
             TracerHit = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/TracerHit", AssetRequestMode.ImmediateLoad).Value;
+            ElectricityArc = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/ElectricityArc", AssetRequestMode.ImmediateLoad).Value;
         }
         public static Texture2D InventorySlot { get; private set; }
         public static Texture2D SlotOutline { get; private set; }
         public static Texture2D Zhukovs { get; private set; }
         public static Texture2D WhitePixel { get; private set; }
         public static Texture2D TracerHit { get; private set; }
+        public static Texture2D ElectricityArc { get; private set; }
     }
 }
