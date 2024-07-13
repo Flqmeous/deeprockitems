@@ -11,6 +11,7 @@ using System;
 using Terraria.Audio;
 using deeprockitems.Content.Buffs;
 using Microsoft.Build.Evaluation;
+using deeprockitems.Content.Projectiles.ZhukovProjectiles;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
@@ -46,9 +47,69 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             /// Which projectile is being arced? Defaults to -1 for no projectile
             /// </summary>
             public int WhoAmICoupledTo = -1;
+            public bool HaveICoupledYet = false;
             public override void UpgradeAI(Projectile projectile)
             {
-                // If not coupled to a projectile, try to do it.
+                /*if (!HaveICoupledYet)
+                {
+                    // Get selection of close projectiles, sorted from nearest to farthest
+                    var projectilesToCouple = from proj in Main.projectile
+                                              where proj.active
+                                              && proj.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo == -1
+                                              && proj.type == projectile.type
+                                              && proj != projectile
+                                              && projectile.Center.DistanceSQ(proj.Center) <= 5000
+                                              orderby projectile.Center.DistanceSQ(proj.Center) ascending
+                                              select proj;
+
+                    // Get closest projectile
+                    Projectile closestCandidate = projectilesToCouple.FirstOrDefault();
+
+                    if (closestCandidate is default(Projectile)) return; // If no projectile matched criteria, return
+
+                    // Couple
+                    HaveICoupledYet = true;
+                    closestCandidate.GetGlobalProjectile<StaticBlastProjectile>().HaveICoupledYet = true;
+
+                    const int COUNT = 9;
+
+                    Vector2 initialVelocity = projectile.velocity;
+                    Vector2 finalVelocity = closestCandidate.velocity;
+
+                    Vector2 initialPosition = projectile.position;
+                    Vector2 finalPosition = closestCandidate.position;
+
+                    List<Projectile> projectiles = new();
+                    float middleProjectileRotation = 0f;
+
+                    // Spawn electricity projectiles
+                    for (int i = 0; i < COUNT; i++)
+                    {
+                        if (i == 0 || i == COUNT - 1)
+                        {
+                            continue;
+                        }
+                        // Compute velocity and position
+                        Vector2 velocity = initialVelocity + (i / (COUNT - 1f)) * (finalVelocity - initialVelocity);
+
+                        Vector2 position = initialPosition + (i / (COUNT - 1f)) * (finalPosition - initialPosition);
+                        Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, velocity, ModContent.ProjectileType<ElectricityArc>(), (int)(projectile.damage * 0.85f), 0f, owner: projectile.owner);
+                        proj.extraUpdates = projectile.extraUpdates;
+                        projectiles.Add(proj);
+
+                        if (i == (COUNT + 1) / 2f)
+                        {
+                            // Set rotation based on velocity
+                            middleProjectileRotation = proj.velocity.ToRotation() + MathHelper.PiOver2;
+                        }
+                    }
+
+                    foreach (var proj in projectiles)
+                    {
+                        proj.rotation = middleProjectileRotation;
+                    }
+                }*/
+                /*// If not coupled to a projectile, try to do it.
                 if (WhoAmICoupledTo == -1)
                 {
                     // Get selection of uncoupled projectiles, within 31.25 blocks, sorted from nearest to farthest
@@ -85,8 +146,17 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                     float distance = initial.Distance(coupledTo.Center);
                     for (int i = 0; i < 30; i++)
                     {
+                        // Draw position of the dust
+                        Vector2 drawPos = pos;
+                        float drawScale = 0.3f;
+                        // If drawing the last couple positions, draw spinning dust
+                        if (i == 0 || i == 29)
+                        {
+                            drawPos += 16 * new Vector2(MathF.Cos((int)Main.timeForVisualEffects + projectile.whoAmI), MathF.Sin((int)Main.timeForVisualEffects + projectile.whoAmI));
+                            drawScale = 0.8f;
+                        }
                         // Spawn dust
-                        var dust = Dust.NewDust(pos, 8, 8, DustID.Electric, Scale: 0.3f);
+                        var dust = Dust.NewDust(drawPos, 8, 8, DustID.Electric, Scale: drawScale);
 
                         // Try to damage an NPC every few ticks
                         if (i % 5 == 1)
@@ -111,7 +181,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                         // Lerp between sender and this projectile
                         pos += initial.DirectionTo(coupledTo.Center) * (distance / 30);
                     }
-                }
+                }*/
             }
             private void ResetCoupling_ProjectileLikelyDied(Projectile projectile)
             {
