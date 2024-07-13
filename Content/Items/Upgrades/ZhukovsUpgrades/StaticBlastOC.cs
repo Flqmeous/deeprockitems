@@ -12,6 +12,7 @@ using Terraria.Audio;
 using deeprockitems.Content.Buffs;
 using Microsoft.Build.Evaluation;
 using deeprockitems.Content.Projectiles.ZhukovProjectiles;
+using deeprockitems.Assets.Textures;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
@@ -43,19 +44,105 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
         }
         public class StaticBlastProjectile : UpgradeGlobalProjectile<StaticBlastOC>
         {
+            public List<int> WhoHaveICoupledTo = [];
+            public bool HaveICoupledYet = false;
             /// <summary>
             /// Which projectile is being arced? Defaults to -1 for no projectile
             /// </summary>
             public int WhoAmICoupledTo = -1;
-            public bool HaveICoupledYet = false;
+            public override void UpgradeOnSpawn(Projectile projectile, IEntitySource source)
+            {
+                // Find another projectile at this position with same owner, and couple them
+                foreach (var proj in Main.projectile)
+                {
+                    if (!proj.active) continue;
+                    
+                    // Floats arent precise so it only needs to be good enough
+                    if (proj.owner == projectile.owner && proj.type == projectile.type && proj.DistanceSQ(projectile.position) <= 50f)
+                    {
+                        // Couple
+                        WhoAmICoupledTo = proj.whoAmI;
+                        proj.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo = projectile.whoAmI;
+                    }
+                }
+            }
+            public List<Vector2> PointsToElectrify = [];
             public override void UpgradeAI(Projectile projectile)
             {
-                /*if (!HaveICoupledYet)
+                // Test couplings
+                if (!CheckCoupling(projectile))
+                {
+                    return;
+                }
+
+                // Spawn dust
+                Dust.NewDust(projectile.Center + new Vector2(MathF.Cos((int)Main.timeForVisualEffects + projectile.whoAmI), MathF.Sin((int)Main.timeForVisualEffects + projectile.whoAmI)), 4, 4, DustID.Electric, Scale: 0.8f);
+
+                PointsToElectrify = [projectile.Center];
+
+                // Check for NPC between the coupled projectiles in striking range
+                /*foreach (var npc in Main.npc)
+                {
+                    if (!npc.active) continue;
+                    
+                    // If too far away, don't even bother
+                    if (npc.Center.DistanceSQ(projectile))
+                }*/
+
+                Vector2 initial = projectile.Center;
+                Vector2 lerpPos = initial;
+                Vector2 directionTo = projectile.Center.DirectionTo(Main.projectile[WhoAmICoupledTo].Center);
+                float distance = projectile.Center.Distance(Main.projectile[WhoAmICoupledTo].Center);
+
+                // Check if damage can be dealt 9 times
+                const int CONTROL_POINTS = 9;
+                for (int i = 0; i < CONTROL_POINTS; i++)
+                {
+                    // Lerp to each control point
+                    lerpPos = initial + directionTo * (i / (float)CONTROL_POINTS) * distance;
+
+                    // Find NPCs that can be damaged
+                    var npcs = from npc in Main.npc
+                               where npc.active
+                               && !npc.friendly
+                               && PointsToElectrify.Count < 15
+                               && npc.DistanceSQ(lerpPos) <= (5 * 16 * 5 * 16) // 5 block distance
+                               select npc;
+
+                    // Damage npcs
+                    foreach (var npc in npcs)
+                    {
+                        PointsToElectrify.Add(npc.Center); // Add NPC hitbox for drawing
+
+                        if (npc.immune[projectile.owner] == 0)
+                        {
+                            var info = npc.CalculateHitInfo((int)(projectile.damage * 0.75f), 1, damageType: DamageClass.Ranged, damageVariation: true); // Damage npc
+                            Main.player[projectile.owner].StrikeNPCDirect(npc, info); // Strike NPC
+                            npc.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 300); // Add electricity buff
+                            npc.immune[projectile.owner] = 10; // Become immune for 10 frames
+                        }
+                    }
+                }
+
+                // Add the final electrification point (the right projectile)
+                PointsToElectrify.Add(Main.projectile[WhoAmICoupledTo].Center);
+
+
+                /*if (HaveICoupledYet)
+                {
+                    // Find if the children have died, if so, uncouple
+                    CheckCoupling();
+
+                    // Spawn dust
+                    Dust.NewDust(projectile.Center + new Vector2(MathF.Cos((int)Main.timeForVisualEffects + projectile.whoAmI), MathF.Sin((int)Main.timeForVisualEffects + projectile.whoAmI)), 4, 4, DustID.Electric, Scale: 0.8f);
+                    return;
+                }
+                if (!HaveICoupledYet)
                 {
                     // Get selection of close projectiles, sorted from nearest to farthest
                     var projectilesToCouple = from proj in Main.projectile
                                               where proj.active
-                                              && proj.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo == -1
+                                              && !proj.GetGlobalProjectile<StaticBlastProjectile>().HaveICoupledYet
                                               && proj.type == projectile.type
                                               && proj != projectile
                                               && projectile.Center.DistanceSQ(proj.Center) <= 5000
@@ -79,117 +166,102 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                     Vector2 initialPosition = projectile.position;
                     Vector2 finalPosition = closestCandidate.position;
 
-                    List<Projectile> projectiles = new();
+                    List<Projectile> electricityProjectiles = new();
                     float middleProjectileRotation = 0f;
 
-                    // Spawn electricity projectiles
+                    // Initialize whoamI with two bullets
+                    WhoHaveICoupledTo = [projectile.whoAmI, closestCandidate.whoAmI];
+
+
+                    float fractionalSpaceBetween = 1;
+
+                    // Divide distance equally by count to yield how much space should be between each projectile
+                    float projectileSpace = fractionalSpaceBetween / COUNT;
+
+                    // Simulate projectile space with fractions
+                    float currentDistance = 0;
+
+                    // For each projectile, place in the middle of each projectile's space
                     for (int i = 0; i < COUNT; i++)
                     {
-                        if (i == 0 || i == COUNT - 1)
-                        {
-                            continue;
-                        }
-                        // Compute velocity and position
-                        Vector2 velocity = initialVelocity + (i / (COUNT - 1f)) * (finalVelocity - initialVelocity);
 
-                        Vector2 position = initialPosition + (i / (COUNT - 1f)) * (finalPosition - initialPosition);
-                        Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, velocity, ModContent.ProjectileType<ElectricityArc>(), (int)(projectile.damage * 0.85f), 0f, owner: projectile.owner);
+                        // Add half of projectile's assumed space
+                        currentDistance += 0.5f * projectileSpace;
+
+                        // Lerp velocity with fractional distance
+                        Vector2 velocity = initialVelocity + currentDistance * (finalVelocity - initialVelocity);
+
+                        // Spawn projectile
+                        Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), Main.player[projectile.owner].Center, velocity, ModContent.ProjectileType<ElectricityArc>(), (int)(projectile.damage * 0.5f), 0f, owner: projectile.owner);
                         proj.extraUpdates = projectile.extraUpdates;
-                        projectiles.Add(proj);
-
-                        if (i == (COUNT + 1) / 2f)
+                        if (i == (COUNT - 1) / 2)
                         {
-                            // Set rotation based on velocity
+                            // Set rotation
                             middleProjectileRotation = proj.velocity.ToRotation() + MathHelper.PiOver2;
                         }
+                        // Add electrified projectiles to list
+                        WhoHaveICoupledTo.Add(proj.whoAmI);
+                        electricityProjectiles.Add(proj);
+
+                        // Add other half of space
+                        currentDistance += 0.5f * projectileSpace;
                     }
 
-                    foreach (var proj in projectiles)
+                    // Set all other rotations from the middle one
+                    foreach (Projectile proj in electricityProjectiles)
                     {
                         proj.rotation = middleProjectileRotation;
                     }
-                }*/
-                /*// If not coupled to a projectile, try to do it.
-                if (WhoAmICoupledTo == -1)
-                {
-                    // Get selection of uncoupled projectiles, within 31.25 blocks, sorted from nearest to farthest
-                    var projectilesToCouple = from proj in Main.projectile
-                                              where proj.active
-                                              && proj.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo == -1
-                                              && proj.type == projectile.type
-                                              && proj != projectile
-                                              && projectile.Center.DistanceSQ(proj.Center) <= 5000
-                                              orderby projectile.Center.DistanceSQ(proj.Center) ascending
-                                              select proj;
 
-                    // Get closest projectile
-                    Projectile closestCandidate = projectilesToCouple.FirstOrDefault();
-
-                    if (closestCandidate is default(Projectile)) return; // If no projectile matched criteria, return
-                    // Couple closest projectile
-                    WhoAmICoupledTo = closestCandidate.whoAmI;
-                    closestCandidate.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo = projectile.whoAmI;
-                }
-                else
-                {
-                    Projectile coupledTo = Main.projectile[WhoAmICoupledTo];
-                    // Make sure projectiles are alive / active
-                    if (!coupledTo.active)
-                    {
-                        ResetCoupling_ProjectileLikelyDied(coupledTo);
-                    }
-                    // Spawn arc between sender and this projectile
-                    // initial
-                    Vector2 initial = projectile.Center;
-                    Vector2 pos = initial;
-                    // Distance
-                    float distance = initial.Distance(coupledTo.Center);
-                    for (int i = 0; i < 30; i++)
-                    {
-                        // Draw position of the dust
-                        Vector2 drawPos = pos;
-                        float drawScale = 0.3f;
-                        // If drawing the last couple positions, draw spinning dust
-                        if (i == 0 || i == 29)
-                        {
-                            drawPos += 16 * new Vector2(MathF.Cos((int)Main.timeForVisualEffects + projectile.whoAmI), MathF.Sin((int)Main.timeForVisualEffects + projectile.whoAmI));
-                            drawScale = 0.8f;
-                        }
-                        // Spawn dust
-                        var dust = Dust.NewDust(drawPos, 8, 8, DustID.Electric, Scale: drawScale);
-
-                        // Try to damage an NPC every few ticks
-                        if (i % 5 == 1)
-                        {
-                            // Try to damage npc
-                            foreach (var npc in Main.npc)
-                            {
-                                if (!npc.active) continue;
-                                if (npc.friendly) continue;
-                                if (npc.immune[coupledTo.owner] > 0) continue;
-
-                                if (npc.Hitbox.Intersects(new Rectangle((int)pos.X - 6, (int)pos.Y - 6, 12, 12)))
-                                {
-                                    var info = npc.GetIncomingStrikeModifiers(coupledTo.DamageType, 0).ToHitInfo(coupledTo.damage * 0.5f, false, 0f, true);
-                                    Main.player[coupledTo.owner].StrikeNPCDirect(npc, info);
-                                    npc.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 240);
-                                    npc.immune[coupledTo.owner] += 10;
-                                }
-                            }
-                        }
-
-                        // Lerp between sender and this projectile
-                        pos += initial.DirectionTo(coupledTo.Center) * (distance / 30);
-                    }
+                    // Clone data to second bullet
+                    closestCandidate.GetGlobalProjectile<StaticBlastProjectile>().WhoHaveICoupledTo = [WhoHaveICoupledTo[1], WhoHaveICoupledTo[0], .. WhoHaveICoupledTo[2..]];
                 }*/
             }
-            private void ResetCoupling_ProjectileLikelyDied(Projectile projectile)
+            private bool CheckCoupling(Projectile projectile)
             {
-                foreach (var proj in Main.projectile)
+                /*// For each whoAmI
+                foreach (int whoAmI in WhoHaveICoupledTo)
                 {
-                    if (proj.active && proj.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo == projectile.whoAmI)
+                    // If projectile is inactive, continue
+                    if (Main.projectile[whoAmI].active) continue;
+
+                    // If projectile is inactive, then _something_ died. Kill 'em all (Metallica, July 25, 1983)!
+                    KillAndResetCoupling();
+                    return;
+                }*/
+                // If there is a desync between coupling or projectiles, reset
+                if (WhoAmICoupledTo == -1)
+                {
+                    return false;
+                }
+                
+                // Check if both projectiles are active
+                if (Main.projectile[WhoAmICoupledTo].active && projectile.active)
+                {
+                    // Continue as normal
+                    return true;
+                }
+                // Otherwise, detach both couplings
+                Main.projectile[WhoAmICoupledTo].GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo = -1;
+                WhoAmICoupledTo = -1;
+                return false;
+            }
+            private void DetachCoupling()
+            {
+
+            }
+            private void KillAndResetCoupling()
+            {
+                foreach (int whoAmI in WhoHaveICoupledTo)
+                {
+                    if (Main.projectile[whoAmI].type == ModContent.ProjectileType<ElectricityArc>())
                     {
-                        proj.GetGlobalProjectile<StaticBlastProjectile>().WhoAmICoupledTo = -1;
+                        Main.projectile[whoAmI].Kill();
+                    }
+                    else
+                    {
+                        // Reset coupling
+                        Main.projectile[whoAmI].GetGlobalProjectile<StaticBlastProjectile>().HaveICoupledYet = false;
                     }
                 }
             }
@@ -199,57 +271,28 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             }
             public override void UpgradeOnKill(Projectile projectile, int timeLeft)
             {
-                ResetCoupling_ProjectileLikelyDied(projectile);
+                // KillAndResetCoupling();
             }
-        }
-        public override void UpgradeProjectile_AI(Projectile sender)
-        {
-            // Query for active projectiles, of the same type, spawned through upgrade, grab closest
-            var projectiles = from proj in Main.projectile
-                              where proj.active
-                              && proj.type == sender.type
-                              && proj != sender
-                              && sender.Center.DistanceSQ(proj.Center) <= 250000
-                              orderby sender.Center.DistanceSQ(proj.Center) ascending
-                              select proj;
-            // Electrify!
-            Projectile toElectrify = projectiles.FirstOrDefault();
-
-            if (toElectrify is default(Projectile)) return;
-
-            // Spawn arc between sender and this projectile
-            // initial
-            Vector2 initial = sender.Center;
-            Vector2 pos = initial;
-            // Distance
-            float distance = initial.Distance(toElectrify.Center);
-            for (int i = 0; i < 30; i++)
+            public override void PostDraw(Projectile projectile, Color lightColor)
             {
-                // Spawn dust
-                var dust = Dust.NewDust(pos, 8, 8, DustID.Electric, Scale: 0.3f);
-
-                // Try to damage an NPC every few ticks
-                if (i % 5 == 1)
+                // Iterate through pairs
+                for (int i = 0; i < PointsToElectrify.Count - 1; i++)
                 {
-                    // Try to damage npc
-                    foreach (var npc in Main.npc)
-                    {
-                        if (!npc.active) continue;
-                        if (npc.friendly) continue;
-                        if (npc.immune[toElectrify.owner] > 0) continue;
+                    Vector2 point1 = PointsToElectrify[i];
+                    Vector2 point2 = PointsToElectrify[i + 1];
 
-                        if (npc.Hitbox.Intersects(new Rectangle((int)pos.X - 6, (int)pos.Y - 6, 12, 12)))
-                        {
-                            var info = npc.GetIncomingStrikeModifiers(toElectrify.DamageType, 0).ToHitInfo(toElectrify.damage * 0.75f, false, 0f, true);
-                            Main.player[toElectrify.owner].StrikeNPCDirect(npc, info);
-                            npc.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 60);
-                            npc.immune[toElectrify.owner] += 10;
-                        }
-                    }
+                    Vector2 midpoint = (point1 + point2) / 2f;
+
+                    // Calculate scale via distance
+                    // the arc is 48 pixels, 3 blocks long at 1f scale.
+                    float pixelDistance = point1.Distance(point2);
+
+                    int frame = Main.rand.Next(0, 3);
+                    Rectangle sourceFrame = new(0, frame * (DRGTextures.ElectricityArc.Height / 3), DRGTextures.ElectricityArc.Width, DRGTextures.ElectricityArc.Height / 3);
+
+                    float multiplier = pixelDistance / 48;
+                    Main.EntitySpriteDraw(DRGTextures.ElectricityArc, midpoint - Main.screenPosition, sourceFrame, Color.White, point1.DirectionTo(point2).ToRotation(), sourceFrame.Center(), new Vector2(multiplier, frame), Microsoft.Xna.Framework.Graphics.SpriteEffects.None);
                 }
-
-                // Lerp between sender and this projectile
-                pos += initial.DirectionTo(toElectrify.Center) * (distance / 30);
             }
         }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
