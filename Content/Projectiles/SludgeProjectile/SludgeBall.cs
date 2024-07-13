@@ -45,21 +45,6 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void AI()
         {
-            
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[1] <= 900f && Projectile.ai[1] > 0) // Drop goo from the projectile if goo bomber is equipped and timer is charged
-            {
-                if (GooTimer > 0)
-                {
-                    GooTimer--;
-                }
-                else
-                {
-                    GooTimer = 5f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * .8f), Projectile.knockBack, Main.myPlayer);
-                }
-            }
-
-
             if (!(Projectile.ai[2] == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
             {
                 if (Projectile.velocity.Y <= 30f) // Set gravity cap
@@ -111,7 +96,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * .5), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
                 }
             }
         }
