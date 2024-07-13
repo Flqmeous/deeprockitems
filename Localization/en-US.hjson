@@ -342,6 +342,7 @@ Mods: {
 			MollyPetProjectile.DisplayName: Molly Pet Projectile
 			ZhukovHelper.DisplayName: Zhukov Helper
 			CryoMineletProjectile.DisplayName: Cryo Minelet Projectile
+			ElectricityArc.DisplayName: Electricity Arc
 		}
 
 		Buffs: {
