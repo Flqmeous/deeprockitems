@@ -13,6 +13,7 @@ using deeprockitems.Content.Buffs;
 using Microsoft.Build.Evaluation;
 using deeprockitems.Content.Projectiles.ZhukovProjectiles;
 using deeprockitems.Assets.Textures;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
@@ -96,6 +97,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 
                 // Check if damage can be dealt 9 times
                 const int CONTROL_POINTS = 9;
+                List<int> npcs_already_added = [];
                 for (int i = 0; i < CONTROL_POINTS; i++)
                 {
                     // Lerp to each control point
@@ -107,6 +109,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                                && !npc.friendly
                                && PointsToElectrify.Count < 15
                                && npc.DistanceSQ(lerpPos) <= (5 * 16 * 5 * 16) // 5 block distance
+                               && !npcs_already_added.Contains(npc.whoAmI)
                                select npc;
 
                     // Damage npcs
@@ -122,6 +125,8 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                             npc.immune[projectile.owner] = 10; // Become immune for 10 frames
                         }
                     }
+                    // Add npcs
+                    npcs_already_added.AddRange(npcs.Select(npc => npc.whoAmI));
                 }
 
                 // Add the final electrification point (the right projectile)
@@ -275,23 +280,32 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             }
             public override void PostDraw(Projectile projectile, Color lightColor)
             {
+                // Don't draw if there's only 2 points to electrify
+                if (PointsToElectrify.Count < 3)
+                {
+                    return;
+                }
                 // Iterate through pairs
                 for (int i = 0; i < PointsToElectrify.Count - 1; i++)
                 {
                     Vector2 point1 = PointsToElectrify[i];
                     Vector2 point2 = PointsToElectrify[i + 1];
 
-                    Vector2 midpoint = (point1 + point2) / 2f;
+                    Vector2 midpoint = new((point1.X + point2.X) / 2f, (point1.Y + point2.Y) / 2f);
 
                     // Calculate scale via distance
                     // the arc is 48 pixels, 3 blocks long at 1f scale.
                     float pixelDistance = point1.Distance(point2);
 
                     int frame = Main.rand.Next(0, 3);
-                    Rectangle sourceFrame = new(0, frame * (DRGTextures.ElectricityArc.Height / 3), DRGTextures.ElectricityArc.Width, DRGTextures.ElectricityArc.Height / 3);
+                    int frameHeight = DRGTextures.ElectricityArc.Height / 3;
+                    Rectangle sourceFrame = new(0, frame * frameHeight, DRGTextures.ElectricityArc.Width, frameHeight);
 
-                    float multiplier = pixelDistance / 48;
-                    Main.EntitySpriteDraw(DRGTextures.ElectricityArc, midpoint - Main.screenPosition, sourceFrame, Color.White, point1.DirectionTo(point2).ToRotation(), sourceFrame.Center(), new Vector2(multiplier, frame), Microsoft.Xna.Framework.Graphics.SpriteEffects.None);
+                    // Get scale from distance between control points
+                    float multiplier = pixelDistance / 48f;
+
+                    // Draw
+                    Main.EntitySpriteDraw(DRGTextures.ElectricityArc, midpoint - Main.screenPosition, sourceFrame, Color.White, point1.DirectionTo(point2).ToRotation(), sourceFrame.Size() / 2f, new Vector2(multiplier, frame),SpriteEffects.None);
                 }
             }
         }
