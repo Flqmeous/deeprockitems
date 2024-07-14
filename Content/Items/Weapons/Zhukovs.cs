@@ -40,6 +40,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
+            ValidUpgrades.Add(ModContent.ItemType<DrumMagazine>());
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
             ValidUpgrades.Add(ModContent.ItemType<StaticBlastOC>());
             ValidUpgrades.Add(ModContent.ItemType<EmbeddedDetsOC>());
