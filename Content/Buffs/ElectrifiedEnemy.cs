@@ -72,20 +72,5 @@ namespace deeprockitems.Content.Buffs
                 }
             }
         }
-        public override void UpdateLifeRegen(NPC npc, ref int damage)
-        {
-            /*if (IsElectrified)
-            {
-                if (npc.lifeRegen > 0)
-                {
-                    npc.lifeRegen = 0;
-                }
-                npc.lifeRegen -= 30; // 10 dps
-                if (damage < 15)
-                {
-                    damage = 15;
-                }
-            }*/
-        }
     }
 }
