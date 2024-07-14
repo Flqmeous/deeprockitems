@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
 using Microsoft.Xna.Framework;
 using System;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
@@ -57,7 +58,7 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
             {
                 if (target.life - damageDone <= 0)
                 {
-                    Main.player[projectile.owner].AddBuff(BuffID.Swiftness, 240);
+                    Main.player[projectile.owner].AddBuff(ModContent.BuffType<Haste>(), 240);
                 }
             }
         }
