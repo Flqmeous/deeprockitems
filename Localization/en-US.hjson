@@ -249,9 +249,9 @@ Mods: {
 				Negatives: "[c/F01318:▼Bullets shoot at the same time]"
 			}
 
-			MyItem: {
-				DisplayName: My Item
-				Tooltip: ""
+			DrumMagazine: {
+				DisplayName: Upgrade: Drum Magazine
+				Tooltip: Each gun shoots 2 bullets per volley
 			}
 		}
 

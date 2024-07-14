@@ -37,6 +37,7 @@
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\MountainMoverOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PiercingPlasmaOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\VelocitySpeedup.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\DrumMagazine.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\StaticBlastOC.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
