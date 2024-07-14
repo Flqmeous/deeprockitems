@@ -31,6 +31,7 @@
     <None Remove="Assets\Textures\WhitePixel.png" />
     <None Remove="Content\Buffs\ElectrifiedEnemy.png" />
     <None Remove="Content\Buffs\FrozenEnemy.png" />
+    <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\EzBoomOC.png" />
