@@ -253,6 +253,11 @@ Mods: {
 				DisplayName: Upgrade: Drum Magazine
 				Tooltip: Each gun shoots 2 bullets per volley
 			}
+
+			GetInGetOut: {
+				DisplayName: Upgrade: Get In, Get Out
+				Tooltip: Haste after killing an enemy
+			}
 		}
 
 		Misc: {

@@ -39,6 +39,7 @@
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\VelocitySpeedup.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\DrumMagazine.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\GetInGetOut.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\StaticBlastOC.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
     <None Remove="Content\NPCs\MissionControl\MissionControl_Head.png" />

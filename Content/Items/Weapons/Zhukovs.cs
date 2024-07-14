@@ -40,6 +40,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
+            ValidUpgrades.Add(ModContent.ItemType<GetInGetOut>());
             ValidUpgrades.Add(ModContent.ItemType<DrumMagazine>());
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
             ValidUpgrades.Add(ModContent.ItemType<StaticBlastOC>());
@@ -48,7 +49,10 @@ namespace deeprockitems.Content.Items.Weapons
         public override bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item41, player.Center);
-            return true;
+            // Shoot with spread. Doing this here to preserve overclocks.
+            Vector2 spreadVelocity = velocity.RotatedByRandom(MathHelper.Pi / 32);
+            Projectile.NewProjectile(source, position, spreadVelocity, type, damage, knockback, Owner: player.whoAmI);
+            return false;
         }
         public bool CanAltUse { get; set; } = false;
         public override bool AltFunctionUse(Player player)
