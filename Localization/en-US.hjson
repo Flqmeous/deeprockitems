@@ -368,7 +368,12 @@ Mods: {
 
 			ElectrifiedEnemy: {
 				DisplayName: Electrified Enemy
-				Description: Mods.deeprockitems.Buffs.ElectrifiedEnemy.Description
+				Description: You are losing life
+			}
+
+			Haste: {
+				DisplayName: Haste
+				Description: 50% faster movement speed
 			}
 		}
 	}
