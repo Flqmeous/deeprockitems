@@ -12,13 +12,13 @@ namespace deeprockitems.Common.Quests
         public QuestID QuestType { get; set; }
         public int TypeRequired { get; set; }
         public int AmountRequired { get; set; }
-        public bool Hardmode { get; set; }
-        public QuestData(QuestID questType, int typeRequired, int amountRequired, bool hardmode)
+        public bool Predicate { get; set; }
+        public QuestData(QuestID questType, int typeRequired, int amountRequired, bool predicate)
         {
             QuestType = questType;
             TypeRequired = typeRequired;
             AmountRequired = amountRequired;
-            Hardmode = hardmode;
+            Predicate = predicate;
         }
 
         public Quest CreateQuestFromThis()
@@ -33,7 +33,7 @@ namespace deeprockitems.Common.Quests
                 ["QuestID"] = (int)QuestType,
                 ["TypeRequired"] = TypeRequired,
                 ["AmountRequired"] = AmountRequired,
-                ["QuestPredicate"] = Hardmode,
+                ["QuestPredicate"] = Predicate,
             };
         }
         public static QuestData Load(TagCompound tag)
