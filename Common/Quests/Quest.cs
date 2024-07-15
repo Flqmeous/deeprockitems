@@ -19,7 +19,7 @@ namespace deeprockitems.Common.Quests
         /// <summary>
         /// Whether the class has been completed. Shorthand for <c><see cref="Progress"/> == <see cref="AmountRequired"/></c>
         /// </summary>
-        public bool Completed { get => Progress == Data.AmountRequired; }
+        public bool Completed { get => Progress >= Data.AmountRequired; }
         /// <summary>
         /// Whether the quest has been rewarded to the player this quest refers to.
         /// </summary>
@@ -37,10 +37,10 @@ namespace deeprockitems.Common.Quests
             HasQuestBeenRewarded = questRewarded;
             SetCornerItem(id);
         }
-        public Quest(QuestID id, int typeToQuestFor, int amountRequired, bool hardmode, int progress = 0, bool questRewarded = false)
+        public Quest(QuestID id, int typeToQuestFor, int amountRequired, bool predicate, int progress = 0, bool questRewarded = false)
         {
             Type = id;
-            Data = new QuestData(id, typeToQuestFor, amountRequired, hardmode);
+            Data = new QuestData(id, typeToQuestFor, amountRequired, predicate);
             Progress = progress;
             HasQuestBeenRewarded = questRewarded;
             SetCornerItem(id);
