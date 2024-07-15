@@ -54,7 +54,7 @@ namespace deeprockitems.Common.Quests
         /// <returns></returns>
         public QuestData TakeRandom()
         {
-            int index = Main.rand.Next(0, _quests.Length);
+            int index = Main.rand.Next(0, _quests.Where(q => q.Predicate).Count());
             return _quests[index];
         }
         public void Add(QuestID questType, int typeRequired, int amountRequired, bool hardmode)
