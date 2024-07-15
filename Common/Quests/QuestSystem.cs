@@ -21,7 +21,7 @@ namespace deeprockitems.Common.Quests
             writer.Write((int)CurrentQuest.QuestType); // Quest ID
             writer.Write(CurrentQuest.TypeRequired); // Quest type
             writer.Write(CurrentQuest.AmountRequired); // Amount required
-            writer.Write(CurrentQuest.Hardmode); // Is quest hardmode
+            writer.Write(CurrentQuest.Predicate); // Predicate required to pull the quest
         }
         public override void NetReceive(BinaryReader reader)
         {
@@ -33,26 +33,97 @@ namespace deeprockitems.Common.Quests
         }
         public override void OnWorldLoad()
         {
+            RecalculateQuests();
+        }
+        public void RecalculateQuests()
+        {
+            Quests = [];
+            RecalculateMiningQuests();
+            RecalculateGatheringQuests();
+            RecalculateFightingQuests();
+        }
+        private void RecalculateFightingQuests()
+        {
+            Quests.ChainAdd(QuestID.Fighting, NPCID.BlueSlime, 30, true)
+                .ChainAdd(QuestID.Fighting, NPCID.DemonEye, 20, !Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.WanderingEye, 10, Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.Zombie, 20, true)
+                .ChainAdd(QuestID.Fighting, NPCID.Skeleton, 20, true)
+                .ChainAdd(QuestID.Fighting, NPCID.GreekSkeleton, 15, true)
+                .ChainAdd(QuestID.Fighting, NPCID.GraniteFlyer, 15, true)
+                .ChainAdd(QuestID.Fighting, NPCID.GraniteGolem, 15, true)
+                .ChainAdd(QuestID.Fighting, NPCID.Medusa, 5, Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.Demon, 15, NPC.downedBoss2)
+                .ChainAdd(QuestID.Fighting, NPCID.FireImp, 10, NPC.downedBoss2)
+                .ChainAdd(QuestID.Fighting, NPCID.RedDevil, 10, NPC.downedMechBossAny)
+                .ChainAdd(QuestID.Fighting, NPCID.CaveBat, 15, !Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.GiantBat, 10, Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.ArmoredSkeleton, 15, Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.SkeletonArcher, 15, Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.ChaosElemental, 5, Main.hardMode)
+                .ChainAdd(QuestID.Fighting, NPCID.AngryBones, 15, NPC.downedBoss3)
+                ;
+        }
+        private void RecalculateGatheringQuests()
+        {
+            // All 11 herbs and spices
+            Quests.ChainAdd(QuestID.Gathering, ItemID.Daybloom, 10, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Moonglow, 10, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Waterleaf, 10, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Fireblossom, 10, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Deathweed, 10, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Blinkroot, 10, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Shiverthorn, 10, true)
+                // Dye plants
+                .ChainAdd(QuestID.Gathering, ItemID.YellowMarigold, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.OrangeBloodroot, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.TealMushroom, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.GreenMushroom, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.LimeKelp, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.SkyBlueFlower, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.BlueBerries, 3, true)
+                .ChainAdd(QuestID.Gathering, ItemID.PinkPricklyPear, 3, true)
+                // Shrooms
+                .ChainAdd(QuestID.Gathering, ItemID.VileMushroom, 10, !WorldGen.crimson)
+                .ChainAdd(QuestID.Gathering, ItemID.ViciousMushroom, 10, WorldGen.crimson)
+                .ChainAdd(QuestID.Gathering, ItemID.GlowingMushroom, 25, true)
+                .ChainAdd(QuestID.Gathering, ItemID.Mushroom, 20, true)
+                ;
+        }
+        private void RecalculateMiningQuests()
+        {
             if (WorldGen.SavedOreTiers.Copper != -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Quests = new QuestCollection()
-                    .ChainAdd(QuestID.Mining, WorldGen.SavedOreTiers.Copper, 75, false)
-                    .ChainAdd(QuestID.Mining, WorldGen.SavedOreTiers.Iron, 75, false)
-                    .ChainAdd(QuestID.Mining, WorldGen.SavedOreTiers.Silver, 50, false)
-                    .ChainAdd(QuestID.Mining, WorldGen.SavedOreTiers.Gold, 50, false)
-                    .ChainAdd(QuestID.Mining, TileID.Hellstone, 50, false);
-                if (WorldGen.SavedOreTiers.Cobalt != -1)
-                {
-                    Quests.Add(QuestID.Mining, WorldGen.SavedOreTiers.Cobalt, 50, true);
-                    if (WorldGen.SavedOreTiers.Mythril != -1)
-                    {
-                        Quests.Add(QuestID.Mining, WorldGen.SavedOreTiers.Mythril, 35, true);
-                        if (WorldGen.SavedOreTiers.Adamantite != -1)
-                        {
-                            Quests.Add(QuestID.Mining, WorldGen.SavedOreTiers.Adamantite, 25, true);
-                        }
-                    }
-                }
+                // Prehardmode tiered ores
+                Quests.ChainAdd(QuestID.Mining, ItemID.CopperOre, 100, WorldGen.SavedOreTiers.Copper == TileID.Copper)
+                    .ChainAdd(QuestID.Mining, ItemID.TinOre, 100, WorldGen.SavedOreTiers.Copper == TileID.Tin)
+                    .ChainAdd(QuestID.Mining, ItemID.IronOre, 75, WorldGen.SavedOreTiers.Iron == TileID.Iron)
+                    .ChainAdd(QuestID.Mining, ItemID.LeadOre, 75, WorldGen.SavedOreTiers.Iron == TileID.Lead)
+                    .ChainAdd(QuestID.Mining, ItemID.SilverOre, 60, WorldGen.SavedOreTiers.Silver == TileID.Silver)
+                    .ChainAdd(QuestID.Mining, ItemID.TungstenOre, 60, WorldGen.SavedOreTiers.Silver == TileID.Tungsten)
+                    .ChainAdd(QuestID.Mining, ItemID.GoldOre, 60, WorldGen.SavedOreTiers.Gold == TileID.Gold)
+                    .ChainAdd(QuestID.Mining, ItemID.PlatinumOre, 60, WorldGen.SavedOreTiers.Gold == TileID.Platinum)
+                    // Evil ores
+                    .ChainAdd(QuestID.Mining, ItemID.DemoniteOre, 75, NPC.downedBoss2 && !WorldGen.crimson)
+                    .ChainAdd(QuestID.Mining, ItemID.CrimtaneOre, 75, NPC.downedBoss2 && WorldGen.crimson)
+                    // Gems and hellstone
+                    .ChainAdd(QuestID.Mining, ItemID.Hellstone, 50, NPC.downedBoss2)
+                    .ChainAdd(QuestID.Mining, ItemID.Amethyst, 25, true)
+                    .ChainAdd(QuestID.Mining, ItemID.Topaz, 25, true)
+                    .ChainAdd(QuestID.Mining, ItemID.Sapphire, 20, true)
+                    .ChainAdd(QuestID.Mining, ItemID.Emerald, 15, true)
+                    .ChainAdd(QuestID.Mining, ItemID.Ruby, 10, true)
+                    .ChainAdd(QuestID.Mining, ItemID.Diamond, 5, true)
+                    .ChainAdd(QuestID.Mining, ItemID.Amber, 10, true)
+                    // Hardmode tiered ores
+                    .ChainAdd(QuestID.Mining, ItemID.CobaltOre, 50, WorldGen.SavedOreTiers.Cobalt == TileID.Cobalt)
+                    .ChainAdd(QuestID.Mining, ItemID.MythrilOre, 35, WorldGen.SavedOreTiers.Mythril == TileID.Mythril)
+                    .ChainAdd(QuestID.Mining, ItemID.AdamantiteOre, 25, WorldGen.SavedOreTiers.Adamantite == TileID.Adamantite)
+                    .ChainAdd(QuestID.Mining, ItemID.PalladiumOre, 50, WorldGen.SavedOreTiers.Cobalt == TileID.Palladium)
+                    .ChainAdd(QuestID.Mining, ItemID.OrichalcumOre, 35, WorldGen.SavedOreTiers.Mythril == TileID.Orichalcum)
+                    .ChainAdd(QuestID.Mining, ItemID.TitaniumOre, 25, WorldGen.SavedOreTiers.Adamantite == TileID.Titanium)
+                    // Chlorophyte
+                    .ChainAdd(QuestID.Mining, ItemID.ChlorophyteOre, 40, NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
             }
         }
         public override void SaveWorldData(TagCompound tag)
@@ -66,7 +137,7 @@ namespace deeprockitems.Common.Quests
             tag["questType"] = (int)CurrentQuest.QuestType;
             tag["questFind"] = CurrentQuest.TypeRequired;
             tag["questAmount"] = CurrentQuest.AmountRequired;
-            tag["questHardmode"] = CurrentQuest.Hardmode;
+            tag["questHardmode"] = CurrentQuest.Predicate;
         }
         public override void LoadWorldData(TagCompound tag)
         {
@@ -84,8 +155,10 @@ namespace deeprockitems.Common.Quests
         public override void PostUpdateTime()
         {
             // If it's early morning and this is on the host, OR the CurrentQuest is null
-            if ((CurrentQuest is null) || (Main.time == 0d && Main.dayTime && Main.netMode != NetmodeID.MultiplayerClient))
+            if ((CurrentQuest is null) || (Main.time == 1d && Main.dayTime && Main.netMode != NetmodeID.MultiplayerClient))
             {
+                // Review all possible quests:
+                RecalculateQuests();
                 // Create quest
                 GenerateQuest();
             }
@@ -102,7 +175,9 @@ namespace deeprockitems.Common.Quests
                 }
                 modPlayer.ActiveQuest = null;
             }
-            QuestCollection questsToChooseFrom = Main.hardMode ? Quests : Quests.Where((q) => !q.Hardmode);
+            // Generate quest
+            int questType = Main.rand.Next(0, 3);
+            QuestCollection questsToChooseFrom = Quests.Where(q => ((int)q.QuestType == questType) && q.Predicate);
             CurrentQuest = questsToChooseFrom.TakeRandom();
         }
     }

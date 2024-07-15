@@ -234,7 +234,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                             {
                                 typeName = TileID.Search.GetName(type);
                             }
-                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", typeName.Pluralizer(amount), amount);
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
                             break;
                         case QuestID.Gathering:
                             Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
