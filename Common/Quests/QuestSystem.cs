@@ -37,7 +37,7 @@ namespace deeprockitems.Common.Quests
         }
         public void RecalculateQuests()
         {
-            Quests = [];
+            Quests = [new QuestData(QuestID.Gathering, ItemID.Daybloom, 10, true)];
             RecalculateMiningQuests();
             RecalculateGatheringQuests();
             RecalculateFightingQuests();
@@ -176,7 +176,7 @@ namespace deeprockitems.Common.Quests
                 modPlayer.ActiveQuest = null;
             }
             // Generate quest
-            int questType = Main.rand.Next(0, 3);
+            int questType = Main.rand.Next(1, 4);
             QuestCollection questsToChooseFrom = Quests.Where(q => ((int)q.QuestType == questType) && q.Predicate);
             CurrentQuest = questsToChooseFrom.TakeRandom();
         }
