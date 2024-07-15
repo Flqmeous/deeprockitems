@@ -229,11 +229,6 @@ namespace deeprockitems.Content.NPCs.MissionControl
                     {
                         case QuestID.Mining:
                             // Find if the map object name has a name--if else, use block name
-                            string typeName = Lang.GetMapObjectName(MapHelper.tileLookup[type]);
-                            if (typeName == "")
-                            {
-                                typeName = TileID.Search.GetName(type);
-                            }
                             Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
                             break;
                         case QuestID.Gathering:
