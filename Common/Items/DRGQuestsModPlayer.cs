@@ -27,12 +27,12 @@ namespace deeprockitems.Common.Quests
             tag.Add("DRGActiveQuest", ActiveQuest);
             base.SaveData(tag);
         }
-        public void AddProgressToQuest()
+        public void UpdateQuestProgress(int newProgress)
         {
             // Add progress to quest if not completed
             if (!ActiveQuest.Completed)
             {
-                ActiveQuest.Progress++;
+                ActiveQuest.Progress = newProgress;
                 Color color = new(190, 60, 165);
                 // If quest was completed afterawrd, give congratulatory message
                 if (ActiveQuest.Completed)
