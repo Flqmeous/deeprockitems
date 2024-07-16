@@ -123,9 +123,11 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                         // If hit NPC, kill and draw X
                         foreach (var npc in Main.ActiveNPCs)
                         {
-                            if (npc.Hitbox.Contains(new Rectangle((int)position.X, (int)position.Y, width, height)))
+                            if (npc.friendly) continue;
+                            if (npc.Hitbox.Intersects(new Rectangle((int)(position.X), (int)(position.Y), width, height)))
                             {
                                 DrawHitSomething(ref drawInfo, computedCenter, distance, distanceMultiplier, timer, playerColor);
+                                return;
                             }
                         }
                     }
