@@ -18,11 +18,6 @@ namespace deeprockitems.Content.Items.Weapons
     {
         public int oldFireRate = 0;
         public int newFireRate = 0;
-        public override void SetStaticDefaults()
-        {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-        }
-
         public override void NewSetDefaults()
         {
             Item.CloneDefaults(ItemID.Boomstick);

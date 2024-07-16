@@ -16,11 +16,6 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : UpgradeableItemTemplate
     {
-        public override void SetStaticDefaults()
-        {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-        }
-
         public override void NewSetDefaults()
         {
             Item.damage = 34;
