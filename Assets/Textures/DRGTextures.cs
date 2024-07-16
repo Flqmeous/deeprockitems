@@ -6,14 +6,23 @@ namespace deeprockitems.Assets.Textures
 {
     public class DRGTextures : ModSystem
     {
+        private static readonly string PATH = "deeprockitems/Assets/Textures/";
+        private static Texture2D RequestTexture(string fileName)
+        {
+            return ModContent.Request<Texture2D>(PATH + fileName, AssetRequestMode.ImmediateLoad).Value;
+        }
         public override void SetStaticDefaults()
         {
-            InventorySlot = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/InventorySlot", AssetRequestMode.ImmediateLoad).Value;
-            SlotOutline = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/SlotOutline", AssetRequestMode.ImmediateLoad).Value;
-            Zhukovs = ModContent.Request<Texture2D>("deeprockitems/Content/Items/Weapons/ZhukovsHeld", AssetRequestMode.ImmediateLoad).Value;
-            WhitePixel = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/WhitePixel", AssetRequestMode.ImmediateLoad).Value;
-            TracerHit = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/TracerHit", AssetRequestMode.ImmediateLoad).Value;
-            ElectricityArc = ModContent.Request<Texture2D>("deeprockitems/Assets/Textures/ElectricityArc", AssetRequestMode.ImmediateLoad).Value;
+            InventorySlot = RequestTexture("InventorySlot");
+            SlotOutline = RequestTexture("SlotOutline");
+            Zhukovs = RequestTexture("ZhukovsHeld");
+            WhitePixel = RequestTexture("WhitePixel");
+            TracerHit = RequestTexture("TracerHit");
+            ElectricityArc = RequestTexture("ElectricityArc");
+            UpgradeSlot = RequestTexture("UpgradeSlot");
+            UpgradeIcon = RequestTexture("UpgradeIcon");
+            OverclockSlot = RequestTexture("OverclockSlot");
+
         }
         public static Texture2D InventorySlot { get; private set; }
         public static Texture2D SlotOutline { get; private set; }
@@ -21,5 +30,8 @@ namespace deeprockitems.Assets.Textures
         public static Texture2D WhitePixel { get; private set; }
         public static Texture2D TracerHit { get; private set; }
         public static Texture2D ElectricityArc { get; private set; }
+        public static Texture2D UpgradeSlot { get; private set; }
+        public static Texture2D UpgradeIcon { get; private set; }
+        public static Texture2D OverclockSlot { get; private set; }
     }
 }
