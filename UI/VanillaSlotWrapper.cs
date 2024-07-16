@@ -16,6 +16,7 @@ using deeprockitems.Content.Items.Upgrades;
 using System.Linq;
 using deeprockitems.UI.UpgradeItem;
 using static Terraria.GameContent.Animations.Actions.Sprites;
+using deeprockitems.Assets.Textures;
 
 namespace deeprockitems.UI
 {
@@ -106,6 +107,14 @@ namespace deeprockitems.UI
                         Main.cursorOverride = CursorOverrideID.BackInventory;
                     }
                 }
+            }
+            else if (ItemToDisplay.type == 0)
+            {
+                Main.hoverItemName = _slotID switch
+                {
+                    3 => "Overclock",
+                    _ => $"Upgrade {_slotID + 1}",
+                };
             }
         }
         /// <summary>
@@ -204,28 +213,11 @@ namespace deeprockitems.UI
         }
         public override void DrawEmpty(SpriteBatch spriteBatch)
         {
-            string textureToRequest;
-
-            string PATH = "deeprockitems/UI/UpgradeItem/";
-
-            switch (_slotID)
+            Texture2D texture = _slotID switch
             {
-                case 0:
-                    textureToRequest = "UpgradeI";
-                    break;
-                case 1:
-                    textureToRequest = "UpgradeII";
-                    break;
-                case 2:
-                    textureToRequest = "UpgradeIII";
-                    break;
-                case 3:
-                    textureToRequest = "UpgradeIV";
-                    break;
-                default:
-                    return;
-            }
-            Texture2D texture = ModContent.Request<Texture2D>(PATH + textureToRequest).Value;
+                3 => DRGTextures.OverclockSlot,
+                _ => DRGTextures.UpgradeSlot,
+            };
 
             spriteBatch.Draw(texture, GetDimensions().ToRectangle(), Color.White);
         }

@@ -27,8 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Textures\ElectricityArc.png" />
+    <None Remove="Assets\Textures\OverclockSlot.png" />
     <None Remove="Assets\Textures\TracerHit.png" />
+    <None Remove="Assets\Textures\UpgradeIcon.png" />
+    <None Remove="Assets\Textures\UpgradeSlot.png" />
     <None Remove="Assets\Textures\WhitePixel.png" />
+    <None Remove="Assets\Textures\ZhukovsHeld.png" />
     <None Remove="Content\Buffs\ElectrifiedEnemy.png" />
     <None Remove="Content\Buffs\FrozenEnemy.png" />
     <None Remove="Content\Buffs\Haste.png" />
