@@ -13,12 +13,46 @@ using deeprockitems.UI.UpgradeItem;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Microsoft.Build.Utilities;
+using deeprockitems.Assets.Textures;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
-    public abstract class UpgradeTemplate : ModItem
+    public abstract class UpgradeTemplate<TValidWeapons> : ModItem 
+        where TValidWeapons : 
     {
         public virtual bool IsOverclock { get; set; }
+        private int _whichUpgradeToDrawTimer = 0;
+        private List<int> _validWeapons;
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Main.timeForVisualEffects % 90 == 0) _whichUpgradeToDrawTimer++;
+            // spriteBatch.Draw(DRGTextures.WhitePixel, new Rectangle((int)position.X, (int)position.Y, (int)(frame.Width * scale), (int)(frame.Height * scale)), Color.White);
+            foreach (var hook in DrawingWeaponIconInBottomLeft.GetInvocationList().Cast<DrawIconInBottomLeft>())
+            {
+                if (hook.Target is UpgradeableItemTemplate { ValidUpgrades: List<int> upgrades } && upgrades.Contains(Type))
+                {
+                    // Do math to get the right index to draw.
+                    int index = _whichUpgradeToDrawTimer % upgrades.Count;
+                    if (upgrades[index] == Type)
+                    {
+                    }
+                    hook.Invoke(this, new DrawArgs(spriteBatch, position, frame, drawColor, itemColor, origin, scale));
+
+                }
+            }
+        }
+        public class DrawArgs(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            public SpriteBatch SpriteBatch = spriteBatch;
+            public Vector2 Position = position;
+            public Rectangle Frame = frame;
+            public Color DrawColor = drawColor;
+            public Color ItemColor = itemColor;
+            public Vector2 Origin = origin;
+            public float Scale = scale;
+        }
+        public delegate void DrawIconInBottomLeft(UpgradeTemplate sender, DrawArgs args);
+        public static event DrawIconInBottomLeft DrawingWeaponIconInBottomLeft;
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Pink;
@@ -59,6 +93,12 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeItem_ModifyShootStatsPrimary;
 
             UpgradeableItemTemplate.ItemHold += UpgradeableItemTemplate_ItemHold;
+            var weapons = typeof(UpgradeableItemTemplate).Assembly.GetTypes().Where(weapon => weapon.IsSubclassOf(typeof(UpgradeableItemTemplate)));
+            foreach (var weapon in weapons)
+            {
+                var validUpgrades = weapon.GetProperty(nameof(UpgradeableItemTemplate.ValidUpgrades));
+                if (validUpgrades)
+            }
         }
         public abstract class UpgradeGlobalItem<TUpgrade> : GlobalItem where TUpgrade : UpgradeTemplate
         {
