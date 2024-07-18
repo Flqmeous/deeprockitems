@@ -13,34 +13,50 @@ using deeprockitems.UI.UpgradeItem;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Microsoft.Build.Utilities;
+using System.Reflection;
 using deeprockitems.Assets.Textures;
+using Terraria.GameContent;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
-    public abstract class UpgradeTemplate<TValidWeapons> : ModItem 
-        where TValidWeapons : 
+    public abstract class UpgradeTemplate : ModItem
     {
-        public virtual bool IsOverclock { get; set; }
+        public List<int> ValidWeapons { get; set; } = [];
+        public abstract bool IsOverclock { get; }
         private int _whichUpgradeToDrawTimer = 0;
-        private List<int> _validWeapons;
-        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        /// <summary>
+        /// The index of which weapon in ValidWeapons to draw.
+        /// </summary>
+        private int _indexToDrawWeapon = -1;
+        public override void UpdateInventory(Player player)
         {
-            if (Main.timeForVisualEffects % 90 == 0) _whichUpgradeToDrawTimer++;
-            // spriteBatch.Draw(DRGTextures.WhitePixel, new Rectangle((int)position.X, (int)position.Y, (int)(frame.Width * scale), (int)(frame.Height * scale)), Color.White);
-            foreach (var hook in DrawingWeaponIconInBottomLeft.GetInvocationList().Cast<DrawIconInBottomLeft>())
+            _indexToDrawWeapon = -1;
+            if (Main.LocalPlayer.inventory.Where((item, index) => index <= 49).Contains(Item))
             {
-                if (hook.Target is UpgradeableItemTemplate { ValidUpgrades: List<int> upgrades } && upgrades.Contains(Type))
-                {
-                    // Do math to get the right index to draw.
-                    int index = _whichUpgradeToDrawTimer % upgrades.Count;
-                    if (upgrades[index] == Type)
-                    {
-                    }
-                    hook.Invoke(this, new DrawArgs(spriteBatch, position, frame, drawColor, itemColor, origin, scale));
+                // If validweapons didn't initialize, stop everything
+                if (ValidWeapons.Count == 0) return;
 
-                }
+                // Choose the index of weapon to draw
+                if (Main.timeForVisualEffects % 90 == 0) _whichUpgradeToDrawTimer++;
+                _indexToDrawWeapon = _whichUpgradeToDrawTimer % ValidWeapons.Count;
             }
         }
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (_indexToDrawWeapon != -1)
+            {
+                // Get texture from index of weapon to draw
+                Texture2D texture = TextureAssets.Item[ValidWeapons[_indexToDrawWeapon]].Value;
+
+                // Get position of bottom of slot:
+                float newScale = scale * (texture.Width <= 40f ? 0.65f : 0.5f);
+                float yOffset = texture.Height * 0.5f * newScale;
+                Vector2 bottomLeftOfSlot = new Vector2(position.X - 0.5f * scale * 52 + 4f, position.Y + scale * 0.5f * 52 - 4f);
+                Vector2 drawPos = new Vector2(bottomLeftOfSlot.X, bottomLeftOfSlot.Y - yOffset);
+                spriteBatch.Draw(texture, new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(texture.Width * newScale), (int)(texture.Height * newScale)), Color.White);
+            }
+        }
+        
         public class DrawArgs(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             public SpriteBatch SpriteBatch = spriteBatch;
@@ -55,6 +71,32 @@ namespace deeprockitems.Content.Items.Upgrades
         public static event DrawIconInBottomLeft DrawingWeaponIconInBottomLeft;
         public override void SetDefaults()
         {
+
+            // Get all upgradeable weapon types
+            var weapons = typeof(UpgradeableItemTemplate).Assembly.GetTypes().Where(weapon => weapon.IsSubclassOf(typeof(UpgradeableItemTemplate)));
+            foreach (var weapon in weapons)
+            {
+                // Get ModContent.ItemType methodinfo
+                MethodInfo itemType = typeof(ModContent).GetMethod(nameof(ModContent.ItemType), BindingFlags.Public | BindingFlags.Static);
+                // Make it generic
+                var genericItemType = itemType.MakeGenericMethod(weapon);
+                // Invoke it to get an item id
+                int weaponItemType = (int)genericItemType.Invoke(null, null);
+                // Create item
+                Item item = new Item(weaponItemType);
+                // Convert it to a moditem so we can get validupgrades
+                List<int> validUpgrades = (item.ModItem as UpgradeableItemTemplate).ValidUpgrades;
+                // Add to valid upgrades if this item is held in it
+                foreach (int upgradeID in validUpgrades)
+                {
+                    if (upgradeID == Type)
+                    {
+                        ValidWeapons.Add(weaponItemType);
+                    }
+                }
+                item.TurnToAir(true); // Delete item to avoid dupe shenanigans.
+
+            }
             Item.rare = ItemRarityID.Pink;
             Item.width = Item.height = 30;
             Item.value = IsOverclock ? Item.buyPrice(0, 5, 0, 0) : Item.buyPrice(0, 3, 0, 0);
@@ -93,12 +135,6 @@ namespace deeprockitems.Content.Items.Upgrades
             UpgradeableItemTemplate.ItemModifyShootAltUse += UpgradeItem_ModifyShootStatsPrimary;
 
             UpgradeableItemTemplate.ItemHold += UpgradeableItemTemplate_ItemHold;
-            var weapons = typeof(UpgradeableItemTemplate).Assembly.GetTypes().Where(weapon => weapon.IsSubclassOf(typeof(UpgradeableItemTemplate)));
-            foreach (var weapon in weapons)
-            {
-                var validUpgrades = weapon.GetProperty(nameof(UpgradeableItemTemplate.ValidUpgrades));
-                if (validUpgrades)
-            }
         }
         public abstract class UpgradeGlobalItem<TUpgrade> : GlobalItem where TUpgrade : UpgradeTemplate
         {
