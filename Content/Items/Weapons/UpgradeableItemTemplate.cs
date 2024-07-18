@@ -16,11 +16,17 @@ using Terraria.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using deeprockitems.Assets.Textures;
 using Terraria.GameContent.Creative;
+using Terraria.ID;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
+        public static int GetStaticType()
+        {
+            return _staticType;
+        }
+        private static int _staticType = ItemID.None;
         public int BaseDamage { get; private set; }
         public float DamageScale { get; set; } = 1f;
         public float UseTimeScale { get; set; }
@@ -63,6 +69,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void SetStaticDefaults()
         {
+            _staticType = Type;
             UpgradeTemplate.DrawingWeaponIconInBottomLeft += DrawWeaponIconInBottomLeft;
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             NewSetStaticDefaults();
@@ -75,28 +82,9 @@ namespace deeprockitems.Content.Items.Weapons
             // Get position of bottom of slot:
             float newScale = args.Scale * (texture.Width <= 40f ? 0.65f : 0.5f);
             float yOffset = texture.Height * 0.5f * newScale;
-            /*float bottomYValue = args.Position.Y - yOffset + args.Scale * 0.5f * 52;*/
             Vector2 bottomLeftOfSlot = new Vector2(args.Position.X - 0.5f * args.Scale * 52 + 4f, args.Position.Y + args.Scale * 0.5f * 52 - 4f);
             Vector2 drawPos = new Vector2(bottomLeftOfSlot.X, bottomLeftOfSlot.Y - yOffset);
             args.SpriteBatch.Draw(texture, new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(texture.Width * newScale), (int)(texture.Height * newScale)), Color.White);
-            args.SpriteBatch.Draw(DRGTextures.WhitePixel, drawPos, Color.Orange);
-            /*if (ValidUpgrades.Contains(sender.Type))
-            {
-                args.SpriteBatch.Draw(texture, new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(texture.Width * newScale), (int)(texture.Height * newScale)), Color.White);
-            }*/
-
-
-
-            /*float newScale = args.Scale * 0.5f; // New scale to fit in the bottom left corner
-            float yOff = args.Frame.Height * 0.5f;
-            // Move to new location from this item's sprite
-            Vector2 newPosition = new Vector2(args.Position.X - 0.5f * newScale * Item.width, args.Position.Y + yOff + newScale * Item.width);
-            float scaledWidth = args.Frame.Width * newScale;
-            float scaledHeight = args.Frame.Height * newScale;
-            if (ValidUpgrades.Contains(sender.Type))
-            {
-                args.SpriteBatch.Draw(texture, new Rectangle((int)newPosition.X, (int)newPosition.Y, (int)scaledWidth, (int)scaledHeight), Color.White);
-            }*/
         }
 
         public override void UpdateInventory(Player player)
