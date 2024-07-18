@@ -11,6 +11,7 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
         public override bool IsOverclock => false;
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.rare = ItemRarityID.Orange;
         }
         public override void AddRecipes()
