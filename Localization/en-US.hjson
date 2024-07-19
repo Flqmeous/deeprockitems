@@ -126,7 +126,7 @@ Mods: {
 			}
 
 			TracerRounds: {
-				DisplayName: Upgrade: Tracer Rounds
+				DisplayName: Upgrade: Visual Calculus
 				Tooltip: Shows the projectile's trajectory
 			}
 
