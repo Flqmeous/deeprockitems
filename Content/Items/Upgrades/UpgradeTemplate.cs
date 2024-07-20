@@ -72,7 +72,23 @@ namespace deeprockitems.Content.Items.Upgrades
         public override void SetDefaults()
         {
 
-            // Get all upgradeable weapon types
+            // Get all classes that use this attribute
+            var allowedWeapons = GetType().GetCustomAttribute<ValidWeaponsAttribute>()?.AllowedWeapons;
+            if (allowedWeapons is null) return;
+
+
+            foreach (Type weapon in allowedWeapons)
+            {
+                // Get methodinfo to get type
+                MethodInfo modContentItemType = typeof(ModContent).GetMethod(nameof(ModContent.ItemType), BindingFlags.Public | BindingFlags.Static);
+
+                // Invoke genericized method to get the item ID.
+                int weaponType = (int)modContentItemType.MakeGenericMethod(weapon).Invoke(null, null);
+
+                // Add weapon type to this weapon's validWeapons property
+                ValidWeapons.Add(weaponType);
+            }
+            /*// Get all upgradeable weapon types
             var weapons = typeof(UpgradeableItemTemplate).Assembly.GetTypes().Where(weapon => weapon.IsSubclassOf(typeof(UpgradeableItemTemplate)));
             foreach (var weapon in weapons)
             {
@@ -96,7 +112,7 @@ namespace deeprockitems.Content.Items.Upgrades
                 }
                 item.TurnToAir(true); // Delete item to avoid dupe shenanigans.
 
-            }
+            }*/
             Item.rare = ItemRarityID.Pink;
             Item.width = Item.height = 30;
             Item.value = IsOverclock ? Item.buyPrice(0, 5, 0, 0) : Item.buyPrice(0, 3, 0, 0);
