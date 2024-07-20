@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
+    [ValidWeapons(typeof(SludgePump))]
     public class AntiGravOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
+    [ValidWeapons(typeof(Zhukovs))]
     public class CryoMineletsOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

@@ -10,6 +10,7 @@ using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
+    [ValidWeapons(typeof(Zhukovs))]
     public class GetInGetOut : UpgradeTemplate
     {
         public override bool IsOverclock => false;

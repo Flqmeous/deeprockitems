@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
+    [ValidWeapons(typeof(SludgePump))]
     public class StaticBlastOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

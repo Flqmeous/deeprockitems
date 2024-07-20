@@ -7,6 +7,12 @@ using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(Zhukovs),
+        typeof(M1000),
+        typeof(JuryShotgun),
+        typeof(SludgePump),
+        typeof(PlasmaPistol))]
     public class Blowthrough : UpgradeTemplate
     {
         public override bool IsOverclock => false;

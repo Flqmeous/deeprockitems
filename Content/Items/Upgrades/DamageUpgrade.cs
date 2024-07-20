@@ -7,6 +7,12 @@ using System;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(M1000),
+        typeof(Zhukovs),
+        typeof(SludgePump),
+        typeof(PlasmaPistol),
+        typeof(JuryShotgun))]
     public class DamageUpgrade : UpgradeTemplate
     {
         public override bool IsOverclock => false;

@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
 {
+    [ValidWeapons(typeof(M1000))]
     public class SupercoolOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

@@ -9,6 +9,7 @@ using System;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
+    [ValidWeapons(typeof(Zhukovs))]
     public class DrumMagazine : UpgradeTemplate
     {
         public override bool IsOverclock => false;

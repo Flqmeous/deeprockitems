@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
+    [ValidWeapons(typeof(SludgePump))]
     public class TracerRounds : UpgradeTemplate
     {
         public int _sludgeTracerTimer = 0;

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
+    [ValidWeapons(typeof(JuryShotgun))]
     public class WhitePhosphorus : UpgradeTemplate
     {
         public override bool IsOverclock => false;

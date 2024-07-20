@@ -11,6 +11,7 @@ using System;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
+    [ValidWeapons(typeof(JuryShotgun))]
     public class SpecialPowderOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

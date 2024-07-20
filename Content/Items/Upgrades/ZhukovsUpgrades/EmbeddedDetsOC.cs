@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
 {
+    [ValidWeapons(typeof(Zhukovs))]
     public class EmbeddedDetsOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
+    [ValidWeapons(typeof(JuryShotgun))]
     public class PelletAlignmentOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

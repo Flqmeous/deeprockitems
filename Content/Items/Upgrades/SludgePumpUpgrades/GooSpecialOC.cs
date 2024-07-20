@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
+    [ValidWeapons(typeof(SludgePump))]
     public class GooSpecialOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

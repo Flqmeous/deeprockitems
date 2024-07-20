@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
+    [ValidWeapons(typeof(JuryShotgun))]
     public class StuffedShellsOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

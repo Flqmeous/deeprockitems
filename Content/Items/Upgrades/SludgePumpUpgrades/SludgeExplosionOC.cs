@@ -9,6 +9,7 @@ using System;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
+    [ValidWeapons(typeof(SludgePump))]
     public class SludgeExplosionOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

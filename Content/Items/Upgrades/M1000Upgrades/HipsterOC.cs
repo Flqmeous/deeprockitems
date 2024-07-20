@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
 {
+    [ValidWeapons(typeof(M1000))]
     public class HipsterOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

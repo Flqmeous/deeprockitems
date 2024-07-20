@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(M1000),
+        typeof(JuryShotgun))]
     public class BumpFire : UpgradeTemplate
     {
         public override bool IsOverclock => false;
