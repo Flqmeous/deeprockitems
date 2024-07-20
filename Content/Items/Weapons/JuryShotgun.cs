@@ -21,11 +21,11 @@ namespace deeprockitems.Content.Items.Weapons
         public override void NewSetDefaults()
         {
             Item.CloneDefaults(ItemID.Boomstick);
-            Item.damage = 16;
+            Item.damage = 15;
             Item.width = 40;
             Item.height = 16;
-            Item.useTime = 39;
-            Item.useAnimation = 39;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
             Item.value = Item.sellPrice(0, 3, 0, 0);
 
             oldFireRate = Item.useTime;
@@ -68,7 +68,7 @@ namespace deeprockitems.Content.Items.Weapons
             }
 
             // Shoot logic
-            int numberProjectiles = 4 + Main.rand.Next(1, 3);
+            int numberProjectiles = 3 + Main.rand.Next(1, 3);
             double spread = Math.PI / 13;
             /*if (Upgrades.Contains(ModContent.ItemType<PelletAlignmentOC>())) // Reduced spread
             {
@@ -97,45 +97,6 @@ namespace deeprockitems.Content.Items.Weapons
             JuryShotgun.AddRecipeGroup(nameof(ItemID.VilePowder), 10);
             JuryShotgun.AddTile(TileID.Anvils);
             JuryShotgun.Register();
-        }
-
-        public override void UniqueUpgrades()
-        {
-            if (Overclock == ModContent.ItemType<PelletAlignmentOC>())
-            {
-                DamageScale = 1f;
-                newFireRate = 39;
-            }
-            else if (Overclock == ModContent.ItemType<SpecialPowderOC>())
-            {
-                DamageScale = .75f;
-                newFireRate = 39;
-            }
-            else if (Overclock == ModContent.ItemType<StuffedShellsOC>())
-            {
-                DamageScale = 1f;
-                newFireRate = 50;
-            }
-            else
-            {
-                DamageScale = 1f;
-                newFireRate = 39;
-            }
-            foreach (int i in Upgrades)
-            {
-                if (i == ModContent.ItemType<BumpFire>())
-                {
-                    Item.useAnimation = (int)Math.Ceiling(newFireRate * .83f);
-                    Item.useTime = (int)Math.Ceiling(newFireRate * .83f);
-                }
-                else
-                {
-                    Item.useAnimation = oldFireRate;
-                    Item.useTime = oldFireRate;
-                }
-            }
-
-
         }
     }
 }
