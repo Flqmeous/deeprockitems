@@ -352,12 +352,6 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public virtual void ItemOnHold(Player player) { }
 
-
-
-        public virtual void UniqueUpgrades()
-        {
-            
-        }
         private void Open_UI()
         {
             UpgradeUISystem.UpgradeUIPanel.ClearItems();
