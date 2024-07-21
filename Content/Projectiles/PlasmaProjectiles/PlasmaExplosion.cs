@@ -10,14 +10,13 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {
     public class PlasmaExplosion : ModProjectile
     {
-        private int[] upgrades = new int[4];
-        private bool? canDamage = null;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()
         {
+            Projectile.timeLeft = 60;
             Projectile.width = 240;
             Projectile.height = 240;
             Projectile.frame = 0;
@@ -44,36 +43,24 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
                 Projectile.Kill();
             }
         }
-        public override void OnSpawn(IEntitySource source)
+        private void ExplodeTiles()
         {
-            if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate parentItem })
+            if (Projectile.owner == Main.myPlayer)
             {
-                upgrades = parentItem.Upgrades;
+
+                int explosionRadius = (int)(Projectile.height / 32f);
+                int minTileX = (int)(Projectile.Center.X / 16f - explosionRadius);
+                int maxTileX = (int)(Projectile.Center.X / 16f + explosionRadius);
+                int minTileY = (int)(Projectile.Center.Y / 16f - explosionRadius);
+                int maxTileY = (int)(Projectile.Center.Y / 16f + explosionRadius);
+
+                // Ensure that all tile coordinates are within the world bounds
+                Utils.ClampWithinWorld(ref minTileX, ref minTileY, ref maxTileX, ref maxTileY);
+
+                // These 2 methods handle actually mining the tiles and walls while honoring tile explosion conditions
+                bool explodeWalls = Projectile.ShouldWallExplode(Projectile.Center, explosionRadius, minTileX, maxTileX, minTileY, maxTileY);
+                Projectile.ExplodeTiles(Projectile.Center, explosionRadius, minTileX, maxTileX, minTileY, maxTileY, explodeWalls);
             }
-            if (upgrades.Contains(ModContent.ItemType<MountainMoverOC>()))
-            {
-                canDamage = false;
-                if (Projectile.owner == Main.myPlayer)
-                {
-
-                    int explosionRadius = (int)(Projectile.height / 32f);
-                    int minTileX = (int)(Projectile.Center.X / 16f - explosionRadius);
-                    int maxTileX = (int)(Projectile.Center.X / 16f + explosionRadius);
-                    int minTileY = (int)(Projectile.Center.Y / 16f - explosionRadius);
-                    int maxTileY = (int)(Projectile.Center.Y / 16f + explosionRadius);
-
-                    // Ensure that all tile coordinates are within the world bounds
-                    Utils.ClampWithinWorld(ref minTileX, ref minTileY, ref maxTileX, ref maxTileY);
-
-                    // These 2 methods handle actually mining the tiles and walls while honoring tile explosion conditions
-                    bool explodeWalls = Projectile.ShouldWallExplode(Projectile.Center, explosionRadius, minTileX, maxTileX, minTileY, maxTileY);
-                    Projectile.ExplodeTiles(Projectile.Center, explosionRadius, minTileX, maxTileX, minTileY, maxTileY, explodeWalls);
-                }
-            }
-        }
-        public override bool? CanDamage()
-        {
-            return canDamage;
         }
     }
 }
