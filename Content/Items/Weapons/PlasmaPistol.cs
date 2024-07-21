@@ -35,7 +35,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<PiercingPlasmaOC>());
             ValidUpgrades.Add(ModContent.ItemType<EzBoomOC>());
             ValidUpgrades.Add(ModContent.ItemType<MountainMoverOC>());
-            ValidUpgrades.Add(ModContent.ItemType<HotPlasma>());
+            ValidUpgrades.Add(ModContent.ItemType<ThinContainmentField>());
             ValidUpgrades.Add(ModContent.ItemType<VelocitySpeedup>());
         }
         public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
