@@ -258,6 +258,11 @@ Mods: {
 				DisplayName: Upgrade: Get In, Get Out
 				Tooltip: Haste after killing an enemy
 			}
+
+			ThinContainmentField: {
+				DisplayName: Thin Containment Field
+				Tooltip: ""
+			}
 		}
 
 		Misc: {
