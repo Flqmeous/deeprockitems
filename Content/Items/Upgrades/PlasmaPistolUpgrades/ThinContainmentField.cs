@@ -40,7 +40,7 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
                     {
                         // Spawn projectile, play sound
                         SoundEngine.PlaySound(SoundID.Item14 with { Volume = .5f, Pitch = -.8f }); // Sound of the projectile 
-                        Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage, 0f, Owner: whoAmI);
+                        Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage, 0f, Owner: Main.myPlayer);
                         // Kill both older projectiles
                         projectile.Kill();
                         Main.projectile[whoAmI].Kill();
