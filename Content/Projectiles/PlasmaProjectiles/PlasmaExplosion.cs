@@ -5,6 +5,7 @@ using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {
@@ -42,6 +43,10 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             {
                 Projectile.Kill();
             }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
         }
         private void ExplodeTiles()
         {
