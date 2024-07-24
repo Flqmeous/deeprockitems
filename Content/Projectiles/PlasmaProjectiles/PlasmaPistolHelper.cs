@@ -12,23 +12,20 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
     {
         public override double Spread => 0;
         public override int ProjectileToSpawn { get; set; } = ModContent.ProjectileType<PlasmaBullet>();
-        public override SoundStyle? ChargeSound => SoundID.Item117;
-        public override SoundStyle? FireSound => SoundID.Item114;
+        public override SoundStyle? ChargeSound { get; set; } = SoundID.Item117;
+        public override SoundStyle? FireSound { get; set; } = SoundID.Item114;
         public override float ChargeTime { get; set; } = 75f;
         public override void WhenReachedFullCharge()
         {
             ProjectileToSpawn = ModContent.ProjectileType<BigPlasma>();
             Projectile.velocity *= .4f;
-            Projectile.damage *= 2;
+            Projectile.damage *= 6;
             Spread = 0;
-            projectileOwner.CheckMana(15, true);
-
-            Projectile.Kill();
-            
+            FireSound = SoundID.Item105;
         }
         public override void SpecialAI()
         {
-            // This section is used for playing a sound to help time the projectile
+            /*/ This section is used for playing a sound to help time the projectile
             float critical_time = ChargeTime / 3; // This is how often we're going to play the sound effect
             float charge_timer = Projectile.timeLeft - (int)ProjectileTime; // Adjusted timeLeft, just saves us a step.
             
@@ -42,7 +39,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
                 //dust.noGravity = true;
                 SoundEngine.PlaySound(SoundID.MaxMana with { Volume = .7f, Pitch = .2f });
             }
-
+*/
 
         }
     }
