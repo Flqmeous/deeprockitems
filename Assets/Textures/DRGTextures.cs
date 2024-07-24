@@ -1,6 +1,9 @@
 ﻿using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Collections.Generic;
+using deeprockitems.Content.Items.Weapons;
+using System.IO;
 
 namespace deeprockitems.Assets.Textures
 {
@@ -23,6 +26,14 @@ namespace deeprockitems.Assets.Textures
             UpgradeIcon = RequestTexture("UpgradeIcon");
             OverclockSlot = RequestTexture("OverclockSlot");
 
+            // Load item icons
+            WeaponIconography = new();
+            WeaponIconography.Add<Zhukovs>("ZhukovsIcon");
+            WeaponIconography.Add<SludgePump>("SludgePumpIcon");
+            WeaponIconography.Add<M1000>("M1000Icon");
+            WeaponIconography.Add<JuryShotgun>("JuryShotgunIcon");
+            WeaponIconography.Add<PlasmaPistol>("PlasmaPistolIcon");
+
         }
         public static Texture2D InventorySlot { get; private set; }
         public static Texture2D SlotOutline { get; private set; }
@@ -33,5 +44,15 @@ namespace deeprockitems.Assets.Textures
         public static Texture2D UpgradeSlot { get; private set; }
         public static Texture2D UpgradeIcon { get; private set; }
         public static Texture2D OverclockSlot { get; private set; }
+        public static Dictionary<int, Asset<Texture2D>> WeaponIconography { get; private set; }
+    }
+    public static class Extensions
+    {
+        private static readonly string PATH = "deeprockitems/Assets/Textures/";
+        public static void Add<T>(this Dictionary<int, Asset<Texture2D>> dictionary, string fileName) where T : ModItem
+        {
+            int itemType = ModContent.ItemType<T>();
+            dictionary.Add(itemType, ModContent.Request<Texture2D>(PATH + fileName, AssetRequestMode.ImmediateLoad));
+        }
     }
 }
