@@ -23,52 +23,16 @@ namespace deeprockitems.Content.Items.Upgrades
     {
         public List<int> ValidWeapons { get; set; } = [];
         public abstract bool IsOverclock { get; }
-        private int _whichUpgradeToDrawTimer = 0;
+        #region IL information
+        /// <summary>
+        /// 
+        /// </summary>
+        public int WeaponDrawTimer = 0;
         /// <summary>
         /// The index of which weapon in ValidWeapons to draw.
         /// </summary>
-        private int _indexToDrawWeapon = -1;
-        public override void UpdateInventory(Player player)
-        {
-            _indexToDrawWeapon = -1;
-            if (Main.LocalPlayer.inventory.Where((item, index) => index <= 49).Contains(Item))
-            {
-                // If validweapons didn't initialize, stop everything
-                if (ValidWeapons.Count == 0) return;
-
-                // Choose the index of weapon to draw
-                if (Main.timeForVisualEffects % 90 == 0) _whichUpgradeToDrawTimer++;
-                _indexToDrawWeapon = _whichUpgradeToDrawTimer % ValidWeapons.Count;
-            }
-        }
-        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
-            if (_indexToDrawWeapon != -1)
-            {
-                // Get texture from index of weapon to draw
-                Texture2D texture = TextureAssets.Item[ValidWeapons[_indexToDrawWeapon]].Value;
-
-                // Get position of bottom of slot:
-                float newScale = scale * (texture.Width <= 40f ? 0.65f : 0.5f);
-                float yOffset = texture.Height * 0.5f * newScale;
-                Vector2 bottomLeftOfSlot = new Vector2(position.X - 0.5f * scale * 52 + 4f, position.Y + scale * 0.5f * 52 - 4f);
-                Vector2 drawPos = new Vector2(bottomLeftOfSlot.X, bottomLeftOfSlot.Y - yOffset);
-                spriteBatch.Draw(texture, new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(texture.Width * newScale), (int)(texture.Height * newScale)), Color.White);
-            }
-        }
-        
-        public class DrawArgs(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
-            public SpriteBatch SpriteBatch = spriteBatch;
-            public Vector2 Position = position;
-            public Rectangle Frame = frame;
-            public Color DrawColor = drawColor;
-            public Color ItemColor = itemColor;
-            public Vector2 Origin = origin;
-            public float Scale = scale;
-        }
-        public delegate void DrawIconInBottomLeft(UpgradeTemplate sender, DrawArgs args);
-        public static event DrawIconInBottomLeft DrawingWeaponIconInBottomLeft;
+        public int IndexToDrawWeapon = -1;
+        #endregion
         public override void SetDefaults()
         {
 
