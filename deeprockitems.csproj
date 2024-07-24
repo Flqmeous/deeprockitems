@@ -27,14 +27,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Textures\ElectricityArc.png" />
+    <None Remove="Assets\Textures\JuryShotgunIcon.png" />
+    <None Remove="Assets\Textures\M1000Icon.png" />
     <None Remove="Assets\Textures\OverclockSlot.png" />
+    <None Remove="Assets\Textures\PlasmaPistolIcon.png" />
+    <None Remove="Assets\Textures\SludgePumpIcon.png" />
     <None Remove="Assets\Textures\TracerHit.png" />
     <None Remove="Assets\Textures\UpgradeIcon.png" />
     <None Remove="Assets\Textures\UpgradeSlot.png" />
     <None Remove="Assets\Textures\WhitePixel.png" />
     <None Remove="Assets\Textures\ZhukovsHeld.png" />
+    <None Remove="Assets\Textures\ZhukovsIcon.png" />
     <None Remove="Content\Buffs\ElectrifiedEnemy.png" />
-    <None Remove="Content\Buffs\FrozenEnemy.png" />
     <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />

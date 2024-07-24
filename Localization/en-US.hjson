@@ -256,12 +256,12 @@ Mods: {
 
 			GetInGetOut: {
 				DisplayName: Upgrade: Get In, Get Out
-				Tooltip: Haste after killing an enemy
+				Tooltip: Grants a speed boost after killing an enemy
 			}
 
 			ThinContainmentField: {
-				DisplayName: Thin Containment Field
-				Tooltip: ""
+				DisplayName: Upgrade: Thin Containment Field
+				Tooltip: Charged projectiles 'pop' when struck by an uncharged projectile
 			}
 		}
 
@@ -379,6 +379,11 @@ Mods: {
 			Haste: {
 				DisplayName: Haste
 				Description: 50% faster movement speed
+			}
+
+			StunnedEnemy: {
+				DisplayName: Stunned Enemy
+				Description: Mods.deeprockitems.Buffs.StunnedEnemy.Description
 			}
 		}
 	}
