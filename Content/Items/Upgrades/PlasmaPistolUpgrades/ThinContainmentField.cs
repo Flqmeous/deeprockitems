@@ -7,6 +7,7 @@ using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Utilities;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
@@ -40,12 +41,16 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
                     {
                         // Spawn projectile, play sound
                         SoundEngine.PlaySound(SoundID.Item14 with { Volume = .5f, Pitch = -.8f }); // Sound of the projectile 
-                        Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage, 0f, Owner: Main.myPlayer);
+                        Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage, 0f, Owner: Main.projectile[whoAmI].owner);
                         // Kill both older projectiles
                         projectile.Kill();
                         Main.projectile[whoAmI].Kill();
                     }
                 }
+            }
+            public override void UpgradeOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
+            {
+                target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
             }
         }
     }
