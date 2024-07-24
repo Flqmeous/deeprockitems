@@ -12,17 +12,30 @@ namespace deeprockitems.Content.Buffs
         {
             Main.debuff[Type] = true;
         }
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            npc.GetGlobalNPC<FrozenGlobalNPC>().IsFrozen = true;
+        }
     }
     public class FrozenGlobalNPC : GlobalNPC
     {
+        public bool IsFrozen { get; set; } = false;
+        public override bool InstancePerEntity => true;
+        public override void ResetEffects(NPC npc)
+        {
+            IsFrozen = false;
+        }
         public override void SetDefaults(NPC entity)
         {
-            entity.buffImmune[ModContent.BuffType<FrozenEnemy>()] = entity.aiStyle == NPCAIStyleID.Worm;
+            if (entity.boss || entity.aiStyle == NPCAIStyleID.Worm)
+            {
+                entity.buffImmune[ModContent.BuffType<FrozenEnemy>()] = true;
+            }
         }
         public override bool PreAI(NPC npc)
         {
             // If enemy has frozen effect and is not boss
-            if (npc.FindBuffIndex(ModContent.BuffType<FrozenEnemy>()) != -1 && !npc.boss)
+            if (IsFrozen && !npc.boss)
             {
                 // Apply gravity
                 npc.velocity.Y += 1f;
@@ -37,7 +50,7 @@ namespace deeprockitems.Content.Buffs
         }
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
-            if (npc.FindBuffIndex(ModContent.BuffType<FrozenEnemy>()) != -1 && !npc.boss)
+            if (IsFrozen && !npc.boss)
             {
                 return false;
             }
@@ -45,7 +58,7 @@ namespace deeprockitems.Content.Buffs
         }
         public override bool CanHitNPC(NPC npc, NPC target)
         {
-            if (npc.FindBuffIndex(ModContent.BuffType<FrozenEnemy>()) != -1 && !npc.boss)
+            if (IsFrozen && !npc.boss)
             {
                 return false;
             }
@@ -53,7 +66,7 @@ namespace deeprockitems.Content.Buffs
         }
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (npc.FindBuffIndex(ModContent.BuffType<FrozenEnemy>()) != -1 && !npc.boss)
+            if (IsFrozen && !npc.boss)
             {
                 drawColor = Lighting.GetColor(npc.Center.ToTileCoordinates(), new Color(125, 175, 240));
             }
