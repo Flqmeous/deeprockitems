@@ -14,14 +14,15 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public override int ProjectileToSpawn { get; set; } = ModContent.ProjectileType<PlasmaBullet>();
         public override SoundStyle? ChargeSound { get; set; } = SoundID.Item117;
         public override SoundStyle? FireSound { get; set; } = SoundID.Item114;
-        public override float ChargeTime { get; set; } = 75f;
+        public override float ChargeTime { get; set; } = 45f;
         public override void WhenReachedFullCharge()
         {
             ProjectileToSpawn = ModContent.ProjectileType<BigPlasma>();
             Projectile.velocity *= .4f;
-            Projectile.damage *= 6;
+            Projectile.damage *= 3;
             Spread = 0;
             FireSound = SoundID.Item105;
+            Cooldown = 7;
         }
         public override void SpecialAI()
         {
