@@ -26,6 +26,10 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
             _collidedTile = new((int)Projectile.ai[1], (int)Projectile.ai[2]);
             Projectile.ai[1] = Projectile.ai[2] = 0f;
         }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
         public override void AI()
         {
             // Current State 1 means the projectile is ready to freeze enemies
