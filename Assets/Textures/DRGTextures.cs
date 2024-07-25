@@ -25,6 +25,7 @@ namespace deeprockitems.Assets.Textures
             UpgradeSlot = RequestTexture("UpgradeSlot");
             UpgradeIcon = RequestTexture("UpgradeIcon");
             OverclockSlot = RequestTexture("OverclockSlot");
+            StunTwinkle = RequestTexture("StunTwinkle");
 
             // Load item icons
             WeaponIconography = new();
@@ -44,6 +45,7 @@ namespace deeprockitems.Assets.Textures
         public static Texture2D UpgradeSlot { get; private set; }
         public static Texture2D UpgradeIcon { get; private set; }
         public static Texture2D OverclockSlot { get; private set; }
+        public static Texture2D StunTwinkle { get; private set; }
         public static Dictionary<int, Asset<Texture2D>> WeaponIconography { get; private set; }
     }
     public static class Extensions
