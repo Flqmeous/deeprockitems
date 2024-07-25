@@ -32,6 +32,7 @@
     <None Remove="Assets\Textures\OverclockSlot.png" />
     <None Remove="Assets\Textures\PlasmaPistolIcon.png" />
     <None Remove="Assets\Textures\SludgePumpIcon.png" />
+    <None Remove="Assets\Textures\StunTwinkle.png" />
     <None Remove="Assets\Textures\TracerHit.png" />
     <None Remove="Assets\Textures\UpgradeIcon.png" />
     <None Remove="Assets\Textures\UpgradeSlot.png" />
@@ -45,7 +46,7 @@
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\EzBoomOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\MountainMoverOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PiercingPlasmaOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\VelocitySpeedup.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PlasmaSplash.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\DrumMagazine.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\GetInGetOut.png" />

@@ -263,6 +263,11 @@ Mods: {
 				DisplayName: Upgrade: Thin Containment Field
 				Tooltip: Charged projectiles 'pop' when struck by an uncharged projectile
 			}
+
+			PlasmaSplash: {
+				DisplayName: Upgrade: Plasma Splash
+				Tooltip: Uncharged plasma will damage in a small area of effect
+			}
 		}
 
 		Misc: {
@@ -353,6 +358,7 @@ Mods: {
 			ZhukovHelper.DisplayName: Zhukov Helper
 			CryoMineletProjectile.DisplayName: Cryo Minelet Projectile
 			ElectricityArc.DisplayName: Electricity Arc
+			PlasmaSplashProj.DisplayName: Plasma Splash Proj
 		}
 
 		Buffs: {
