@@ -18,8 +18,8 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public override void SetDefaults()
         {
             Projectile.timeLeft = 60;
-            Projectile.width = 240;
-            Projectile.height = 240;
+            Projectile.width = 180;
+            Projectile.height = 180;
             Projectile.frame = 0;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
@@ -46,7 +46,11 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 120);
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
         }
         private void ExplodeTiles()
         {
