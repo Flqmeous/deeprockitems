@@ -20,6 +20,7 @@ namespace deeprockitems.Content.Buffs
     public class FrozenGlobalNPC : GlobalNPC
     {
         public bool IsFrozen { get; set; } = false;
+        private bool _oldFrozen = false;
         public override bool InstancePerEntity => true;
         public override void ResetEffects(NPC npc)
         {
@@ -32,25 +33,66 @@ namespace deeprockitems.Content.Buffs
                 entity.buffImmune[ModContent.BuffType<FrozenEnemy>()] = true;
             }
         }
+        private int _fallingTime = 0;
+        private bool _isFalling = false;
         public override bool PreAI(NPC npc)
         {
-            // If enemy has frozen effect and is not boss
-            if (IsFrozen && !npc.boss)
+            // If enemy was just frozen:
+            if (IsFrozen && !_oldFrozen)
             {
-                // Apply gravity
-                npc.velocity.Y += 1f;
+                npc.velocity = Vector2.Zero;
+                npc.velocity.Y += npc.gravity;
 
+                // Find if there is a floor below this npc
+                for (int i = 0; i < 8; i++)
+                {
+                    // If npc is grounded
+                    if (Collision.SolidTiles(new Vector2(npc.position.X, npc.position.Y + 2*i), npc.width, npc.height))
+                    {
+                        // Grounded
+                        _isFalling = false;
+                        break;
+                    }
+                    _isFalling = true; // Set npc to falling
+                }
+            }
+            _oldFrozen = IsFrozen;
+
+            if (IsFrozen)
+            {
+                if (_isFalling)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        // Damage npc proportional to falling time
+                        if (_fallingTime > 30)
+                        {
+                            var info = npc.CalculateHitInfo((int)(_fallingTime * 3f), 1);
+                            npc.StrikeNPC(info);
+                            _fallingTime = 0;
+                            _isFalling = false;
+                        }
+                    }
+                    else
+                    {
+                        // Increase falling time (height)
+                        _fallingTime++;
+                    }
+                }
                 // Set x velocity to zero
-                npc.velocity.X = 0f;
+                npc.velocity.X = 0;
+                // Apply gravity
+                npc.velocity.Y += npc.gravity;
 
                 // Stop vanilla code
                 return false;
             }
+
             return base.PreAI(npc);
         }
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
-            if (IsFrozen && !npc.boss)
+            if (IsFrozen)
             {
                 return false;
             }
@@ -58,7 +100,7 @@ namespace deeprockitems.Content.Buffs
         }
         public override bool CanHitNPC(NPC npc, NPC target)
         {
-            if (IsFrozen && !npc.boss)
+            if (IsFrozen)
             {
                 return false;
             }
@@ -66,7 +108,7 @@ namespace deeprockitems.Content.Buffs
         }
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (IsFrozen && !npc.boss)
+            if (IsFrozen)
             {
                 drawColor = Lighting.GetColor(npc.Center.ToTileCoordinates(), new Color(125, 175, 240));
             }
