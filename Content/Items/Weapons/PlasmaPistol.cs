@@ -18,8 +18,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.mana = 7;
             Item.knockBack = 4;
             Item.crit = 4;
-            Item.useTime = 7;
-            Item.useAnimation = 7;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 18f;
@@ -36,7 +36,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<EzBoomOC>());
             ValidUpgrades.Add(ModContent.ItemType<MountainMoverOC>());
             ValidUpgrades.Add(ModContent.ItemType<ThinContainmentField>());
-            ValidUpgrades.Add(ModContent.ItemType<VelocitySpeedup>());
+            ValidUpgrades.Add(ModContent.ItemType<PlasmaSplash>());
         }
         public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
