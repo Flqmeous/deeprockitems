@@ -50,7 +50,10 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
             }
             public override void UpgradeOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
             {
-                target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+                if (projectile.type == ModContent.ProjectileType<PlasmaExplosion>())
+                {
+                    target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 120);
+                }
             }
         }
     }
