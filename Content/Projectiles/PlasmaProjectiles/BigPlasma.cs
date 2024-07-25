@@ -13,15 +13,30 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {
     public class BigPlasma : ModProjectile // Darn big plasma.. and their exploding!
     {
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 3;
+        }
         public override void SetDefaults()
         {
-            Projectile.width = 16;
-            Projectile.height = 16;
+            Projectile.width = 30;
+            Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.hostile = false;
+            Projectile.rotation = 0;
             Projectile.timeLeft = 600;
-            DrawOffsetX = -8;
-            DrawOriginOffsetY = -8;
+            DrawOffsetX = -2;
+            DrawOriginOffsetY = -2;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            width = 16;
+            height = 16;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
         }
         public override string GlowTexture => "deeprockitems/Content/Projectiles/PlasmaProjectile/BigPlasma";
         public override bool PreDraw(ref Color lightColor)
@@ -31,7 +46,13 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         }
         public override void AI()
         {
-            Projectile.rotation = 0;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
+            {
+                Projectile.frameCounter = 0;
+                Projectile.rotation = Main.rand.Next(0, 3) * MathHelper.PiOver2;
+                Projectile.frame = Main.rand.Next(0, 3);
+            }
         }
     }
 }
