@@ -32,15 +32,19 @@ namespace deeprockitems.Content.Items.Weapons
 
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
             ValidUpgrades.Remove(ModContent.ItemType<Blowthrough>());
-            ValidUpgrades.Add(ModContent.ItemType<PiercingPlasmaOC>());
-            ValidUpgrades.Add(ModContent.ItemType<EzBoomOC>());
-            ValidUpgrades.Add(ModContent.ItemType<MountainMoverOC>());
+            ValidUpgrades.Add(ModContent.ItemType<ColdPlasmaOC>());
+            ValidUpgrades.Add(ModContent.ItemType<PersistantPlasmaOC>());
+            ValidUpgrades.Add(ModContent.ItemType<HeavyHitterOC>());
             ValidUpgrades.Add(ModContent.ItemType<ThinContainmentField>());
             ValidUpgrades.Add(ModContent.ItemType<PlasmaSplash>());
         }
         public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<Projectiles.PlasmaProjectiles.PlasmaPistolHelper>();
+        }
+        public override void ResetStats()
+        {
+            Item.channel = true;
         }
         public override void AddRecipes()
         {
