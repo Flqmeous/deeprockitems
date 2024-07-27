@@ -43,9 +43,9 @@
     <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\EzBoomOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\MountainMoverOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PiercingPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\ColdPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\HeavyHitterOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PersistantPlasmaOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PlasmaSplash.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\DrumMagazine.png" />
     <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
