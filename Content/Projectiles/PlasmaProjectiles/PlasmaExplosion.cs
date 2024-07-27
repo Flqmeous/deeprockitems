@@ -17,7 +17,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.timeLeft = 60;
+            Projectile.timeLeft = 10;
             Projectile.width = 180;
             Projectile.height = 180;
             Projectile.frame = 0;
@@ -25,6 +25,8 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
         public override string GlowTexture => "deeprockitems/Content/Projectiles/PlasmaProjectile/PlasmaExplosion";
         public override bool PreDraw(ref Color lightColor)
@@ -38,10 +40,6 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             if (Projectile.frameCounter % 3 == 0 && Projectile.frame < 2)
             {
                 Projectile.frame++;
-            }
-            if (Projectile.frameCounter > 10)
-            {
-                Projectile.Kill();
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
