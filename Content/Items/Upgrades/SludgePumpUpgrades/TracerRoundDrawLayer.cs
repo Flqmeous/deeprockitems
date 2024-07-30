@@ -40,7 +40,8 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                 // How close together to put the dots
                 const float distanceMultiplier = 10f;
                 // Base distance
-                const float distance = 120;
+                float extraDistance = pump.Upgrades.Contains(ModContent.ItemType<OvertunedNozzle>()) ? 30f : 0f;
+                float distance = 120 + extraDistance;
                 // Test for wetness very first
                 bool wet = Collision.WetCollision(position, width, height);
                 Color playerColor = DRGHelpers.GetTeamColor(drawInfo.drawPlayer.team); // Get a color corresponding to team color
