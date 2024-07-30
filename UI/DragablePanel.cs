@@ -3,6 +3,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
 using deeprockitems.Utilities;
+using Terraria.GameInput;
 
 namespace deeprockitems.UI
 {
@@ -59,6 +60,7 @@ namespace deeprockitems.UI
             if (ContainsPoint(Main.MouseScreen))
             {
                 Main.LocalPlayer.mouseInterface = true;
+                InterfaceBlocker.BlockItemSlotLogic = true;
             }
 
             if (dragging)

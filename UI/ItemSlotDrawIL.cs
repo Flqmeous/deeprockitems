@@ -98,49 +98,6 @@ namespace deeprockitems.UI
                 });
 
                 c.MarkLabel(drawOutlineLabel);
-
-
-                /*c.Emit(OpCodes.Ldarg_1); // Inventory array
-                c.Emit(OpCodes.Ldarg_3); // Slot number
-                c.Emit(OpCodes.Ldloc_S, (byte)8); // color2
-                c.Emit(OpCodes.Ldsfld, typeof(ItemSlotDrawIL).GetField(nameof(_timer), BindingFlags.NonPublic | BindingFlags.Static)); // Pushing my timer onto the stack.
-
-                // Emit the delegate (the code)
-                Mod.Logger.Info("Begin emitting delegate");
-                c.EmitDelegate<Action<Item[], int, Color, int>>((inv, slot, initialColor, timer) => {
-                    // This is the actual code that is modified.
-                    UpgradeableItemTemplate modItem = UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay.ModItem as UpgradeableItemTemplate;
-                    if (modItem != null && modItem.ValidUpgrades.Contains(inv[slot].type))
-                    {
-                        float adjusted_time = 0.1f * MathF.Sin(timer / 30f) + 0.65f;
-                        return Color.Yellow * adjusted_time;
-                    }
-                    return initialColor;
-                });
-
-                Mod.Logger.Info("Emitting return value");
-                c.Emit(OpCodes.Stloc_S, (byte)8);
-
-                Mod.Logger.Info("Inserting code to draw a slot outline.");
-                c.Index += 16; // Moving the cursor up
-
-                c.Emit(OpCodes.Ldarg_1); // Inventory array
-                c.Emit(OpCodes.Ldarg_3); // Slot number
-                c.Emit(OpCodes.Ldarg_0); // SpriteBatch
-                c.Emit(OpCodes.Ldsfld, typeof(DRGTextures).GetField(nameof(DRGTextures.SlotOutline), BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)); // Blank slot that we will draw.
-                c.Emit(OpCodes.Ldarg_S, (byte)4); // Position
-                c.Emit(OpCodes.Ldloc_2); // Inventory Scale
-
-                c.EmitDelegate<Action<Item[], int, SpriteBatch, Texture2D, Vector2, float>>((inv, slot, spriteBatch, texture, position, scale) => {
-                    // This is the actual code that is modified.
-                    UpgradeableItemTemplate modItem = UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay.ModItem as UpgradeableItemTemplate;
-                    if (modItem != null && modItem.ValidUpgrades.Contains(inv[slot].type))
-                    {
-                        spriteBatch.Draw(texture, position, null, Color.Yellow, 0f, new(0, 0), scale, SpriteEffects.None, 0f);
-                    }
-                });*/
-
-                MonoModHooks.DumpIL(Mod, il);
             }
             catch (Exception e)
             {
