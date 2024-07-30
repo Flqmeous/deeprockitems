@@ -49,7 +49,6 @@ namespace deeprockitems.UI
                     reachedEndOfMethod = true;
 
                 } while (!reachedEndOfMethod);
-                MonoModHooks.DumpIL(Mod, il);
             }
             catch
             {
