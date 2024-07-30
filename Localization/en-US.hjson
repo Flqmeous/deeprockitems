@@ -201,9 +201,9 @@ Mods: {
 				Tooltip: All projectiles will burn targets
 			}
 
-			VelocitySpeedup: {
+			OvertunedNozzle: {
 				DisplayName: Upgrade: Overtuned Nozzle
-				Tooltip: Increases the velocity of charge shots by 1.5x
+				Tooltip: Increases the velocity of shots by 1.5x
 			}
 
 			ChunkOfNitra: {
@@ -245,8 +245,8 @@ Mods: {
 			StaticBlastOC: {
 				DisplayName: Overclock: Static Blast
 				Tooltip: Bullets will arc electricity between them
-				Positives: "[c/23DF24:▲Bullets arc electricity]"
-				Negatives: "[c/F01318:▼Bullets shoot at the same time]"
+				Positives: "[c/23DF24:▲Electricity arcs between bullets]"
+				Negatives: "[c/F01318:▼Bullets shoot at the same time with wide spread]"
 			}
 
 			DrumMagazine: {
@@ -270,18 +270,37 @@ Mods: {
 			}
 
 			ColdPlasmaOC: {
-				DisplayName: Cold Plasma O C
-				Tooltip: ""
+				DisplayName: Overclock: Cold Plasma
+				Tooltip: Plasma will inflict freeze or frostburn, dependent on the charge time.
+				Positives: "[c/23DF24:▲Plasma inflicts freeze and frostburn]"
+				Negatives: "[c/F01318:▼Plasma moves slower]"
 			}
 
 			HeavyHitterOC: {
-				DisplayName: Heavy Hitter O C
-				Tooltip: ""
+				DisplayName: Overclock: Heavy Hitter
+				Tooltip: Plasma comes out fully charged and with more damage
+				Positives:
+					'''
+						[c/23DF24:▲Plasma is always fully charged]
+						[c/23DF24:▲Plasma deals more damage]
+					'''
+				Negatives:
+					'''
+						[c/F01318:▼Can no longer be charged]
+						[c/F01318:▼Slower shoot speed]
+					'''
 			}
 
 			PersistantPlasmaOC: {
-				DisplayName: Persistant Plasma O C
-				Tooltip: ""
+				DisplayName: Overclock: Persistant Plasma
+				Tooltip: Charged plasma will explode and linger for 5 seconds on death
+				Positives: "[c/23DF24:▲Plasma persists on death]"
+				Negatives: ""
+			}
+
+			HollowPointRounds: {
+				DisplayName: Upgrade: Hollow Point Rounds
+				Tooltip: Shots balloon on impact, stunning enemies
 			}
 		}
 
