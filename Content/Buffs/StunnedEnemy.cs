@@ -77,18 +77,18 @@ namespace deeprockitems.Content.Buffs
         }
         private int _stunFrameTimer = 0;
         private int _stunFrame = 0;
-        private const int _frameCount = 4;
+        private const int _frameCount = 3;
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (IsStunned)
             {
                 // Increment frame
                 _stunFrameTimer++;
-                if (_stunFrameTimer > 6)
+                if (_stunFrameTimer > 8)
                 {
                     _stunFrameTimer = 0;
                     _stunFrame++;
-                    if (_stunFrame >= _frameCount - 1)
+                    if (_stunFrame >= _frameCount)
                     {
                         _stunFrame = 0;
                     }
