@@ -44,7 +44,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<HipsterOC>());
             ValidUpgrades.Add(ModContent.ItemType<DiggingRoundsOC>());
             ValidUpgrades.Add(ModContent.ItemType<SupercoolOC>());
-
+            ValidUpgrades.Add(ModContent.ItemType<HollowPointRounds>());
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
             ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
 

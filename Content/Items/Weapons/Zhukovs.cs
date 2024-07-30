@@ -1,5 +1,6 @@
 ﻿using deeprockitems.Common.PlayerLayers;
 using deeprockitems.Common.Weapons;
+using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
@@ -42,6 +43,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.value = Item.sellPrice(0, 6, 50, 0);
             ValidUpgrades.Add(ModContent.ItemType<GetInGetOut>());
             ValidUpgrades.Add(ModContent.ItemType<DrumMagazine>());
+            ValidUpgrades.Add(ModContent.ItemType<HollowPointRounds>());
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
             ValidUpgrades.Add(ModContent.ItemType<StaticBlastOC>());
             ValidUpgrades.Add(ModContent.ItemType<EmbeddedDetsOC>());

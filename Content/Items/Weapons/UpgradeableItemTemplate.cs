@@ -45,6 +45,7 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual string OverclockPositives { get; set; } = "";
         public virtual string OverclockNegatives { get; set; } = "";
         public List<int> ValidUpgrades { get; set; }
+        public float BaseShootSpeed { get; set; }
         // private bool load_flag = false;
         public virtual void NewSetDefaults()
         {
@@ -65,6 +66,7 @@ namespace deeprockitems.Content.Items.Weapons
             BaseUseTime = Item.useTime;
             BaseUseAnimation = Item.useAnimation;
             BaseDamage = Item.damage;
+            BaseShootSpeed = Item.shootSpeed;
             base.SetDefaults();
         }
         public override void SetStaticDefaults()
@@ -199,6 +201,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.damage = BaseDamage;
             Item.useTime = BaseUseTime;
             Item.useAnimation = BaseUseAnimation;
+            Item.shootSpeed = BaseShootSpeed;
             ResetStats();
 
             // Hook injection

@@ -33,7 +33,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<PelletAlignmentOC>());
             ValidUpgrades.Add(ModContent.ItemType<SpecialPowderOC>());
             ValidUpgrades.Add(ModContent.ItemType<StuffedShellsOC>());
-
+            ValidUpgrades.Add(ModContent.ItemType<HollowPointRounds>());
             ValidUpgrades.Add(ModContent.ItemType<WhitePhosphorus>());
             ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
         }

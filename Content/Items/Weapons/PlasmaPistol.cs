@@ -37,6 +37,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<HeavyHitterOC>());
             ValidUpgrades.Add(ModContent.ItemType<ThinContainmentField>());
             ValidUpgrades.Add(ModContent.ItemType<PlasmaSplash>());
+            ValidUpgrades.Add(ModContent.ItemType<OvertunedNozzle>());
         }
         public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

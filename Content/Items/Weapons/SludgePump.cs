@@ -39,7 +39,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<AntiGravOC>());
             ValidUpgrades.Add(ModContent.ItemType<SludgeExplosionOC>());
             ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());
-
+            ValidUpgrades.Add(ModContent.ItemType<OvertunedNozzle>());
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
             ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
 
