@@ -56,12 +56,6 @@ namespace deeprockitems.UI
         {
             base.Update(gameTime); // This stays for some reason
 
-            // Make sure that clicking on the UI doesn't interact with the world
-            if (ContainsPoint(Main.MouseScreen))
-            {
-                Main.LocalPlayer.mouseInterface = true;
-                InterfaceBlocker.BlockItemSlotLogic = true;
-            }
 
             if (dragging)
             {
