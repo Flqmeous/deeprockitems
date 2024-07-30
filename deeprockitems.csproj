@@ -43,6 +43,8 @@
     <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
+    <None Remove="Content\Items\Upgrades\HollowPointRounds.png" />
+    <None Remove="Content\Items\Upgrades\OvertunedNozzle.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\ColdPlasmaOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\HeavyHitterOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PersistantPlasmaOC.png" />
