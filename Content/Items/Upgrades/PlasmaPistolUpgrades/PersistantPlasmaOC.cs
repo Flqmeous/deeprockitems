@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
+    [ValidWeapons(typeof(PlasmaPistol))]
     public class PersistantPlasmaOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

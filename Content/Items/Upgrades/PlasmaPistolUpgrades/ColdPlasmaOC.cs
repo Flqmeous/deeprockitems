@@ -8,6 +8,7 @@ using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
+    [ValidWeapons(typeof(PlasmaPistol))]
     public class ColdPlasmaOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;

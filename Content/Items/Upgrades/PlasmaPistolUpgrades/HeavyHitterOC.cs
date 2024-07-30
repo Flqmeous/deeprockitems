@@ -9,6 +9,7 @@ using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
+    [ValidWeapons(typeof(PlasmaPistol))]
     public class HeavyHitterOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
