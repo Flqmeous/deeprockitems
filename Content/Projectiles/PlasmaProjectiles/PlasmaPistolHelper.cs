@@ -22,7 +22,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Projectile.damage *= 3;
             Spread = 0;
             FireSound = SoundID.Item105;
-            Cooldown = 7;
+            Cooldown = 4;
         }
         public override void SpecialAI()
         {

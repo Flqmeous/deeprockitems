@@ -24,5 +24,11 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Lighting.AddLight(Projectile.Center, new Vector3(75, 22, 90).RGBToVector3());
             return true;
         }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            width = 8;
+            height = 8;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
     }
 }
