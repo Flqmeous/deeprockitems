@@ -35,6 +35,13 @@ namespace deeprockitems.UI.UpgradeItem
                 Interface.SetState(null);
             }
 
+            InterfaceBlocker.BlockItemSlotLogic = false; // Reset blocking logic
+            if (UpgradeUIPanel.dragPanel.IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+                InterfaceBlocker.BlockItemSlotLogic = true;
+            }
+
 
         }
 
