@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Common.NPCs;
+using deeprockitems.Content.Items.Misc;
 using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using Microsoft.Xna.Framework;
@@ -18,6 +19,18 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Red;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(ModContent.ItemType<EmbeddedDetsOC>())
+                .AddIngredient<MatrixCore>()
+                .AddIngredient(ItemID.HallowedBar, 10)
+                .AddIngredient(ItemID.SoulofMight, 5)
+                .AddIngredient(ItemID.SoulofSight, 5)
+                .AddIngredient(ItemID.SoulofFright, 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
         }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {

@@ -21,10 +21,10 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<CryoMineletsOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.HallowedBar, 10)
+            .AddRecipeGroup(nameof(ItemID.AdamantiteBar), 10)
             .AddIngredient(ItemID.FrostCore, 3)
             .AddIngredient(ItemID.Grenade, 15)
-            .AddTile(TileID.Anvils);
+            .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
         }
         /*public override bool? UpgradeProjectile_OnTileCollide(Projectile projectile, Vector2 oldVelocity, out bool callBase)

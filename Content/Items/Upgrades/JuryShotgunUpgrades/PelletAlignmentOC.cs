@@ -19,13 +19,13 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<PelletAlignmentOC>())
+            Recipe.Create(ModContent.ItemType<PelletAlignmentOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.HellstoneBar, 10)
+            .AddIngredient(ItemID.MeteoriteBar, 10)
             .AddRecipeGroup(nameof(ItemID.VilePowder), 15)
             .AddIngredient(ItemID.CelestialMagnet)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddTile(TileID.Anvils)
+            .Register();
         }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {

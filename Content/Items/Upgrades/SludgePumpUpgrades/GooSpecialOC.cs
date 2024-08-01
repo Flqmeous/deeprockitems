@@ -23,15 +23,7 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<GooSpecialOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.MythrilBar, 10)
-            .AddIngredient(ItemID.Gel, 20)
-            .AddIngredient(ItemID.Ale, 5)
-            .AddTile(TileID.MythrilAnvil);
-            upgrade.Register();
-
-            upgrade = Recipe.Create(ModContent.ItemType<GooSpecialOC>())
-            .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.OrichalcumBar, 10)
+            .AddIngredient(ItemID.HallowedBar, 10)
             .AddIngredient(ItemID.Gel, 20)
             .AddIngredient(ItemID.Ale, 5)
             .AddTile(TileID.MythrilAnvil);

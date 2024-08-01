@@ -21,7 +21,7 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<WhitePhosphorus>())
             .AddIngredient<Misc.UpgradeToken>()
-            .AddIngredient(ItemID.HellstoneBar, 15)
+            .AddIngredient(ItemID.MeteoriteBar, 15)
             .AddIngredient(ItemID.Fireblossom, 10)
             .AddTile(TileID.Anvils);
             upgrade.Register();

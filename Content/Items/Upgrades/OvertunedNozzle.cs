@@ -32,10 +32,6 @@ namespace deeprockitems.Content.Items.Upgrades
                 .AddIngredient(ItemID.Bone, 15)
                 .Register();
         }
-        public class OvertunedNozzleProjectile : UpgradeGlobalProjectile<OvertunedNozzle>
-        {
-            
-        }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {
             modItem.Item.shootSpeed *= 1.5f;

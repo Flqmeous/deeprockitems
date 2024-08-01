@@ -20,7 +20,7 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<HipsterOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.ChlorophyteBar, 25)
+            .AddIngredient(ItemID.HallowedBar, 25)
             .AddIngredient(ItemID.MusketBall, 150)
             .AddIngredient(ItemID.IllegalGunParts)
             .AddTile(TileID.MythrilAnvil);

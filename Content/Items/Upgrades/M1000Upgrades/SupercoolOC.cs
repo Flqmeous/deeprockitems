@@ -21,7 +21,7 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<SupercoolOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.HallowedBar, 10)
+            .AddRecipeGroup(nameof(AdamantiteBar), 10)
             .AddIngredient(ItemID.MusketBall, 75)
             .AddIngredient(ItemID.FrostCore)
             .AddTile(TileID.MythrilAnvil);

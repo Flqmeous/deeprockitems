@@ -23,17 +23,17 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
         {
             Recipe.Create(ModContent.ItemType<TracerRounds>())
             .AddIngredient<Misc.UpgradeToken>()
-            .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
-            .AddIngredient(ItemID.Gel, 10)
-            .AddIngredient(ItemID.RottenChunk, 5)
+            .AddIngredient(ItemID.HellstoneBar, 10)
+            .AddIngredient(ItemID.Gel, 25)
+            .AddIngredient(ItemID.RottenChunk, 10)
             .AddTile(TileID.Anvils)
             .Register();
 
             Recipe.Create(ModContent.ItemType<TracerRounds>())
             .AddIngredient<Misc.UpgradeToken>()
-            .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
-            .AddIngredient(ItemID.Gel, 10)
-            .AddIngredient(ItemID.Vertebrae, 5)
+            .AddIngredient(ItemID.HellstoneBar, 10)
+            .AddIngredient(ItemID.Gel, 25)
+            .AddIngredient(ItemID.Vertebrae, 10)
             .AddTile(TileID.Anvils)
             .Register();
         }

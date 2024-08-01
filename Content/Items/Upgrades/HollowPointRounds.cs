@@ -26,9 +26,9 @@ namespace deeprockitems.Content.Items.Upgrades
             Recipe.Create(ModContent.ItemType<HollowPointRounds>())
                 .AddTile(TileID.MythrilAnvil)
                 .AddIngredient<UpgradeToken>()
-                .AddRecipeGroup(nameof(ItemID.CopperBar), 15)
-                .AddRecipeGroup(RecipeGroupID.IronBar, 15)
                 .AddIngredient(ItemID.ShroomiteBar, 10)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 15)
+                .AddRecipeGroup(nameof(ItemID.CopperBar), 15)
                 .Register();
         }
         public class HollowPointProjectile : UpgradeGlobalProjectile<HollowPointRounds>

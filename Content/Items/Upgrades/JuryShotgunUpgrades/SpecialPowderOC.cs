@@ -22,21 +22,13 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<SpecialPowderOC>())
+            Recipe.Create(ModContent.ItemType<SpecialPowderOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.CobaltBar, 10)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 10)
             .AddRecipeGroup(nameof(ItemID.VilePowder), 30)
             .AddIngredient(ItemID.SoulofFlight, 10)
-            .AddTile(TileID.MythrilAnvil);
-            upgrade.Register();
-
-            upgrade = Recipe.Create(ModContent.ItemType<SpecialPowderOC>())
-            .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.PalladiumBar, 10)
-            .AddRecipeGroup(nameof(ItemID.VilePowder), 30)
-            .AddIngredient(ItemID.SoulofFlight, 10)
-            .AddTile(TileID.MythrilAnvil);
-            upgrade.Register();
+            .AddTile(TileID.Anvils)
+            .Register();
         }
         const float SPEED_CAP = 15f;
         public override bool UpgradeItem_ShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase)
