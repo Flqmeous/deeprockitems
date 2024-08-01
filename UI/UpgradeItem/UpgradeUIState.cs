@@ -66,12 +66,6 @@ namespace deeprockitems.UI.UpgradeItem
         }
         public override void Update(GameTime gameTime)
         {
-            InterfaceBlocker.BlockItemSlotLogic = false; // Reset blocking logic
-            if (dragPanel.IsMouseHovering)
-            {
-                Main.LocalPlayer.mouseInterface = true;
-                InterfaceBlocker.BlockItemSlotLogic = true;
-            }
             base.Update(gameTime);
         }
         public int[] GetUpgrades()
