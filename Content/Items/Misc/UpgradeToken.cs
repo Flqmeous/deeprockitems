@@ -13,10 +13,11 @@ namespace deeprockitems.Content.Items.Misc
         }
         public override void SetDefaults()
         {
-            Item.width = 15;
-            Item.height = 15;
+            Item.width = 30;
+            Item.height = 30;
             Item.rare = ItemRarityID.Orange;
             Item.value = Item.buyPrice(0, 1, 50, 0);
+            Item.maxStack = Item.CommonMaxStack;
         }
     }
 }
