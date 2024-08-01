@@ -53,7 +53,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
                 .AddIngredient(ItemID.Amethyst, 8)
                 .AddIngredient(ItemID.FallenStar, 5)
-            .Register();
+                .Register();
         }
     }
 }

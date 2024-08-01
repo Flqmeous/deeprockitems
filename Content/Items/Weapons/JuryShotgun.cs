@@ -90,13 +90,13 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void AddRecipes()
         {
-            Recipe JuryShotgun = Recipe.Create(ModContent.ItemType<JuryShotgun>());
-            JuryShotgun.AddIngredient(ItemID.Boomstick, 1);
-            JuryShotgun.AddIngredient(ItemID.IllegalGunParts);
-            JuryShotgun.AddRecipeGroup(nameof(ItemID.DemoniteBar), 8);
-            JuryShotgun.AddRecipeGroup(nameof(ItemID.VilePowder), 10);
-            JuryShotgun.AddTile(TileID.Anvils);
-            JuryShotgun.Register();
+            Recipe.Create(ModContent.ItemType<JuryShotgun>())
+                .AddIngredient(ItemID.Boomstick, 1)
+                .AddIngredient(ItemID.IllegalGunParts)
+                .AddRecipeGroup(nameof(ItemID.DemoniteBar), 8)
+                .AddRecipeGroup(nameof(ItemID.VilePowder), 10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

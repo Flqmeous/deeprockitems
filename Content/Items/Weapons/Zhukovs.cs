@@ -6,6 +6,7 @@ using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -47,6 +48,15 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
             ValidUpgrades.Add(ModContent.ItemType<StaticBlastOC>());
             ValidUpgrades.Add(ModContent.ItemType<EmbeddedDetsOC>());
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(ModContent.ItemType<Zhukovs>())
+                .AddIngredient(ItemID.PhoenixBlaster)
+                .AddIngredient(ItemID.IllegalGunParts, 2)
+                .AddIngredient(ItemID.SoulofNight, 15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
         public override bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
