@@ -6,6 +6,8 @@ using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
 using deeprockitems.Content.Buffs;
 using Terraria.DataStructures;
+using deeprockitems.Content.Items.Misc;
+using System.Linq;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -22,7 +24,13 @@ namespace deeprockitems.Content.Items.Upgrades
         }
         public override void AddRecipes()
         {
-
+            Recipe.Create(ModContent.ItemType<OvertunedNozzle>())
+                .AddIngredient<UpgradeToken>()
+                .AddTile(TileID.Anvils)
+                .AddRecipeGroup(nameof(ItemID.DemoniteBar), 10)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 10)
+                .AddIngredient(ItemID.Bone, 15)
+                .Register();
         }
         public class OvertunedNozzleProjectile : UpgradeGlobalProjectile<OvertunedNozzle>
         {

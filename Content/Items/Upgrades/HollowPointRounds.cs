@@ -5,6 +5,7 @@ using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Items.Misc;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
@@ -22,7 +23,13 @@ namespace deeprockitems.Content.Items.Upgrades
         }
         public override void AddRecipes()
         {
-
+            Recipe.Create(ModContent.ItemType<HollowPointRounds>())
+                .AddTile(TileID.MythrilAnvil)
+                .AddIngredient<UpgradeToken>()
+                .AddRecipeGroup(nameof(ItemID.CopperBar), 15)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 15)
+                .AddIngredient(ItemID.ShroomiteBar, 10)
+                .Register();
         }
         public class HollowPointProjectile : UpgradeGlobalProjectile<HollowPointRounds>
         {
