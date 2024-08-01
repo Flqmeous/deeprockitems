@@ -54,7 +54,7 @@ namespace deeprockitems.UI
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime); // This stays for some reason
+            base.Update(gameTime); // Remember to call base
 
 
             if (dragging)
