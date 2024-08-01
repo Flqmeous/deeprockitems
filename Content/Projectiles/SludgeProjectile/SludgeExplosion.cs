@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,9 +20,21 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             DrawOriginOffsetY = Projectile.height / 2;
 
         }
+        public override bool ShouldUpdatePosition() => false;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.Center.X > Projectile.Center.X)
+            {
+                modifiers.HitDirectionOverride = 1;
+            }
+            else
+            {
+                modifiers.HitDirectionOverride = -1;
+            }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

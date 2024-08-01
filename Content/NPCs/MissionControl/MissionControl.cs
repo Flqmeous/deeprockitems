@@ -20,57 +20,68 @@ namespace deeprockitems.Content.NPCs.MissionControl
     [AutoloadHead]
     public class MissionControl : ModNPC
     {
-        readonly string location = "Mods.deeprockitems.Dialogue.MissionControl.";
+        readonly static string location = "Mods.deeprockitems.Dialogue.MissionControl.";
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 23;
 
             NPCID.Sets.ExtraFramesCount[Type] = 8;
             NPCID.Sets.AttackFrameCount[Type] = 4;
-            NPCID.Sets.DangerDetectRange[Type] = 700; // The amount of pixels away from the center of the npc that it tries to attack enemies.
+            NPCID.Sets.DangerDetectRange[Type] = 1600; // The amount of pixels away from the center of the npc that it tries to attack enemies.
             NPCID.Sets.AttackType[Type] = 1;
             NPCID.Sets.PrettySafe[Type] = 400;
             NPCID.Sets.AttackTime[Type] = 90; // The amount of time it takes for the NPC's attack animation to be over once it starts.
             NPCID.Sets.AttackAverageChance[Type] = 30;
             NPCID.Sets.HatOffsetY[Type] = 4; // For when a party is active, the party hat spawns at a Y offset.
 
-            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Velocity = 1f,
                 Direction = 1
             };
 
-
             NPC.Happiness
-                .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love)
-                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
-                .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate);
-            foreach (int id in NPCID.Sets.TownNPCBestiaryPriority)
+                .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love) // Loves space!
+                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like) // Likes the underground
+                .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate); // Hates snow
+            for (int id = 0; id < NPCID.Count; id++)
             {
-                AffectionLevel level = AffectionLevel.Dislike;
-                if (id == NPCID.GoblinTinkerer)
+                NPC npc;
+                if (!ContentSamples.NpcsByNetId.TryGetValue(id, out npc))
                 {
-                    level = AffectionLevel.Love;
+                    continue;
                 }
-                if (id == NPCID.TaxCollector)
+                if (npc.townNPC)
                 {
-                    level = AffectionLevel.Love;
+                    AffectionLevel level = AffectionLevel.Dislike;
+                    switch (id)
+                    {
+                        case NPCID.GoblinTinkerer:
+                            level = AffectionLevel.Love;
+                            break;
+                        case NPCID.TaxCollector:
+                            level = AffectionLevel.Love;
+                            break;
+                        case NPCID.Steampunker:
+                            level = AffectionLevel.Like;
+                            break;
+                        case NPCID.Princess:
+                            level = AffectionLevel.Like;
+                            break;
+                        case NPCID.Stylist:
+                            level = AffectionLevel.Hate;
+                            break;
+                        default:
+                            break;
+                    }
+                    NPC.Happiness.SetNPCAffection(id, level);
                 }
-                if (id == NPCID.Steampunker)
-                {
-                    level = AffectionLevel.Like;
-                }
-                if (id == NPCID.Stylist)
-                {
-                    level = AffectionLevel.Hate;
-                }
-                if (id == NPCID.Princess)
-                {
-                    level = AffectionLevel.Like;
-                }
-                NPC.Happiness.SetNPCAffection(id, level);
             }
 
+        }
+        public override bool CanGoToStatue(bool toKingStatue)
+        {
+            return toKingStatue;
         }
         public override void SetDefaults()
         {
@@ -100,7 +111,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
-            if (numTownNPCs > 5 && NPC.downedBoss1 && NPC.downedSlimeKing)
+            if (numTownNPCs > 5 && NPC.downedSlimeKing)
             {
                 return true;
             }
@@ -131,25 +142,30 @@ namespace deeprockitems.Content.NPCs.MissionControl
         }
         public override string GetChat()
         {
-            DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
-            if (modPlayer is null) return "This message should not appear. Contact the mod author if it does."; // Return if null.
+            // Try getting modplayer
+            if (!Main.LocalPlayer.TryGetModPlayer(out QuestModPlayer modPlayer)) return "Quest ModPlayer unable to instantiate. Create a bug report on https://scottysimply.github.com/deeprockitems";
 
+            // Create RNG to pull quest
             WeightedRandom<string> dialogue = new WeightedRandom<string>();
 
-            // Always available
-            dialogue.Add(Language.GetTextValue(location + "StandardDialogue1", Main.LocalPlayer.name));
-            dialogue.Add(Language.GetTextValue(location + "StandardDialogue2"));
-            dialogue.Add(Language.GetTextValue(location + "StandardDialogue3"));
+            // Add general dialogue
+            AddChat(dialogue, "StandardDialogue1", 1, Main.LocalPlayer.name);
+            AddChat(dialogue, "StandardDialogue2");
+            AddChat(dialogue, "StandardDialogue3");
 
-            // Only available if quest is ongoing, with a 75% chance of pulling one of these 3
-            if (modPlayer.CurrentQuestInformation[0] > 0)
+            // If quest is ongoing, add quest-specific dialogue
+            if (modPlayer.ActiveQuest is not null && !modPlayer.ActiveQuest.Completed)
             {
-                dialogue.Add(Language.GetTextValue(location + "QuestOngoing1"), 3);
-                dialogue.Add(Language.GetTextValue(location + "QuestOngoing2"), 3);
-                dialogue.Add(Language.GetTextValue(location + "QuestOngoing3"), 3);
+                AddChat(dialogue, "QuestOngoing1", 3);
+                AddChat(dialogue, "QuestOngoing2", 3);
+                AddChat(dialogue, "QuestOngoing3", 3);
             }
 
             return dialogue;
+        }
+        private static void AddChat(WeightedRandom<string> dialogue, string key, double weight = 1, params object[] format)
+        {
+            dialogue.Add(Language.GetTextValue(location + key, format), weight);
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
@@ -157,13 +173,76 @@ namespace deeprockitems.Content.NPCs.MissionControl
         }
         public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
-            // Quest logic!! It's its own method because i thought it was unreadable
+            // If the quest button was clicked
             if (firstButton)
             {
-                QuestButtonClicked();
+                // Get modplayer
+                if (!Main.LocalPlayer.TryGetModPlayer(out QuestModPlayer modPlayer)) return;
+
+                // Give player a quest if they don't have one.
+                if (modPlayer.ActiveQuest is null)
+                {
+                    // Get system
+                    QuestSystem system = ModContent.GetInstance<QuestSystem>();
+                    // Give quest from system
+                    modPlayer.ActiveQuest = system.CurrentQuest.CreateQuestFromThis();
+                }
+
+                // If player is owed quest rewards, give them rewards
+                if (modPlayer.ActiveQuest.Completed && !modPlayer.ActiveQuest.HasQuestBeenRewarded)
+                {
+                    // Give rewards
+                    modPlayer.GiveDeepRockReward();
+
+                    // Set chat
+                    WeightedRandom<string> dialogue = new();
+                    AddChat(dialogue, "QuestCompleted1");
+                    AddChat(dialogue, "QuestCompleted2");
+                    AddChat(dialogue, "QuestCompleted3");
+                    Main.npcChatText = dialogue;
+
+                    // Disable rewards
+                    modPlayer.ActiveQuest.HasQuestBeenRewarded = true;
+                }
+                // Else if quest has been completed
+                else if (modPlayer.ActiveQuest.Completed)
+                {
+                    // Set chat
+                    WeightedRandom<string> dialogue = new();
+                    AddChat(dialogue, "QuestInactive1");
+                    AddChat(dialogue, "QuestInactive2");
+                    AddChat(dialogue, "QuestInactive3");
+                    Main.npcChatText = dialogue;
+                }
+                // Else, give player quest and display the correct chat message
+                else
+                {
+                    // Set dialogue variation
+                    int chatVariation = Main.rand.Next(1, 3);
+
+                    // Get types and amounts
+                    int type = modPlayer.ActiveQuest.Data.TypeRequired;
+                    int amount = modPlayer.ActiveQuest.Data.AmountRequired;
+
+                    // Change dialogue based on variation and what quest type
+                    switch (modPlayer.ActiveQuest.Type)
+                    {
+                        case QuestID.Mining:
+                            // Find if the map object name has a name--if else, use block name
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                            break;
+                        case QuestID.Gathering:
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                                break;
+                        case QuestID.Fighting:
+                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount);
+                                break;
+                    }
+                    Main.npcChatCornerItem = modPlayer.ActiveQuest.ItemIcon;
+                }
             }
         }
-        private void QuestButtonClicked()
+        /*private void QuestButtonClicked()
         {
             // This is the modplayer of the player who talked to the NPC.
             DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
@@ -220,7 +299,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                         break;
                 }
             }
-        }
+        }*/
     }
     public static class Extensions
     {

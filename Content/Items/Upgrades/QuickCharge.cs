@@ -6,15 +6,13 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(M1000),
+        typeof(JuryShotgun),
+        typeof(SludgePump))]
     public class QuickCharge : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-            ModContent.ItemType<SludgePump>(),
-            ModContent.ItemType<PlasmaPistol>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -24,17 +22,14 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<QuickCharge>())
             .AddIngredient<Misc.UpgradeToken>()
-            .AddIngredient(ItemID.CobaltBar, 15)
+            .AddIngredient(ItemID.HellstoneBar, 15)
             .AddIngredient(ItemID.SwiftnessPotion, 5)
             .AddTile(TileID.Anvils);
             upgrade.Register();
-
-            upgrade = Recipe.Create(ModContent.ItemType<QuickCharge>())
-            .AddIngredient<Misc.UpgradeToken>()
-            .AddIngredient(ItemID.PalladiumBar, 15)
-            .AddIngredient(ItemID.SwiftnessPotion, 5)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+        }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            modItem.UseTimeScale *= 0.83f;
         }
     }
 }

@@ -14,9 +14,9 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeBall : ModProjectile
     {
-        SludgePump parentItem;
         float GooTimer = 5f;
 
+        public bool CancelBaseKill = false;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -37,7 +37,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             {
                 parentItem = item;
             }*/
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] > 900f)
+            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[1] > 900f)
             {
                 Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
             }
@@ -45,21 +45,6 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void AI()
         {
-            
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] <= 900f && Projectile.ai[0] > 0) // Drop goo from the projectile if goo bomber is equipped and timer is charged
-            {
-                if (GooTimer > 0)
-                {
-                    GooTimer--;
-                }
-                else
-                {
-                    GooTimer = 5f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * .8f), Projectile.knockBack, Main.myPlayer);
-                }
-            }
-
-
             if (!(Projectile.ai[2] == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
             {
                 if (Projectile.velocity.Y <= 30f) // Set gravity cap
@@ -72,7 +57,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
+            if (Projectile.ai[1] <= 900 && Projectile.ai[0] > 0)
             {
                 target.AddBuff(BuffID.Venom, 300);
             }
@@ -86,7 +71,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (info.PvP)
             {
-                if (Projectile.ai[0] == 1)
+                if (Projectile.ai[1] == 1)
                 {
                     target.AddBuff(BuffID.Venom, 150);
                 }
@@ -96,31 +81,22 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
+            // Hit effects, dusts, sound
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 12; i++)
             {
-                Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
 
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>()) return;
-            if (Projectile.ai[2] == ModContent.ItemType<SludgeExplosionOC>())
-            {
-                if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)Floor(Projectile.damage * .8), Projectile.knockBack, Projectile.owner);
-                }
-                return;
-            }
-
-
-            if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0 && Main.myPlayer == Projectile.owner)
+            // Check if projectile should splatter
+            if (!CancelBaseKill && Projectile.ai[1] <= 900 && Projectile.ai[1] > 0 && Main.myPlayer == Projectile.owner)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * .5), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
                 }
             }
         }

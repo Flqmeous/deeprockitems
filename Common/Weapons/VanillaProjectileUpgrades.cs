@@ -1,6 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿/*using Terraria.ModLoader;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
@@ -44,7 +43,7 @@ namespace deeprockitems.Common.Weapons
             if (fromModItem)
             {
                 // If projectile fully charged
-                if (projectile.ai[0] <= 900 && projectile.ai[0] > 0)
+                if (projectile.ai[1] <= 900 && projectile.ai[1] > 0)
                 {
                     if (projectile.ai[2] == ModContent.ItemType<SupercoolOC>())
                     {
@@ -71,7 +70,7 @@ namespace deeprockitems.Common.Weapons
                     canDamage = false;
                 }
 
-
+                projectile.ai[0] = 0f;
             }
             base.OnSpawn(projectile, source);
         }
@@ -107,5 +106,37 @@ namespace deeprockitems.Common.Weapons
         {
             return canDamage;
         }
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        {
+            if (upgrades.Contains(ModContent.ItemType<Content.Items.Upgrades.ZhukovsUpgrades.CryoMineletsOC>()))
+            {
+                Point spawnTile = projectile.Center.ToTileCoordinates();
+                // Move projectile right
+                if (oldVelocity.X > projectile.velocity.X)
+                {
+                    spawnTile.X++;
+                }
+                // Move projectile left
+                if (oldVelocity.X < projectile.velocity.X)
+                {
+                    spawnTile.X--;
+                }
+                // Move projectile down
+                if (oldVelocity.Y > projectile.velocity.Y)
+                {
+                    spawnTile.Y++;
+                }
+                // Move projectile up
+                if (oldVelocity.Y < projectile.velocity.Y)
+                {
+                    spawnTile.Y--;
+                }
+                // Spawn projectile at this new position.
+                Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<Content.Projectiles.ZhukovProjectiles.CryoMineletProjectile>(), projectile.damage, 0f, projectile.owner, ai0: 40f, ai1: spawnTile.X, ai2: spawnTile.Y);
+                proj.position += projectile.velocity * 2f;
+            }
+            return true;
+        }
     }
 }
+*/

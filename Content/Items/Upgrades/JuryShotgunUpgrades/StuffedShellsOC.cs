@@ -6,13 +6,10 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
+    [ValidWeapons(typeof(JuryShotgun))]
     public class StuffedShellsOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<JuryShotgun>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -22,19 +19,20 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
         {
             Recipe upgrade = Recipe.Create(ModContent.ItemType<StuffedShellsOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.MythrilBar, 10)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 10)
             .AddRecipeGroup(nameof(ItemID.VilePowder), 25)
             .AddIngredient(ItemID.MusketBall, 100)
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
-
-            upgrade = Recipe.Create(ModContent.ItemType<StuffedShellsOC>())
-            .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.OrichalcumBar, 10)
-            .AddRecipeGroup(nameof(ItemID.VilePowder), 25)
-            .AddIngredient(ItemID.MusketBall, 100)
-            .AddTile(TileID.MythrilAnvil);
-            upgrade.Register();
+        }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            // Will always be true
+            if (modItem is JuryShotgun shotgun)
+            {
+                shotgun.SpreadMultiplier = 2f;
+                shotgun.ProjectileMultiplier = 2f;
+            }
         }
     }
 }

@@ -66,13 +66,7 @@ namespace deeprockitems.UI.UpgradeItem
         }
         public override void Update(GameTime gameTime)
         {
-            bool oldBlock = UpgradeUISystem.BlockItemSlotActionsDetour;
-            if (dragPanel.IsMouseHovering)
-            {
-                UpgradeUISystem.BlockItemSlotActionsDetour = false;
-            }
             base.Update(gameTime);
-            UpgradeUISystem.BlockItemSlotActionsDetour = oldBlock;
         }
         public int[] GetUpgrades()
         {

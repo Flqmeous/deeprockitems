@@ -3,18 +3,19 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(Zhukovs),
+        typeof(M1000),
+        typeof(JuryShotgun),
+        typeof(SludgePump),
+        typeof(PlasmaPistol))]
     public class Blowthrough : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-            ModContent.ItemType<SludgePump>(),
-            ModContent.ItemType<JuryShotgun>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -35,6 +36,19 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddIngredient(ItemID.CrystalBullet, 15)
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
+        }
+        public override void UpgradeProjectile_OnSpawn(Projectile projectile, IEntitySource source)
+        {
+            projectile.penetrate = 5;
+            projectile.maxPenetrate = 5;
+        }
+        public class BlowthroughProjectile : UpgradeGlobalProjectile<Blowthrough>
+        {
+            public override void UpgradeOnSpawn(Projectile projectile, IEntitySource source)
+            {
+                projectile.penetrate = 5;
+                projectile.maxPenetrate = 5;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace deeprockitems.UI.UpgradeItem
     {
         public static UpgradeUIState UpgradeUIPanel { get; set; }
         public static UserInterface Interface { get; set; }
+        public static UpgradeableItemTemplate TheParentItem { get => UpgradeUIPanel.ParentSlot.ItemToDisplay.ModItem as UpgradeableItemTemplate; }
 
         internal static bool BlockItemSlotActionsDetour { get; set; }
 
@@ -32,6 +33,13 @@ namespace deeprockitems.UI.UpgradeItem
             if (UpgradeUIPanel.ParentSlot.ItemToDisplay.type == 0)
             {
                 Interface.SetState(null);
+            }
+
+            InterfaceBlocker.BlockItemSlotLogic = false; // Reset blocking logic
+            if (UpgradeUIPanel.dragPanel.IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+                InterfaceBlocker.BlockItemSlotLogic = true;
             }
 
 

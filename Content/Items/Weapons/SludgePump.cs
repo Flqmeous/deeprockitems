@@ -16,14 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : UpgradeableItemTemplate
     {
-        public int TIMER = 0;
-        public static int MAX_TIMER = 30;
-        public override void SetStaticDefaults()
-        {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-        }
-
-        public override void SafeDefaults()
+        public override void NewSetDefaults()
         {
             Item.damage = 34;
             Item.DamageType = DamageClass.Magic;
@@ -38,7 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 18f;
+            Item.shootSpeed = 22f;
             Item.rare = ItemRarityID.Orange;
 
             Item.value = Item.sellPrice(0, 5, 30, 0);
@@ -46,57 +39,23 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<AntiGravOC>());
             ValidUpgrades.Add(ModContent.ItemType<SludgeExplosionOC>());
             ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());
-
+            ValidUpgrades.Add(ModContent.ItemType<OvertunedNozzle>());
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
             ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
 
         }
-        public override void HoldItem(Player player)
-        {
-            if (player == Main.LocalPlayer && Upgrades.Contains(ModContent.ItemType<TracerRounds>()))
-            {
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Overclock);
-            }
-            TIMER++;
-            if (TIMER > MAX_TIMER)
-            {
-                TIMER = 0;
-            }
-        }
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<SludgeHelper>();
         }
         public override void AddRecipes()
         {
-            Recipe SludgePump = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.SludgePump>());
-            SludgePump.AddIngredient(ItemID.HellstoneBar, 15);
-            SludgePump.AddIngredient(ItemID.Gel, 50);
-            SludgePump.AddIngredient(ItemID.Bone, 15);
-            SludgePump.AddTile(TileID.Solidifier);
-            SludgePump.Register();
-        }
-        public override void UniqueUpgrades()
-        {
-            if (Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))
-            {
-                CurrentOverclock = "AG Mixture";
-                OverclockPositives = "▶Shots are no longer affected by gravity";
-                OverclockNegatives = "";
-            }
-            else if (Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()))
-            {
-                CurrentOverclock = "Waste Ordnance";
-                OverclockPositives = "▶Charge shots explode with a large range";
-                OverclockNegatives = "▶Charge shots don't fragment when destroyed";
-            }
-            else if (Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()))
-            {
-                CurrentOverclock = "Goo Bomber Special";
-                OverclockPositives = "▶Charge shots leave trails behind";
-                OverclockNegatives = "▶Charge shots don't fragment when destroyed\n" +
-                                     "▶Normal shots deal less damage";
-            }
+            Recipe.Create(ModContent.ItemType<SludgePump>())
+            .AddIngredient(ItemID.HellstoneBar, 15)
+            .AddIngredient(ItemID.Gel, 50)
+            .AddIngredient(ItemID.Bone, 15)
+            .AddTile(TileID.Solidifier)
+            .Register();
         }
     }
 }

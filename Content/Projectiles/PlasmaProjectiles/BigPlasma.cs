@@ -13,18 +13,30 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {
     public class BigPlasma : ModProjectile // Darn big plasma.. and their exploding!
     {
-        private int[] upgrades = new int[4];
-        private UpgradeableItemTemplate parentItem = null;
-        private bool piercingPlasma = false;
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 3;
+        }
         public override void SetDefaults()
         {
-            Projectile.width = 16;
-            Projectile.height = 16;
+            Projectile.width = 30;
+            Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.hostile = false;
+            Projectile.rotation = 0;
             Projectile.timeLeft = 600;
-            DrawOffsetX = -8;
-            DrawOriginOffsetY = -8;
+            DrawOffsetX = -2;
+            DrawOriginOffsetY = -2;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            width = 16;
+            height = 16;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
         }
         public override string GlowTexture => "deeprockitems/Content/Projectiles/PlasmaProjectile/BigPlasma";
         public override bool PreDraw(ref Color lightColor)
@@ -34,56 +46,13 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         }
         public override void AI()
         {
-
-            if (piercingPlasma)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                return;
-            }
-            Projectile.rotation = 0;
-            Projectile collidingProjectile = Projectile.IsCollidingWithProjectile(ModContent.ProjectileType<PlasmaBullet>());
-
-            if (collidingProjectile is not null)
-            {
-                if (Projectile.owner == collidingProjectile.owner)
-                {
-                    collidingProjectile.Kill();
-                    SoundEngine.PlaySound(SoundID.Item14 with { Volume = .5f, Pitch = -.8f }); // Sound of the projectile 
-                    Projectile.NewProjectile(Main.player[Projectile.owner].GetSource_ItemUse(parentItem.Item), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), Projectile.damage, .1f);
-                    Projectile.Kill();
-                }
+                Projectile.frameCounter = 0;
+                Projectile.rotation = Main.rand.Next(0, 3) * MathHelper.PiOver2;
+                Projectile.frame = Main.rand.Next(0, 3);
             }
         }
-        public override void OnSpawn(IEntitySource source)
-        {
-            if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate parentItem })
-            {
-                upgrades = parentItem.Upgrades;
-                this.parentItem = parentItem;
-            }
-            if (upgrades.Contains(ModContent.ItemType<PiercingPlasmaOC>()))
-            {
-                Projectile.tileCollide = false;
-                Projectile.penetrate = 5;
-                Projectile.maxPenetrate = 5;
-                piercingPlasma = true;
-
-            }
-            if (upgrades.Contains(ModContent.ItemType<VelocitySpeedup>()))
-            {
-                Projectile.velocity *= 1.5f;
-            }
-        }
-        public override void Kill(int timeLeft)
-        {
-            if (timeLeft > 0)
-            {
-                if (upgrades.Contains(ModContent.ItemType<EzBoomOC>()))
-                {
-                    SoundEngine.PlaySound(SoundID.Item14 with { Volume = .5f, Pitch = -.8f });
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), Projectile.damage, .1f);
-                }
-            }
-        }
-
     }
 }

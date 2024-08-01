@@ -9,26 +9,26 @@ namespace deeprockitems.Utilities
         /// Determines if the given projectile is colliding with a desired projectile type.
         /// </summary>
         /// <param name="projectile"></param>
-        /// <param name="target_ID"></param>
-        /// <returns>Returns the instance of the colliding projectile. Returns null if no collision occured.</returns>
-        public static Projectile IsCollidingWithProjectile(this Projectile projectile, int target_ID)
+        /// <param name="targetType"></param>
+        /// <returns>Returns the whoAmI if <see cref="projectile"/> intersects with a target type. Returns -1 if no collision occured.</returns>
+        public static int IsCollidingWithProjectile(this Projectile projectile, int targetType)
         {
-            foreach (Projectile proj in Main.projectile)
+            for (int i = 0; i < Main.projectile.Length; i++)
             {
-                if (proj.type != target_ID)
-                {
-                    continue;
-                }
-                if (!proj.active)
-                {
-                    continue;
-                }
-                if (projectile.Hitbox.Intersects(proj.Hitbox))
-                {
-                    return proj;
-                }
+                if (!Main.projectile[i].active) continue;
+                if (Main.projectile[i].type != targetType) continue;
+                if (projectile.Hitbox.Intersects(Main.projectile[i].Hitbox)) return i;
             }
-            return null;
+            return -1;
+        }
+        public static int IsCollidingWithProjectile(this Projectile projectile)
+        {
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (!Main.projectile[i].active) continue;
+                if (projectile.Hitbox.Intersects(Main.projectile[i].Hitbox)) return i;
+            }
+            return -1;
         }
     }
 }

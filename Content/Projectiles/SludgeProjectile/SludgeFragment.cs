@@ -19,7 +19,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             Projectile.friendly = true;
             Projectile.timeLeft = 300;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.idStaticNPCHitCooldown = 1;
+            Projectile.appliesImmunityTimeOnSingleHits = true;
 
             DrawOffsetX = -4;
             DrawOriginOffsetY = -4;
@@ -32,7 +33,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
             Projectile.rotation += Projectile.velocity.X / 100;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .2f }, Projectile.position);
             for (int i = 0; i < 2; i++)

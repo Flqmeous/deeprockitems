@@ -11,7 +11,7 @@ namespace deeprockitems.Content.Pets.Molly
         {
             Item.CloneDefaults(ItemID.SpiderEgg); // Essentially a copy of the spider pet.
             Item.width = 24;
-            Item.height = 24;
+            Item.height = 20;
 
             Item.value = Item.sellPrice(0, 10, 0, 0);
 

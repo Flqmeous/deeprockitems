@@ -15,7 +15,7 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
         {
             Projectile.width = 28;
             Projectile.height = 12;
-            Projectile.hostile = true;
+            Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.velocity = new(0, 10);
             Projectile.aiStyle = -1;

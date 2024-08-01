@@ -1,6 +1,9 @@
 ﻿using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.UI.UpgradeItem;
 using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
+using SmartFormat.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -10,18 +13,31 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
 using Terraria.Utilities;
-using static System.Math;
+using Microsoft.Xna.Framework.Graphics;
+using deeprockitems.Assets.Textures;
+using Terraria.GameContent.Creative;
+using Terraria.ID;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
-        protected float DamageScale;
-        protected float useTimeModifier;
+        public static int GetStaticType()
+        {
+            return _staticType;
+        }
+        private static int _staticType = ItemID.None;
+        public int BaseDamage { get; private set; }
+        public float DamageScale { get; set; } = 1f;
+        public float UseTimeScale { get; set; }
         /// <summary>
         /// The item useTime before being affected by useTimeModifier.
         /// </summary>
-        protected int oldUseTime { get; set; }
+        public int BaseUseTime { get; private set; }
+        /// <summary>
+        /// The item useAnimation before being affected by useTimeModifier.
+        /// </summary>
+        public int BaseUseAnimation { get; private set; }
         private int[] saved_upgrades;
         public int[] Upgrades { get; set; }
         public int Overclock { get => Upgrades[^1]; }
@@ -29,8 +45,9 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual string OverclockPositives { get; set; } = "";
         public virtual string OverclockNegatives { get; set; } = "";
         public List<int> ValidUpgrades { get; set; }
+        public float BaseShootSpeed { get; set; }
         // private bool load_flag = false;
-        public virtual void SafeDefaults()
+        public virtual void NewSetDefaults()
         {
             
         }
@@ -38,25 +55,34 @@ namespace deeprockitems.Content.Items.Weapons
         {
             saved_upgrades = new int[4];
             Upgrades = new int[4];
-            useTimeModifier = 1f;
+            UseTimeScale = 1f;
             ValidUpgrades = new()
             {
                 ModContent.ItemType<DamageUpgrade>(),
                 ModContent.ItemType<ArmorPierce>(),
                 ModContent.ItemType<Blowthrough>()
-            
             };
-            SafeDefaults();
-            oldUseTime = Item.useTime;
+            NewSetDefaults();
+            BaseUseTime = Item.useTime;
+            BaseUseAnimation = Item.useAnimation;
+            BaseDamage = Item.damage;
+            BaseShootSpeed = Item.shootSpeed;
             base.SetDefaults();
         }
+        public override void SetStaticDefaults()
+        {
+            _staticType = Type;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            NewSetStaticDefaults();
+        }
+        public virtual void NewSetStaticDefaults() { }
         public override void UpdateInventory(Player player)
         {
             if (!Main.playerInventory)
             {
                 Close_UI();
             }
-            UpdateUpgrades();
+            RegisterStatUpgrades();
         }
 
         public override void RightClick(Player player)
@@ -70,7 +96,7 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 Close_UI();
             }
-            UpdateUpgrades();
+            RegisterStatUpgrades();
         }
         public override bool CanRightClick()
         {
@@ -143,7 +169,7 @@ namespace deeprockitems.Content.Items.Weapons
                 }
                 upgrades_text = upgrades_text.TrimEnd('\n');
                 TooltipLine line = new(Mod, "Upgrades", upgrades_text);
-                tooltips.Add(line);
+                TooltipHelpers.InsertTooltip(tooltips, line, "OneDropLogo");
             }
             else if (Upgrades.Count(0) < 4)
             {
@@ -151,7 +177,7 @@ namespace deeprockitems.Content.Items.Weapons
                 {
                     OverrideColor = new(74, 177, 211),
                 };
-                tooltips.Add(line);
+                TooltipHelpers.InsertTooltip(tooltips, line, "OneDropLogo");
             }
             if (UpgradeUISystem.Interface.CurrentState is null)
             {
@@ -160,37 +186,162 @@ namespace deeprockitems.Content.Items.Weapons
                 {
                     OverrideColor = new(74, 177, 211),
                 };
-                tooltips.Add(line);
+                TooltipHelpers.InsertTooltip(tooltips, line, "OneDropLogo");
             }
         }
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
             return false;
         }
-        public void UpdateUpgrades()
+        public void RegisterStatUpgrades()
         {
+            // Reset stats
             DamageScale = 1f;
-            useTimeModifier = 1f;
-            UniqueUpgrades();
+            UseTimeScale = 1f;
+            Item.damage = BaseDamage;
+            Item.useTime = BaseUseTime;
+            Item.useAnimation = BaseUseAnimation;
+            Item.shootSpeed = BaseShootSpeed;
+            ResetStats();
 
-            if (Upgrades.Contains(ModContent.ItemType<DamageUpgrade>()))
-            {
-                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
-            }
-            else
-            {
-                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
-            }
-            if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
-            {
-                useTimeModifier *= .83f;
-            }
-            Item.useTime = Item.useAnimation = (int)Ceiling(oldUseTime * useTimeModifier);
+            // Hook injection
+            ItemStatChange?.Invoke(this, Upgrades);
+
+            // Set damage
+            Item.damage = (int)Math.Floor(Item.damage * DamageScale);
+
+            // Set usetime
+            Item.useTime = (int)Math.Ceiling(Item.useTime * UseTimeScale);
+            Item.useAnimation = (int)Math.Ceiling(Item.useAnimation * UseTimeScale);
         }
-        public virtual void UniqueUpgrades()
+        public virtual void ResetStats() { }
+        public delegate void HandleItemStatChange(UpgradeableItemTemplate sender, int[] upgrades);
+        public static event HandleItemStatChange ItemStatChange;
+
+        public sealed override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            
+            // When the weapon is fired with right click (presumably unused)
+            bool shouldCallBase = true;
+            if (player.altFunctionUse == 2)
+            {
+                // Call upgrade hooks
+                foreach (var hook in ItemModifyShootAltUse.GetInvocationList().Cast<HandleItemModifyShootAltUse>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            hook.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, out bool callBase);
+                            shouldCallBase = !(shouldCallBase || callBase);
+                        }
+                    }
+                }
+                if (shouldCallBase)
+                {
+                    ModifyShootAltUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+                }
+                return;
+            }
+            // Call upgrade hook, then primary shoot
+            //ItemModifyShootPrimaryUse?.Invoke(this, player, ref position, ref velocity, ref type, ref damage, ref knockback, Upgrades);
+            ModifyShootPrimaryUse(player, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
+
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.ModifyShootStats"/> and should replace it.
+        /// </summary>
+        public virtual void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.ModifyShootStats"/>, however this only activates when the weapon is fired with alternate use (right click).
+        /// </summary>
+        public virtual void ModifyShootAltUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) { }
+
+
+        public delegate void HandleItemModifyShootPrimaryUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, out bool callBase);
+        public delegate void HandleItemModifyShootAltUse(UpgradeableItemTemplate sender, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, out bool callBase);
+
+        public static event HandleItemModifyShootPrimaryUse ItemModifyShootPrimaryUse;
+        public static event HandleItemModifyShootAltUse ItemModifyShootAltUse;
+
+
+
+
+        public sealed override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            // When the weapon is fired with right click (presumably unused)
+            List<bool> callsBase = new();
+            List<bool> spawnsProjectile = new();
+            if (player.altFunctionUse == 2)
+            {
+                // Call upgrade hooks
+                foreach (var hook in ItemShootAltUse.GetInvocationList().Cast<HandleItemShootAltUse>())
+                {
+                    if (hook.Target is UpgradeTemplate upgrade)
+                    {
+                        if (Upgrades.Contains(upgrade.Type))
+                        {
+                            spawnsProjectile.Add(hook.Invoke(this, player, source, position, velocity, type, damage, knockback, out bool callBase));
+                            spawnsProjectile.Add(callBase);
+                        }
+                    }
+                }
+                for (int i = 0; i < callsBase.Count; i++)
+                {
+                    if (!callsBase[i])
+                    {
+                        return spawnsProjectile[i];
+                    }
+                }
+                return ShootAltUse(player, source, position, velocity, type, damage, knockback);
+            }
+
+            foreach (var hook in ItemShootPrimaryUse.GetInvocationList().Cast<HandleItemShootPrimaryUse>())
+            {
+                if (hook.Target is UpgradeTemplate upgrade)
+                {
+                    if (Upgrades.Contains(upgrade.Type))
+                    {
+                        spawnsProjectile.Add(hook.Invoke(this, player, source, position, velocity, type, damage, knockback, out bool callBase));
+                        callsBase.Add(callBase);
+                    }
+                }
+            }
+            for (int i = 0; i < callsBase.Count; i++)
+            {
+                if (!callsBase[i])
+                {
+                    return spawnsProjectile[i];
+                }
+            }
+            return ShootPrimaryUse(player, source, position, velocity, type, damage, knockback);
+        }
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.Shoot"/> and should replace it.
+        /// </summary>
+        public virtual bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => true;
+        /// <summary>
+        /// Functions identically to <see cref="ModItem.Shoot"/>, however this only activates when the weapon is fired with alternate use (right click).
+        /// </summary>
+        public virtual bool ShootAltUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+
+
+        public delegate bool HandleItemShootPrimaryUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase);
+        public delegate bool HandleItemShootAltUse(UpgradeableItemTemplate sender, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool callBase);
+
+        public static event HandleItemShootPrimaryUse ItemShootPrimaryUse;
+        public static event HandleItemShootAltUse ItemShootAltUse;
+
+
+        public delegate void HandleItemHold(UpgradeableItemTemplate sender, Player player, int[] upgrades);
+        public static event HandleItemHold ItemHold;
+
+        public sealed override void HoldItem(Player player)
+        {
+            ItemHold?.Invoke(this, player, Upgrades);
+            ItemOnHold(player);
+        }
+        public virtual void ItemOnHold(Player player) { }
+
         private void Open_UI()
         {
             UpgradeUISystem.UpgradeUIPanel.ClearItems();
@@ -200,6 +351,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         private void Close_UI()
         {
+            UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay = null;
             UpgradeUISystem.UpgradeUIPanel.ClearItems();
             UpgradeUISystem.Interface.SetState(null);
         }

@@ -3,6 +3,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
 using deeprockitems.Utilities;
+using Terraria.GameInput;
 
 namespace deeprockitems.UI
 {
@@ -53,13 +54,8 @@ namespace deeprockitems.UI
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime); // This stays for some reason
+            base.Update(gameTime); // Remember to call base
 
-            // Make sure that clicking on the UI doesn't interact with the world
-            if (ContainsPoint(Main.MouseScreen))
-            {
-                Main.LocalPlayer.mouseInterface = true;
-            }
 
             if (dragging)
             {

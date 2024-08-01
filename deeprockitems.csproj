@@ -3,7 +3,7 @@
   <Import Project="..\tModLoader.targets" />
   <PropertyGroup>
     <AssemblyName>deeprockitems</AssemblyName>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -26,12 +26,33 @@
     <AdditionalFiles Remove="Localization\en-US.hjson" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Textures\ElectricityArc.png" />
+    <None Remove="Assets\Textures\JuryShotgunIcon.png" />
+    <None Remove="Assets\Textures\M1000Icon.png" />
+    <None Remove="Assets\Textures\OverclockSlot.png" />
+    <None Remove="Assets\Textures\PlasmaPistolIcon.png" />
+    <None Remove="Assets\Textures\SludgePumpIcon.png" />
+    <None Remove="Assets\Textures\StunTwinkle.png" />
+    <None Remove="Assets\Textures\TracerHit.png" />
+    <None Remove="Assets\Textures\UpgradeIcon.png" />
+    <None Remove="Assets\Textures\UpgradeSlot.png" />
+    <None Remove="Assets\Textures\WhitePixel.png" />
+    <None Remove="Assets\Textures\ZhukovsHeld.png" />
+    <None Remove="Assets\Textures\ZhukovsIcon.png" />
+    <None Remove="Content\Buffs\ElectrifiedEnemy.png" />
+    <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\EzBoomOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\MountainMoverOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PiercingPlasmaOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\VelocitySpeedup.png" />
+    <None Remove="Content\Items\Upgrades\HollowPointRounds.png" />
+    <None Remove="Content\Items\Upgrades\OvertunedNozzle.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\ColdPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\HeavyHitterOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PersistantPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PlasmaSplash.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\DrumMagazine.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\GetInGetOut.png" />
+    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\StaticBlastOC.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
     <None Remove="Content\NPCs\MissionControl\MissionControl_Head.png" />
     <None Remove="Content\Pets\Molly\ChunkOfNitra.png" />
@@ -41,6 +62,7 @@
     <None Remove="Content\Pets\Molly\Old\MollyHindLegs.png" />
     <None Remove="Content\Pets\Molly\Old\MollyTopLegs.png" />
     <None Remove="Content\Projectiles\PlasmaProjectiles\BigPlasma.png" />
+    <None Remove="Content\Projectiles\ZhukovProjectiles\ElectricityArc.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />

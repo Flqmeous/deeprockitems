@@ -3,19 +3,19 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using System;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(M1000),
+        typeof(Zhukovs),
+        typeof(SludgePump),
+        typeof(PlasmaPistol),
+        typeof(JuryShotgun))]
     public class DamageUpgrade : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-            ModContent.ItemType<SludgePump>(),
-            ModContent.ItemType<JuryShotgun>(),
-            ModContent.ItemType<PlasmaPistol>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -36,6 +36,10 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddIngredient(ItemID.WrathPotion, 5)
             .AddTile(TileID.Anvils);
             upgrade.Register();
+        }
+        public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
+        {
+            modItem.DamageScale *= 1.15f;
         }
     }
 }

@@ -7,16 +7,15 @@ using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
+    [ValidWeapons(
+        typeof(Zhukovs),
+        typeof(M1000),
+        typeof(JuryShotgun),
+        typeof(SludgePump),
+        typeof(PlasmaPistol))]
     public class ArmorPierce : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-            ModContent.ItemType<SludgePump>(),
-            ModContent.ItemType<JuryShotgun>(),
-            ModContent.ItemType<PlasmaPistol>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -37,6 +36,13 @@ namespace deeprockitems.Content.Items.Upgrades
             .AddIngredient(ItemID.SharkToothNecklace)
             .AddTile(TileID.Anvils);
             upgrade.Register();
+        }
+        public class ArmorPierceProjectile : UpgradeGlobalProjectile<ArmorPierce>
+        {
+            public override void UpgradeModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+            {
+                modifiers.ArmorPenetration += 10;
+            }
         }
     }
 }

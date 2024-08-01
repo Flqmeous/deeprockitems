@@ -3,16 +3,17 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
+using deeprockitems.Content.Projectiles.SludgeProjectile;
+using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
+    [ValidWeapons(typeof(SludgePump))]
     public class TracerRounds : UpgradeTemplate
     {
+        public int _sludgeTracerTimer = 0;
+        public static int MAX_TIMER = 30;
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<SludgePump>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -20,21 +21,30 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<TracerRounds>())
+            Recipe.Create(ModContent.ItemType<TracerRounds>())
             .AddIngredient<Misc.UpgradeToken>()
-            .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
-            .AddIngredient(ItemID.Gel, 10)
-            .AddIngredient(ItemID.RottenChunk, 5)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddIngredient(ItemID.HellstoneBar, 10)
+            .AddIngredient(ItemID.Gel, 25)
+            .AddIngredient(ItemID.RottenChunk, 10)
+            .AddTile(TileID.Anvils)
+            .Register();
 
-            upgrade = Recipe.Create(ModContent.ItemType<TracerRounds>())
+            Recipe.Create(ModContent.ItemType<TracerRounds>())
             .AddIngredient<Misc.UpgradeToken>()
-            .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
-            .AddIngredient(ItemID.Gel, 10)
-            .AddIngredient(ItemID.Vertebrae, 5)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddIngredient(ItemID.HellstoneBar, 10)
+            .AddIngredient(ItemID.Gel, 25)
+            .AddIngredient(ItemID.Vertebrae, 10)
+            .AddTile(TileID.Anvils)
+            .Register();
+        }
+        public override void ItemHold(UpgradeableItemTemplate sender, Player player)
+        {/*
+            Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: _sludgeTracerTimer, ai1: sender.Upgrades[^1]);
+            _sludgeTracerTimer++;
+            if (_sludgeTracerTimer > MAX_TIMER)
+            {
+                _sludgeTracerTimer = 0;
+            }*/
         }
     }
 }
