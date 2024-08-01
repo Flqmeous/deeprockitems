@@ -1,12 +1,14 @@
 ﻿using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
+    [ValidWeapons(typeof(PlasmaPistol))]
     public class PlasmaSplash : UpgradeTemplate
     {
         public override bool IsOverclock => false;
@@ -17,12 +19,13 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<PlasmaSplash>())
+            Recipe.Create(ModContent.ItemType<PlasmaSplash>())
             .AddIngredient<Misc.UpgradeToken>()
             .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
             .AddIngredient(ItemID.FallenStar, 10)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddIngredient(ItemID.Grenade, 10)
+            .AddTile(TileID.Anvils)
+            .Register();
         }
         public class PlasmaSplashProjectile : UpgradeGlobalProjectile<PlasmaSplash>
         {

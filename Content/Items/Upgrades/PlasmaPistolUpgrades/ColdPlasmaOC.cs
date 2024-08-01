@@ -5,6 +5,7 @@ using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Content.Buffs;
+using System.Linq;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
@@ -19,13 +20,13 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<ColdPlasmaOC>())
+            Recipe.Create(ModContent.ItemType<ColdPlasmaOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.HellstoneBar, 10)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 10)
+            .AddIngredient(ItemID.FrostCore, 1)
             .AddIngredient(ItemID.FallenStar, 10)
-            .AddIngredient(ItemID.ScarabBomb, 5)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddTile(TileID.Anvils)
+            .Register();
         }
         public class ColdPlasmaProjectile : UpgradeGlobalProjectile<ColdPlasmaOC>
         {

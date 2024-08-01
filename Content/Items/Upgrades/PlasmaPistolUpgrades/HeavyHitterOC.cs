@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
+using System.Linq;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
@@ -20,21 +21,13 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
         }
         public override void AddRecipes()
         {
-            Recipe upgrade = Recipe.Create(ModContent.ItemType<HeavyHitterOC>())
+            Recipe.Create(ModContent.ItemType<HeavyHitterOC>())
             .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.CobaltBar, 10)
+            .AddIngredient(ItemID.HellstoneBar, 10)
             .AddIngredient(ItemID.FallenStar, 15)
-            .AddIngredient(ItemID.Dynamite, 10)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
-
-            upgrade = Recipe.Create(ModContent.ItemType<HeavyHitterOC>())
-            .AddIngredient<Misc.MatrixCore>()
-            .AddIngredient(ItemID.PalladiumBar, 10)
-            .AddIngredient(ItemID.FallenStar, 15)
-            .AddIngredient(ItemID.Dynamite, 10)
-            .AddTile(TileID.Anvils);
-            upgrade.Register();
+            .AddIngredient(ItemID.Deathweed, 10)
+            .AddTile(TileID.Anvils)
+            .Register();
         }
         public override void ItemStatChangeOnEquip(UpgradeableItemTemplate modItem)
         {

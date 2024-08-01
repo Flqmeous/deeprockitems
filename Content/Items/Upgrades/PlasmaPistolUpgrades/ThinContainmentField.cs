@@ -8,6 +8,7 @@ using deeprockitems.Utilities;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Buffs;
+using System.Linq;
 
 namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
@@ -25,7 +26,8 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
             Recipe upgrade = Recipe.Create(ModContent.ItemType<ThinContainmentField>())
             .AddIngredient<Misc.UpgradeToken>()
             .AddIngredient(ItemID.HellstoneBar, 15)
-            .AddIngredient(ItemID.Fireblossom, 10)
+            .AddIngredient(ItemID.FallenStar, 10)
+            .AddIngredient(ItemID.Dynamite, 5)
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
