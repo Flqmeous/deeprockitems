@@ -34,16 +34,13 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
             {
                 if (projectile.type == ModContent.ProjectileType<BigPlasma>())
                 {
-                    target.AddBuff(ModContent.BuffType<FrozenEnemy>(), 120);
+                    // Add large amount of freeze amount
+                    target.ChangeTemperature(-50, projectile.owner);
                 }
                 if (projectile.type == ModContent.ProjectileType<PlasmaBullet>())
                 {
-                    target.AddBuff(BuffID.Frostburn, 60);
-                }
-                if (projectile.type == ModContent.ProjectileType<PlasmaExplosion>())
-                {
-                    target.AddBuff(ModContent.BuffType<FrozenEnemy>(), 120);
-                    target.AddBuff(BuffID.Frostburn, 120);
+                    // Add low amount of freeze
+                    target.ChangeTemperature(-25, projectile.owner);
                 }
             }
         }
