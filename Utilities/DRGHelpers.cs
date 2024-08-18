@@ -1,5 +1,6 @@
 ﻿using deeprockitems.Common.PlayerLayers;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -56,6 +57,26 @@ namespace deeprockitems.Utilities
             }
 
             return new(targetX, targetY);
+        }
+        /// <summary>
+        /// Returns the namespace of a given type.
+        /// </summary>
+        /// <param name="t">The type to retrieve the namespace of</param>
+        /// <returns></returns>
+        public static string GetNamespace(this object self)
+        {
+            return self.GetType().Namespace;
+        }
+        /// <summary>
+        /// Returns the requested asset within the namespace of the object. Invoke like <code>this.RequestFromNamespace</code>
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static Asset<T> RequestFromNamespace<T>(this object self, string name) where T : class
+        {
+            // Swap periods with slashes
+            var newString = self.GetNamespace().Replace('.', '/');
+            return ModContent.Request<T>(newString + "/" + name, AssetRequestMode.ImmediateLoad);
         }
     }
 }
