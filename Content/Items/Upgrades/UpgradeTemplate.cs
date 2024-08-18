@@ -120,6 +120,10 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             protected int _type { get => ModContent.ItemType<TUpgrade>(); }
         }
+        public abstract class UpgradeGlobalNPC<TUpgrade> : GlobalNPC where TUpgrade : UpgradeTemplate
+        {
+            protected int _type { get => ModContent.ItemType<TUpgrade>(); }
+        }
         public abstract class UpgradeGlobalProjectile<TUpgrade> : GlobalProjectile where TUpgrade : UpgradeTemplate
         {
             protected int _type { get => ModContent.ItemType<TUpgrade>(); }
