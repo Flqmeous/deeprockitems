@@ -2,7 +2,6 @@
 using deeprockitems.UI.UpgradeItem;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
-using SmartFormat.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
