@@ -92,7 +92,7 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
                 if (Projectile.Center.DistanceSQ(npc.Center) <= 5000)
                 {
                     // Apply freeze
-                    npc.AddBuff(ModContent.BuffType<FrozenEnemy>(), 120);
+                    npc.ChangeTemperature(-100, Projectile.owner);
                 }
             }
         }

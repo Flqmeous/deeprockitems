@@ -5,6 +5,7 @@ using deeprockitems.Content.Items.Weapons;
 using System.Collections.Generic;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
@@ -32,9 +33,10 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
             foreach (NPC npc in Main.npc)
             {
                 if (!npc.active || npc.friendly) { continue; }
-                if (Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, npc.Center) <= 10000)
+                if (Vector2.DistanceSquared(player.Center, npc.Center) <= 10000)
                 {
                     npc.AddBuff(BuffID.OnFire, 360);
+                    npc.ChangeTemperature(60, player.whoAmI);
                 }
             }
 
