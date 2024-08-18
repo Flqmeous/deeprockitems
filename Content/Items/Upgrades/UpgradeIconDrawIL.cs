@@ -52,9 +52,16 @@ namespace deeprockitems.Content.Items.Upgrades
 
                         if (upgrade.IndexToDrawWeapon != -1)
                         {
+                            Texture2D texture;
                             // Get texture from index of weapon to draw
-                            Texture2D texture = DRGTextures.WeaponIconography[upgrade.ValidWeapons[upgrade.IndexToDrawWeapon]].Value;
-                            texture ??= TextureAssets.Item[upgrade.ValidWeapons[upgrade.IndexToDrawWeapon]].Value;
+                            if (DRGTextures.WeaponIconography.ContainsKey(upgrade.ValidWeapons[upgrade.IndexToDrawWeapon]))
+                            { 
+                                texture = DRGTextures.WeaponIconography[upgrade.ValidWeapons[upgrade.IndexToDrawWeapon]].Value;
+                            }
+                            else
+                            {
+                                texture = TextureAssets.Item[upgrade.ValidWeapons[upgrade.IndexToDrawWeapon]].Value;
+                            }
 
                             // Get position of bottom of slot:
                             float newScale = scale * (texture.Width <= 40f ? 0.65f : 0.5f);
