@@ -215,8 +215,8 @@ namespace deeprockitems.UI
         {
             Texture2D texture = _slotID switch
             {
-                3 => DRGTextures.OverclockSlot,
-                _ => DRGTextures.UpgradeSlot,
+                3 => DRGTextures.OverclockSlot.Value,
+                _ => DRGTextures.UpgradeSlot.Value,
             };
 
             spriteBatch.Draw(texture, GetDimensions().ToRectangle(), Color.White);
