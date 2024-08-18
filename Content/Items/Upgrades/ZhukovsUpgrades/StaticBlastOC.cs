@@ -299,14 +299,14 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
                     float pixelDistance = point1.Distance(point2);
 
                     int frame = Main.rand.Next(0, 3);
-                    int frameHeight = DRGTextures.ElectricityArc.Height / 3;
-                    Rectangle sourceFrame = new(0, frame * frameHeight, DRGTextures.ElectricityArc.Width, frameHeight);
+                    int frameHeight = DRGTextures.ElectricityArc.Value.Height / 3;
+                    Rectangle sourceFrame = new(0, frame * frameHeight, DRGTextures.ElectricityArc.Value.Width, frameHeight);
 
                     // Get scale from distance between control points
                     float multiplier = pixelDistance / 48f;
 
                     // Draw
-                    Main.EntitySpriteDraw(DRGTextures.ElectricityArc, midpoint - Main.screenPosition, sourceFrame, Color.White, point1.DirectionTo(point2).ToRotation(), sourceFrame.Size() / 2f, new Vector2(multiplier, frame),SpriteEffects.None);
+                    Main.EntitySpriteDraw(DRGTextures.ElectricityArc.Value, midpoint - Main.screenPosition, sourceFrame, Color.White, point1.DirectionTo(point2).ToRotation(), sourceFrame.Size() / 2f, new Vector2(multiplier, frame),SpriteEffects.None);
                 }
             }
         }
