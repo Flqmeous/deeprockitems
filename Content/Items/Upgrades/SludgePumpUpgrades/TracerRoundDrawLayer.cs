@@ -110,7 +110,7 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
                         if ((30 + timer - ((int)Main.timeForVisualEffects % 30)) % 30 < 15)
                         {
                             // Draw the individual squares
-                            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.WhitePixel, new Rectangle((int)(computedCenter.X - Main.screenPosition.X - 0.5f * tracerWidth), (int)(computedCenter.Y - Main.screenPosition.Y - 0.5f * tracerHeight), tracerWidth, tracerHeight), playerColor));
+                            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.WhitePixel.Value, new Rectangle((int)(computedCenter.X - Main.screenPosition.X - 0.5f * tracerWidth), (int)(computedCenter.Y - Main.screenPosition.Y - 0.5f * tracerHeight), tracerWidth, tracerHeight), playerColor));
                         }
                         timer++;
 
@@ -138,12 +138,12 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
         }
         public void DrawHitSomething(ref PlayerDrawSet drawInfo, Vector2 computedCenter, float distance, float distanceMultiplier, int timer, Color playerColor)
         {
-            int hitWidth = DRGTextures.TracerHit.Width;
-            int hitHeight = DRGTextures.TracerHit.Height;
+            int hitWidth = DRGTextures.TracerHit.Value.Width;
+            int hitHeight = DRGTextures.TracerHit.Value.Height;
             float rotation = drawInfo.drawPlayer.direction * ((timer) / (distance * distanceMultiplier));
             Vector2 origin = new(hitWidth * 0.5f, hitHeight * 0.5f);
 
-            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.TracerHit, new Rectangle((int)(computedCenter.X - Main.screenPosition.X), (int)(computedCenter.Y - Main.screenPosition.Y), hitWidth, hitHeight), null, playerColor, rotation, origin, SpriteEffects.None));
+            drawInfo.DrawDataCache.Add(new DrawData(DRGTextures.TracerHit.Value, new Rectangle((int)(computedCenter.X - Main.screenPosition.X), (int)(computedCenter.Y - Main.screenPosition.Y), hitWidth, hitHeight), null, playerColor, rotation, origin, SpriteEffects.None));
             return;
         }
     }
