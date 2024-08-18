@@ -10,14 +10,14 @@ namespace deeprockitems.Assets.Textures
     public class DRGTextures : ModSystem
     {
         private static readonly string PATH = "deeprockitems/Assets/Textures/";
-        private static Texture2D RequestTexture(string fileName)
+        private static Asset<Texture2D> RequestTexture(string fileName)
         {
-            return ModContent.Request<Texture2D>(PATH + fileName, AssetRequestMode.ImmediateLoad).Value;
+            return ModContent.Request<Texture2D>(PATH + fileName, AssetRequestMode.ImmediateLoad);
         }
         public override void SetStaticDefaults()
         {
-            InventorySlot = RequestTexture("InventorySlot");
-            SlotOutline = RequestTexture("SlotOutline");
+            InventorySlot = RequestTexture("InventorySlot").Value;
+            SlotOutline = RequestTexture("SlotOutline").Value;
             Zhukovs = RequestTexture("ZhukovsHeld");
             WhitePixel = RequestTexture("WhitePixel");
             TracerHit = RequestTexture("TracerHit");
@@ -26,6 +26,11 @@ namespace deeprockitems.Assets.Textures
             UpgradeIcon = RequestTexture("UpgradeIcon");
             OverclockSlot = RequestTexture("OverclockSlot");
             StunTwinkle = RequestTexture("StunTwinkle");
+            TemperatureIndicator = RequestTexture("TemperatureIndicator");
+            CryoStatusIcon = RequestTexture("CryoStatusIcon");
+            FireStatusIcon = RequestTexture("FireStatusIcon");
+            TemperatureStatusBackground = RequestTexture("TemperatureStatusBackground");
+            TemperatureFilledMeter = RequestTexture("TemperatureFilledMeter");
 
             // Load item icons
             WeaponIconography = new();
@@ -38,15 +43,20 @@ namespace deeprockitems.Assets.Textures
         }
         public static Texture2D InventorySlot { get; private set; }
         public static Texture2D SlotOutline { get; private set; }
-        public static Texture2D Zhukovs { get; private set; }
-        public static Texture2D WhitePixel { get; private set; }
-        public static Texture2D TracerHit { get; private set; }
-        public static Texture2D ElectricityArc { get; private set; }
-        public static Texture2D UpgradeSlot { get; private set; }
-        public static Texture2D UpgradeIcon { get; private set; }
-        public static Texture2D OverclockSlot { get; private set; }
-        public static Texture2D StunTwinkle { get; private set; }
+        public static Asset<Texture2D> Zhukovs { get; private set; }
+        public static Asset<Texture2D> WhitePixel { get; private set; }
+        public static Asset<Texture2D> TracerHit { get; private set; }
+        public static Asset<Texture2D> ElectricityArc { get; private set; }
+        public static Asset<Texture2D> UpgradeSlot { get; private set; }
+        public static Asset<Texture2D> UpgradeIcon { get; private set; }
+        public static Asset<Texture2D> OverclockSlot { get; private set; }
+        public static Asset<Texture2D> StunTwinkle { get; private set; }
         public static Dictionary<int, Asset<Texture2D>> WeaponIconography { get; private set; }
+        public static Asset<Texture2D> TemperatureIndicator { get; private set; }
+        public static Asset<Texture2D> CryoStatusIcon { get; private set; }
+        public static Asset<Texture2D> FireStatusIcon { get; private set; }
+        public static Asset<Texture2D> TemperatureStatusBackground { get; private set; }
+        public static Asset<Texture2D> TemperatureFilledMeter { get; private set; }
     }
     public static class Extensions
     {
