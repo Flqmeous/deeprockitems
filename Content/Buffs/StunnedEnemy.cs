@@ -16,9 +16,14 @@ namespace deeprockitems.Content.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
+            // Half if npc is immune
+            if (npc.buffImmune[Type]) return;
             // If we hit an npc with realLife, remove buff from here and apply to the parent
             if (npc.realLife > -1 && npc.realLife != npc.whoAmI)
             {
+                // Half if npc is immune
+                if (Main.npc[npc.realLife].buffImmune[Type]) return;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Main.npc[npc.realLife].AddBuff(Type, npc.buffTime[buffIndex]);
@@ -57,9 +62,14 @@ namespace deeprockitems.Content.Buffs
             // If npc is still stunned
             if (IsStunned)
             {
+                npc.velocity.X = 0;
                 if (!npc.noGravity)
                 {
                     npc.velocity.Y += npc.gravity;
+                }
+                else
+                {
+                    npc.velocity.Y = 0;
                 }
                 return false;
             }
@@ -78,7 +88,7 @@ namespace deeprockitems.Content.Buffs
         private int _stunFrameTimer = 0;
         private int _stunFrame = 0;
         private const int _frameCount = 3;
-        public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        /*public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (IsStunned)
             {
@@ -104,6 +114,6 @@ namespace deeprockitems.Content.Buffs
             }
 
             return base.PreDraw(npc, spriteBatch, screenPos, drawColor);
-        }
+        }*/
     }
 }
