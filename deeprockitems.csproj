@@ -33,16 +33,20 @@
     <None Remove="Assets\Textures\PlasmaPistolIcon.png" />
     <None Remove="Assets\Textures\SludgePumpIcon.png" />
     <None Remove="Assets\Textures\StunTwinkle.png" />
+    <None Remove="Assets\Textures\TemperatureIndicator.png" />
     <None Remove="Assets\Textures\TracerHit.png" />
     <None Remove="Assets\Textures\UpgradeIcon.png" />
     <None Remove="Assets\Textures\UpgradeSlot.png" />
     <None Remove="Assets\Textures\WhitePixel.png" />
     <None Remove="Assets\Textures\ZhukovsHeld.png" />
     <None Remove="Assets\Textures\ZhukovsIcon.png" />
+    <None Remove="Common\Config\UIElements\SelectButton.png" />
     <None Remove="Content\Buffs\ElectrifiedEnemy.png" />
     <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
+    <None Remove="Content\Items\Upgrades\CryoCannon\CoolingIncrease.png" />
+    <None Remove="Content\Items\Upgrades\CryoCannon\StickyIce.png" />
     <None Remove="Content\Items\Upgrades\HollowPointRounds.png" />
     <None Remove="Content\Items\Upgrades\OvertunedNozzle.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\ColdPlasmaOC.png" />
@@ -61,6 +65,7 @@
     <None Remove="Content\Pets\Molly\Old\MollyFrontLegs.png" />
     <None Remove="Content\Pets\Molly\Old\MollyHindLegs.png" />
     <None Remove="Content\Pets\Molly\Old\MollyTopLegs.png" />
+    <None Remove="Content\Projectiles\CryoCannonProjectiles\IceTrail.png" />
     <None Remove="Content\Projectiles\PlasmaProjectiles\BigPlasma.png" />
     <None Remove="Content\Projectiles\ZhukovProjectiles\ElectricityArc.png" />
   </ItemGroup>
