@@ -132,7 +132,7 @@ Mods: {
 
 			WhitePhosphorus: {
 				DisplayName: Upgrade: White Phosphorus Shells
-				Tooltip: Ignites enemies that are within 10 feet of the player
+				Tooltip: Ignites nearby enemies, and makes them take more damage
 			}
 
 			JuryShotgun: {
@@ -166,8 +166,8 @@ Mods: {
 				DisplayName: Experimental Plasma Charger
 				Tooltip:
 					'''
-					'Do you eat rocks for breakfast?'
 					Hold click to fire a larger, slow moving projectile
+					'I eat rock for breakfast!'
 					'''
 			}
 
@@ -226,7 +226,7 @@ Mods: {
 
 			CryoMineletsOC: {
 				DisplayName: Overclock: Cryo Minelets
-				Tooltip: Shots will produce frostburn mines on the ground
+				Tooltip: Shots will produce freezing mines on the ground
 				Positives: "[c/23DF24:▲Frostburn mines]"
 				Negatives: ""
 			}
@@ -281,13 +281,13 @@ Mods: {
 				Tooltip: Plasma comes out fully charged and with more damage
 				Positives:
 					'''
-						[c/23DF24:▲Plasma is always fully charged]
-						[c/23DF24:▲Plasma deals more damage]
+					[c/23DF24:▲Plasma is always fully charged]
+					[c/23DF24:▲Plasma deals more damage]
 					'''
 				Negatives:
 					'''
-						[c/F01318:▼Can no longer be charged]
-						[c/F01318:▼Slower shoot speed]
+					[c/F01318:▼Can no longer be charged]
+					[c/F01318:▼Slower shoot speed]
 					'''
 			}
 
@@ -302,11 +302,40 @@ Mods: {
 				DisplayName: Upgrade: Hollow Point Rounds
 				Tooltip: Shots balloon on impact, stunning enemies
 			}
+
+			CryoCannon: {
+				DisplayName: Cryo Cannon
+				Tooltip:
+					'''
+					Shoots a stream of chilled mist that freezes enemies
+					'Fueled up and raring to go!'
+					'''
+			}
+
+			EjectionSpeed: {
+				DisplayName: Upgrade: High Pressure Chamber
+				Tooltip: Increased the initial velocity of the stream by +6.5
+			}
+
+			ColdRadiance: {
+				DisplayName: Upgrade: Cold Radiance
+				Tooltip: Automatically freezes enemies around the player
+			}
+
+			CoolingIncrease: {
+				DisplayName: Upgrade: Liquid Nitrogen Tanks
+				Tooltip: Increases the cooling rate by x1.5
+			}
+
+			StickyIce: {
+				DisplayName: Sticky Ice
+				Tooltip: ""
+			}
 		}
 
 		Misc: {
 			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
-			ValidUpgradesText: "{0} can upgrade the following weapons:"
+			ValidUpgradesText: This upgrade can be applied to the following weapons:
 			WeaponShiftTooltip: Hold Left Shift to show what weapons this upgrade can affect
 			UpgradeShiftTooltip: Hold Left Shift to show the currently equipped upgrades
 			HowToOpenMenu: Right click on this weapon to open the upgrade menu
@@ -393,6 +422,8 @@ Mods: {
 			CryoMineletProjectile.DisplayName: Cryo Minelet Projectile
 			ElectricityArc.DisplayName: Electricity Arc
 			PlasmaSplashProj.DisplayName: Plasma Splash Proj
+			CryoProjectile.DisplayName: Cryo Projectile
+			IceTrail.DisplayName: Ice Trail
 		}
 
 		Buffs: {
@@ -422,8 +453,77 @@ Mods: {
 			}
 
 			StunnedEnemy: {
-				DisplayName: Stunned Enemy
-				Description: Mods.deeprockitems.Buffs.StunnedEnemy.Description
+				DisplayName: Stunned
+				Description: You cannot move!
+			}
+		}
+
+		Configs: {
+			DRGClientConfig: {
+				DisplayName: Client Config
+				Headers.UI: User Interface
+
+				temperatureDisplaySetting: {
+					Label: Temperature Display
+					Tooltip: Which style of temperature display will be in use.
+				}
+			}
+
+			TemperatureOptions: {
+				Vanilla: {
+					Label: Vanilla
+					Tooltip: Visually identical to an enemy health bar
+				}
+
+				Fancy: {
+					Label: Fancy
+					Tooltip: Larger, but closer in style to Deep Rock Galactic
+				}
+
+				Tooltip: ""
+			}
+
+			TemperatureConfig: {
+				Tooltip: ""
+
+				SelectBox: {
+					Label: Select Box
+					Tooltip: ""
+				}
+			}
+
+			SelectBox`1: {
+				Tooltip: ""
+
+				IsExpanded: {
+					Label: Is Expanded
+					Tooltip: ""
+				}
+
+				Value: {
+					Label: Value
+					Tooltip: ""
+				}
+
+				NumberOfOptions: {
+					Label: Number Of Options
+					Tooltip: ""
+				}
+
+				TextMinHeight: {
+					Label: Text Min Height
+					Tooltip: ""
+				}
+
+				TextMinWidth: {
+					Label: Text Min Width
+					Tooltip: ""
+				}
+
+				Font: {
+					Label: Font
+					Tooltip: ""
+				}
 			}
 		}
 	}
