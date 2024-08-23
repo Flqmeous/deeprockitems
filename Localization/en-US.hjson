@@ -302,6 +302,11 @@ Mods: {
 				DisplayName: Upgrade: Hollow Point Rounds
 				Tooltip: Shots balloon on impact, stunning enemies
 			}
+
+			UpgradeStationItem: {
+				DisplayName: Upgrade Station Item
+				Tooltip: ""
+			}
 		}
 
 		Misc: {

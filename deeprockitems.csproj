@@ -43,16 +43,6 @@
     <None Remove="Content\Buffs\Haste.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
-    <None Remove="Content\Items\Upgrades\HollowPointRounds.png" />
-    <None Remove="Content\Items\Upgrades\OvertunedNozzle.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\ColdPlasmaOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\HeavyHitterOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PersistantPlasmaOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PlasmaSplash.png" />
-    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\DrumMagazine.png" />
-    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\EmbeddedDetsOC.png" />
-    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\GetInGetOut.png" />
-    <None Remove="Content\Items\Upgrades\ZhukovsUpgrades\StaticBlastOC.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
     <None Remove="Content\NPCs\MissionControl\MissionControl_Head.png" />
     <None Remove="Content\Pets\Molly\ChunkOfNitra.png" />

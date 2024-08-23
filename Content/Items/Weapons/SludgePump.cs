@@ -1,16 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using deeprockitems.Content.Projectiles.SludgeProjectile;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using System.Collections.Generic;
-using deeprockitems.Content.Items.Upgrades;
-using deeprockitems.Content.Projectiles.SludgeProjectile;
-using deeprockitems.Utilities;
-using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -36,15 +28,8 @@ namespace deeprockitems.Content.Items.Weapons
 
             Item.value = Item.sellPrice(0, 5, 30, 0);
 
-            ValidUpgrades.Add(ModContent.ItemType<AntiGravOC>());
-            ValidUpgrades.Add(ModContent.ItemType<SludgeExplosionOC>());
-            ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());
-            ValidUpgrades.Add(ModContent.ItemType<OvertunedNozzle>());
-            ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
-            ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
-
         }
-        public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<SludgeHelper>();
         }
