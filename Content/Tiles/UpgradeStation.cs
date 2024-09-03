@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using deeprockitems.UI.UpgradeUI;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -18,7 +19,18 @@ namespace deeprockitems.Content.Tiles
         }
         public override bool RightClick(int i, int j)
         {
-            return base.RightClick(i, j);
+            // Open UI
+            UpgradeSystem system = ModContent.GetInstance<UpgradeSystem>();
+            if (system.Interface.CurrentState == null)
+            {
+                Main.playerInventory = true;
+                system.Interface.SetState(system.UpgradeUIState);
+            }
+            else // Set state
+            {
+                system.Interface.SetState(null);
+            }
+            return true;
         }
     }
 }
