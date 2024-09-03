@@ -35,7 +35,11 @@ namespace deeprockitems.Assets.Textures
             WeaponIconography.Add<JuryShotgun>("JuryShotgunIcon");
             WeaponIconography.Add<PlasmaPistol>("PlasmaPistolIcon");
 
+            // Set damage icon
+            DamageIcon = RequestTexture("DamageIcon");
+
         }
+        public static Texture2D DamageIcon { get; private set; }
         public static Texture2D InventorySlot { get; private set; }
         public static Texture2D SlotOutline { get; private set; }
         public static Texture2D Zhukovs { get; private set; }
