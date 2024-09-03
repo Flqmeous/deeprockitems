@@ -58,4 +58,10 @@
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\.editorconfig" />
+  </ItemGroup>
 </Project>
