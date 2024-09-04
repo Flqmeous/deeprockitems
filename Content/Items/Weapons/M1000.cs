@@ -35,6 +35,10 @@ namespace deeprockitems.Content.Items.Weapons
             Item.value = Item.sellPrice(0, 9, 25, 0);
             Item.consumable = false;
         }
+        public float AmmoChance { get; set; } = 1f;
+        public override bool CanConsumeAmmo(Item ammo, Player player) {
+            return Main.rand.NextBool((int)(100 * AmmoChance), 100);
+        }
         public override UpgradeList InitializeUpgrades()
         {
             return new UpgradeList("M1000",
@@ -56,6 +60,11 @@ namespace deeprockitems.Content.Items.Weapons
                             if (projectile.ModProjectile is not HeldProjectileBase modProj) return;
 
                             modProj.ChargeTime = (int)(modProj.ChargeTime * 0.75f);
+                        }
+                    },
+                    new Upgrade("BiggerClip", DRGTextures.DamageIcon) {
+                        Item_ModifyStats = () => {
+                            AmmoChance = 0.5f;
                         }
                     }
                 ),
@@ -81,9 +90,9 @@ namespace deeprockitems.Content.Items.Weapons
                             projectile.penetrate = projectile.maxPenetrate = 5;
                         }
                     },
-                    new Upgrade("", DRGTextures.DamageIcon) {
+                    new Upgrade("DiggingRounds", DRGTextures.DamageIcon) {
                         Projectile_OnSpawnHook = (projectile, source) => {
-                            
+                            projectile.tileCollide = false;
                         }
                     }
                 ),
@@ -104,6 +113,7 @@ namespace deeprockitems.Content.Items.Weapons
         public override void ResetStats()
         {
             Item.damage = Item.OriginalDamage;
+            AmmoChance = 1f;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
