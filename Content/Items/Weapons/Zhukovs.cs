@@ -24,6 +24,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;
+            Item.consumeAmmoOnLastShotOnly = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTime = 9;
