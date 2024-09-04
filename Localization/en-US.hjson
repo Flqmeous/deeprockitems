@@ -244,6 +244,16 @@ Mods: {
 					DisplayName: Hollow Point Rounds
 					HoverText: Enemies will become stunned on hit
 				}
+
+				BiggerClip: {
+					DisplayName: Bigger Clip
+					HoverText: 50% ammo conservation
+				}
+
+				DiggingRounds: {
+					DisplayName: The Mole
+					HoverText: Rounds will travel through blocks
+				}
 			}
 		}
 	}
