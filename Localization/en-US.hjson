@@ -254,6 +254,11 @@ Mods: {
 					DisplayName: The Mole
 					HoverText: Rounds will travel through blocks
 				}
+
+				ArmorPiercing: {
+					DisplayName: Armor Piercing
+					HoverText: Ignores 25% of enemy defence
+				}
 			}
 		}
 	}
