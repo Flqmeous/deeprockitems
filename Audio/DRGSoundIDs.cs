@@ -1,7 +1,7 @@
 ﻿using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace deeprockitems.Assets.Sounds
+namespace deeprockitems.Audio
 {
     public class DRGSoundIDs : ModSystem
     {
