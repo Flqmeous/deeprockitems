@@ -39,6 +39,14 @@ namespace deeprockitems.Content.Projectiles
                 upgrade.Projectile_OnHitNPCHook?.Invoke(projectile, target, hit, damageDone);
             }
         }
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) {
+            foreach (var upgrade in _equippedUpgrades)
+            {
+                if (upgrade.Projectile_ModifyHitNPCHook == null) return;
+                
+                modifiers = upgrade.Projectile_ModifyHitNPCHook.Invoke(projectile, target, modifiers);
+            }
+        }
         static Upgrade[] GetEquippedUpgrades(UpgradeList upgrades)
         {
             List<Upgrade> equippedUpgrades = new();
