@@ -1,4 +1,4 @@
-﻿using deeprockitems.Assets.Sounds;
+﻿using deeprockitems.Audio;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;

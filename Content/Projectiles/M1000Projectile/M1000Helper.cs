@@ -6,7 +6,7 @@ using static System.Math;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
-using deeprockitems.Assets.Sounds;
+using deeprockitems.Audio;
 
 namespace deeprockitems.Content.Projectiles.M1000Projectile
 {

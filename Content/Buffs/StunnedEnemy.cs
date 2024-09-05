@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using deeprockitems.Assets.Textures;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
