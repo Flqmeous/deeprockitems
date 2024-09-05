@@ -33,5 +33,7 @@ namespace deeprockitems.Content.Upgrades
         public Action<Projectile, IEntitySource> Projectile_OnSpawnHook { get; set; }
         public Action<Projectile> Projectile_AIHook { get; set; }
         public Action<Projectile, NPC, NPC.HitInfo, int> Projectile_OnHitNPCHook { get; set; }
+        public delegate void ProjectileModifyHitNPC(Projectile projectile, NPC npc, NPC.HitModifiers inModifiers);
+        public Func<Projectile, NPC, NPC.HitModifiers, NPC.HitModifiers> Projectile_ModifyHitNPCHook { get; set; }
     }
 }
