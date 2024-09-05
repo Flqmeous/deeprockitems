@@ -20,10 +20,13 @@ namespace deeprockitems.UI.UpgradeUI
     public class UpgradeSelectOption : UIElement
     {
         private UpgradeTier _upgrades;
-        public UpgradeSelectOption(UpgradeTier upgrades, Upgrade upgrade)
+        public UpgradeSelectOption(UpgradeTier upgrades, Upgrade upgrade, bool unlocked = true)
         {
             Upgrade = upgrade;
             _upgrades = upgrades;
+            VerifyDrawColor();
+        }
+        public void VerifyDrawColor() {
             if (Upgrade.IsEquipped)
             {
                 DrawColor = Color.Yellow;
@@ -32,9 +35,7 @@ namespace deeprockitems.UI.UpgradeUI
             {
                 DrawColor = Color.White;
             }
-            OnLeftClick += UpgradeSelectOption_OnLeftClick;
         }
-
         private void UpgradeSelectOption_OnLeftClick(UIMouseEvent evt, UIElement listeningElement)
         {
             foreach (var upgrade in _upgrades)
