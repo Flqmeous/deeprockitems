@@ -108,7 +108,7 @@ namespace deeprockitems.Content.Items.Weapons
                     },
                     new Upgrade("HollowPointRounds", Assets.Upgrades.Stun.Value) {
                         Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
-                            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 120);
+                            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
                         }
                     }
                 )
