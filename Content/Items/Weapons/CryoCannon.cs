@@ -21,16 +21,9 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useAnimation = Item.useTime = 6;
             Item.shootSpeed = 16f;
             Item.DamageType = DamageClass.Magic;
-            ValidUpgrades.Remove(ModContent.ItemType<ArmorPierce>());
-            ValidUpgrades.Remove(ModContent.ItemType<Blowthrough>());
-            ValidUpgrades.Add(ModContent.ItemType<EjectionSpeed>());
-            ValidUpgrades.Add(ModContent.ItemType<ColdRadiance>());
-            ValidUpgrades.Add(ModContent.ItemType<CoolingIncrease>());
-            ValidUpgrades.Add(ModContent.ItemType<StickyIce>());
         }
-        public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            velocity = velocity.RotatedByRandom(MathHelper.Pi / 40);
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
+            base.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
     }
 }
