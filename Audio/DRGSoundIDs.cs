@@ -13,7 +13,7 @@ namespace deeprockitems.Audio
         
         public override void OnModLoad()
         {
-            string dir = "deeprockitems/Assets/Sounds/";
+            string dir = "deeprockitems/Audio/";
             M1000Focus = new SoundStyle(dir + "Items/M1000Focus");
             M1000Fire = new SoundStyle(dir + "Items/M1000Fire");
             SludgePumpFocus = new SoundStyle(dir + "Items/SludgePumpFocus");
