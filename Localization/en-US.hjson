@@ -1,4 +1,4 @@
-Mods: {
+﻿Mods: {
 	deeprockitems: {
 		Items: {
 			LaserPointer: {
@@ -23,116 +23,6 @@ Mods: {
 			UpgradeToken: {
 				DisplayName: Blank Upgrade Token
 				Tooltip: Can be crafted into weapon upgrades
-			}
-
-			AntiGravOC: {
-				DisplayName: Overclock: AG Mixture
-				Tooltip: Shots are no longer affected by gravity
-				Positives: "[c/23DF24:▲Sludge balls are no longer affected by gravity]"
-				Negatives: ""
-			}
-
-			ArmorPierce: {
-				DisplayName: Upgrade: Penetration Rounds
-				Tooltip: Shots ignore 10 defense
-			}
-
-			Blowthrough: {
-				DisplayName: Upgrade: Blowthrough Rounds
-				Tooltip: Shots pierce enemies
-			}
-
-			BumpFire: {
-				DisplayName: Upgrade: Bump Fire
-				Tooltip: 16% increased fire rate
-			}
-
-			DamageUpgrade: {
-				DisplayName: Upgrade: Small Damage Upgrade
-				Tooltip: +15% base damage
-			}
-
-			DiggingRoundsOC: {
-				DisplayName: Overclock: Digging Rounds
-				Tooltip: All bullets fired from this gun will pass through terrain
-				Positives: "[c/23DF24:▲Shots travel through blocks]"
-				Negatives: ""
-			}
-
-			GooSpecialOC: {
-				DisplayName: Overclock: Goo Bomber Special
-				Tooltip: Charge shots drop goo fragments as they travel, but no longer fragment on death and normal shots deal less damage
-				Positives: "[c/23DF24:▲Charge shots drop goo fragments while travelling]"
-				Negatives:
-					'''
-					[c/F01318:▼Charge shots no longer fragment on death]
-					[c/F01318:▼Normal shots deal less damage]
-					'''
-			}
-
-			HipsterOC: {
-				DisplayName: Overclock: Hipster
-				Tooltip: Increased normal shot damage, with an inability to focus
-				Positives: "[c/23DF24:▲Increased normal shot damage]"
-				Negatives: "[c/F01318:▼Inability to fire focus shots]"
-			}
-
-			PelletAlignmentOC: {
-				DisplayName: Overclock: Magnetic Pellet Alignment
-				Tooltip: Shots get tighter spread
-				Positives: "[c/23DF24:▲Tighter spread]"
-				Negatives: ""
-			}
-
-			QuickCharge: {
-				DisplayName: Upgrade: Quick Charge
-				Tooltip: 25% faster charge speed
-			}
-
-			SludgeExplosionOC: {
-				DisplayName: Overclock: Waste Ordnance
-				Tooltip: Regular shots explode on contact
-				Positives: "[c/23DF24:▲Shots explode when hitting targets]"
-				Negatives: "[c/F01318:▼Focus shots no longer fragment when destroyed]"
-			}
-
-			SpecialPowderOC: {
-				DisplayName: Overclock: Special Powder
-				Tooltip: WHEEEEEEEEE!
-				Positives: "[c/23DF24:▲Shooting propels you backward]"
-				Negatives: "[c/F01318:▼Slight damage decrease]"
-			}
-
-			StuffedShellsOC: {
-				DisplayName: Overclock: Stuffed Shells
-				Tooltip: Doubled pellet count, but lower fire rate and heavily increased spread
-				Positives: "[c/23DF24:▲Doubled pellet count]"
-				Negatives:
-					'''
-					[c/F01318:▼Lower fire rate]
-					[c/F01318:▼Heavy spread]
-					'''
-			}
-
-			SupercoolOC: {
-				DisplayName: Overclock: Supercooling Chamber
-				Tooltip: 2x focus shot damage, with slower focus speed and lower normal shot fire rate
-				Positives: "[c/23DF24:▲2x focus shot damage]"
-				Negatives:
-					'''
-					[c/F01318:▼Slower focus speed]
-					[c/F01318:▼Lower normal shot fire rate]
-					'''
-			}
-
-			TracerRounds: {
-				DisplayName: Upgrade: Visual Calculus
-				Tooltip: Shows the projectile's trajectory
-			}
-
-			WhitePhosphorus: {
-				DisplayName: Upgrade: White Phosphorus Shells
-				Tooltip: Ignites nearby enemies, and makes them take more damage
 			}
 
 			JuryShotgun: {
@@ -171,41 +61,6 @@ Mods: {
 					'''
 			}
 
-			MountainMoverOC: {
-				DisplayName: Overclock: Mountain Carver
-				Tooltip: The explosion from charged shots can destroy terrain, but the weapon will [c/DC143C:no longer] deal damage
-				Positives: "[c/23DF24:▲Plasma explosions destroy terrain]"
-				Negatives:
-					'''
-					[c/F01318:▼Plasma explosions destroy terrain]
-					[c/F01318:▼The weapon is incapable of dealing damage]
-					'''
-			}
-
-			EzBoomOC: {
-				DisplayName: Overclock: E-Z Explosion
-				Tooltip: Charged plasma will automatically explode on death
-				Positives: "[c/23DF24:▲Plasma explodes on contact with terrain or enemies]"
-				Negatives: ""
-			}
-
-			PiercingPlasmaOC: {
-				DisplayName: Overclock: Piercing Plasma
-				Tooltip: Charged shots will pass through anything, but will no longer explode
-				Positives: "[c/23DF24:▲Charged plasma will travel through blocks and enemies]"
-				Negatives: "[c/F01318:▼Charged plasma can no longer be manually detonated]"
-			}
-
-			HotPlasma: {
-				DisplayName: Upgrade: Hot Plasma
-				Tooltip: All projectiles will burn targets
-			}
-
-			OvertunedNozzle: {
-				DisplayName: Upgrade: Overtuned Nozzle
-				Tooltip: Increases the velocity of shots by 1.5x
-			}
-
 			ChunkOfNitra: {
 				DisplayName: Chunk Of Nitra
 				Tooltip:
@@ -226,7 +81,7 @@ Mods: {
 
 			CryoMineletsOC: {
 				DisplayName: Overclock: Cryo Minelets
-				Tooltip: Shots will produce freezing mines on the ground
+				Tooltip: Shots will produce frostburn mines on the ground
 				Positives: "[c/23DF24:▲Frostburn mines]"
 				Negatives: ""
 			}
@@ -281,13 +136,13 @@ Mods: {
 				Tooltip: Plasma comes out fully charged and with more damage
 				Positives:
 					'''
-					[c/23DF24:▲Plasma is always fully charged]
-					[c/23DF24:▲Plasma deals more damage]
+						[c/23DF24:▲Plasma is always fully charged]
+						[c/23DF24:▲Plasma deals more damage]
 					'''
 				Negatives:
 					'''
-					[c/F01318:▼Can no longer be charged]
-					[c/F01318:▼Slower shoot speed]
+						[c/F01318:▼Can no longer be charged]
+						[c/F01318:▼Slower shoot speed]
 					'''
 			}
 
@@ -312,30 +167,9 @@ Mods: {
 					'''
 			}
 
-			EjectionSpeed: {
-				DisplayName: Upgrade: High Pressure Chamber
-				Tooltip: Increased the initial velocity of the stream by +6.5
-			}
-
-			ColdRadiance: {
-				DisplayName: Upgrade: Cold Radiance
-				Tooltip: Automatically freezes enemies around the player
-			}
-
-			CoolingIncrease: {
-				DisplayName: Upgrade: Liquid Nitrogen Tanks
-				Tooltip: Increases the cooling rate by x1.5
-			}
-
-			StickyIce: {
-				DisplayName: Sticky Ice
-				Tooltip: ""
-			}
-		}
-
 		Misc: {
 			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
-			ValidUpgradesText: This upgrade can be applied to the following weapons:
+			ValidUpgradesText: "{0} can upgrade the following weapons:"
 			WeaponShiftTooltip: Hold Left Shift to show what weapons this upgrade can affect
 			UpgradeShiftTooltip: Hold Left Shift to show the currently equipped upgrades
 			HowToOpenMenu: Right click on this weapon to open the upgrade menu
@@ -438,13 +272,13 @@ Mods: {
 			}
 
 			FrozenEnemy: {
-				DisplayName: Frozen
-				Description: You are frozen!
+				DisplayName: Frozen (Enemy)
+				Description: You're extremely fragile!
 			}
 
 			ElectrifiedEnemy: {
-				DisplayName: Electrified Enemy
-				Description: You are losing life
+				DisplayName: Electrified (Enemy)
+				Description: Losing lots of life
 			}
 
 			Haste: {
@@ -453,76 +287,61 @@ Mods: {
 			}
 
 			StunnedEnemy: {
-				DisplayName: Stunned
+				DisplayName: Stunned Enemy
 				Description: You cannot move!
 			}
 		}
 
-		Configs: {
-			DRGClientConfig: {
-				DisplayName: Client Config
-				Headers.UI: User Interface
-
-				temperatureDisplaySetting: {
-					Label: Temperature Display
-					Tooltip: Which style of temperature display will be in use.
-				}
-			}
-
-			TemperatureOptions: {
-				Vanilla: {
-					Label: Vanilla
-					Tooltip: Visually identical to an enemy health bar
+		Upgrades: {
+			M1000: {
+				DamageUpgrade: {
+					DisplayName: High-Cal Bullets
+					HoverText: Increases damage by 15%
 				}
 
-				Fancy: {
-					Label: Fancy
-					Tooltip: Larger, but closer in style to Deep Rock Galactic
+				BumpFire: {
+					DisplayName: Bump Stock
+					HoverText: Increases fire rate by 25%
 				}
 
-				Tooltip: ""
-			}
-
-			TemperatureConfig: {
-				Tooltip: ""
-
-				SelectBox: {
-					Label: Select Box
-					Tooltip: ""
-				}
-			}
-
-			SelectBox`1: {
-				Tooltip: ""
-
-				IsExpanded: {
-					Label: Is Expanded
-					Tooltip: ""
+				QuickCharge: {
+					DisplayName: Quick-Charge Coils
+					HoverText: Reduces total charge time by 25%
 				}
 
-				Value: {
-					Label: Value
-					Tooltip: ""
+				FocusDamage: {
+					DisplayName: Pin-Point Sights
+					HoverText: Increases focus damage by 50%
 				}
 
-				NumberOfOptions: {
-					Label: Number Of Options
-					Tooltip: ""
+				Blowthrough: {
+					DisplayName: Blowthrough Rounds
+					HoverText: Shots can penetrate 5 total enemies
 				}
 
-				TextMinHeight: {
-					Label: Text Min Height
-					Tooltip: ""
+				IncendiaryRounds: {
+					DisplayName: Incendiary Rounds
+					HoverText: Enemies will become ignited on hit
 				}
 
-				TextMinWidth: {
-					Label: Text Min Width
-					Tooltip: ""
+				HollowPointRounds: {
+					DisplayName: Hollow Point Rounds
+					HoverText: Enemies will become stunned on hit
 				}
 
-				Font: {
-					Label: Font
-					Tooltip: ""
+				BiggerClip: {
+					DisplayName: Bigger Clip
+					HoverText: 50% ammo conservation
+				}
+
+				DiggingRounds: {
+					DisplayName: The Mole
+					HoverText: Rounds will travel through blocks
+				}
+
+				ArmorPiercing: {
+					DisplayName: Armor Piercing
+					HoverText: Ignores 25% of enemy defence
 				}
 			}
 		}

@@ -6,18 +6,12 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using System.Collections.Generic;
 using Terraria.ModLoader.IO;
-using deeprockitems.UI;
-using deeprockitems.Content.Items.Upgrades;
-using deeprockitems.Utilities;
-using deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades;
 using System;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public class JuryShotgun : UpgradeableItemTemplate
     {
-        public int oldFireRate = 0;
-        public int newFireRate = 0;
         public override void NewSetDefaults()
         {
             Item.CloneDefaults(ItemID.Boomstick);
@@ -27,15 +21,6 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useTime = 45;
             Item.useAnimation = 45;
             Item.value = Item.sellPrice(0, 3, 0, 0);
-
-            oldFireRate = Item.useTime;
-
-            ValidUpgrades.Add(ModContent.ItemType<PelletAlignmentOC>());
-            ValidUpgrades.Add(ModContent.ItemType<SpecialPowderOC>());
-            ValidUpgrades.Add(ModContent.ItemType<StuffedShellsOC>());
-            ValidUpgrades.Add(ModContent.ItemType<HollowPointRounds>());
-            ValidUpgrades.Add(ModContent.ItemType<WhitePhosphorus>());
-            ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
         }
         /// <summary>
         /// The multiplier given to the number of projectiles this shotgun shoots.
@@ -49,13 +34,7 @@ namespace deeprockitems.Content.Items.Weapons
         /// The lower bound of the shotgun velocity
         /// </summary>
         public float VelocityLowerBound { get; set; } = 0.8f;
-        public override void ResetStats()
-        {
-            ProjectileMultiplier = 1f;
-            SpreadMultiplier = 1f;
-            VelocityLowerBound = 0.8f;
-        }
-        public override bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Change player's direction to face the cursor
             if (Main.MouseWorld.X > player.Center.X)

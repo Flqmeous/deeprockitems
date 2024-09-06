@@ -1,14 +1,9 @@
 ﻿using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 using static System.Math;
-using Microsoft.Xna.Framework;
-using deeprockitems.Content.Items.Weapons;
-using Terraria.DataStructures;
-using deeprockitems.Utilities;
-using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -33,24 +28,14 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnSpawn(IEntitySource source)
         {
-            /*if (source is EntitySource_ItemUse { Item.ModItem: SludgePump item })
-            {
-                parentItem = item;
-            }*/
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[1] > 900f)
-            {
-                Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
-            }
+
 
         }
         public override void AI()
         {
-            if (!(Projectile.ai[2] == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
+            if (Projectile.velocity.Y <= 30f) // Set gravity cap
             {
-                if (Projectile.velocity.Y <= 30f) // Set gravity cap
-                {
-                    Projectile.velocity.Y += .5f;
-                }
+                Projectile.velocity.Y += .5f;
             }
 
             Projectile.rotation += Projectile.velocity.X / 100;

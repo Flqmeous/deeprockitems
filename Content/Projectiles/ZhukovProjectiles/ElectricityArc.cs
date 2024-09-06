@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using deeprockitems.Assets.Textures;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using deeprockitems.Content.Buffs;
@@ -50,7 +49,7 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
         private Rectangle GetFrame => new Rectangle(0, Projectile.frame * frameHeight, frameWidth, frameHeight);
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.EntitySpriteDraw(DRGTextures.ElectricityArc.Value, Projectile.position - Main.screenPosition, GetFrame, Color.White, Projectile.rotation, new Vector2(frameWidth / 2f, frameHeight / 2f), DynamicScale, SpriteEffects.None);
+            Main.EntitySpriteDraw(Assets.ElectricityArc.Value, Projectile.position - Main.screenPosition, GetFrame, Color.White, Projectile.rotation, new Vector2(frameWidth / 2f, frameHeight / 2f), DynamicScale, SpriteEffects.None);
             return false;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

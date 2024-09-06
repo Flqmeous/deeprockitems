@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
 using System;
-using deeprockitems.Assets.Textures;
 
 namespace deeprockitems.Common.PlayerLayers
 {

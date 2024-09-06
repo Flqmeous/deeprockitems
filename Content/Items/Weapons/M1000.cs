@@ -1,18 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.GameContent.Creative;
-using Terraria.ModLoader;
-using static System.Math;
-using deeprockitems.Content.Items.Upgrades;
-using deeprockitems.Content.Projectiles.M1000Projectile;
-using deeprockitems.Utilities;
-using Terraria.DataStructures;
+﻿using deeprockitems.Content.Buffs;
 using deeprockitems.Content.Projectiles;
-using System;
-using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.M1000Upgrades;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
+using deeprockitems.Content.Projectiles.M1000Projectile;
+using deeprockitems.Content.Upgrades;
+using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -38,20 +33,93 @@ namespace deeprockitems.Content.Items.Weapons
             Item.rare = ItemRarityID.Pink;
             Item.value = Item.sellPrice(0, 9, 25, 0);
             Item.consumable = false;
-
-
-
-            ValidUpgrades.Add(ModContent.ItemType<HipsterOC>());
-            ValidUpgrades.Add(ModContent.ItemType<DiggingRoundsOC>());
-            ValidUpgrades.Add(ModContent.ItemType<SupercoolOC>());
-            ValidUpgrades.Add(ModContent.ItemType<HollowPointRounds>());
-            ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
-            ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
-
-
-            
         }
-        public override void ModifyShootPrimaryUse(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public float AmmoChance { get; set; } = 1f;
+        public override bool CanConsumeAmmo(Item ammo, Player player) {
+            return Main.rand.NextBool((int)(100 * AmmoChance), 100);
+        }
+        public override UpgradeList InitializeUpgrades() {
+            return new UpgradeList("M1000",
+                new UpgradeTier(1,
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
+                        Item_ModifyStats = () => {
+                            Item.damage = (int)(Item.OriginalDamage * 1.15f);
+                        }
+                    },
+                    new Upgrade("BumpFire", Assets.Upgrades.FireRate.Value) {
+                        Item_ModifyStats = () => {
+                            Item.useTime = Item.useAnimation = (int)(Item.useTime * 0.66f);
+                        }
+                    }
+                ),
+                new UpgradeTier(2,
+                    new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
+                        Projectile_OnSpawnHook = (projectile, source) => {
+                            if (projectile.ModProjectile is not HeldProjectileBase modProj) return;
+
+                            modProj.ChargeTime = (int)(modProj.ChargeTime * 0.75f);
+                        }
+                    },
+                    new Upgrade("BiggerClip", Assets.Upgrades.FireRate.Value) {
+                        Item_ModifyStats = () => {
+                            AmmoChance = 0.5f;
+                        }
+                    }
+                ),
+                new UpgradeTier(3,
+                    new Upgrade("FocusDamage", Assets.Upgrades.Focus.Value) {
+                        Projectile_OnSpawnHook = (projectile, source) => {
+                            if (source is not EntitySource_FromHeldProjectile newSource) return;
+
+                            if (newSource.SourceProjectile.Projectile.timeLeft >= newSource.SourceProjectile.ProjectileTime) return;
+
+                            projectile.damage = (int)(projectile.damage * 1.5f);
+                        } 
+                    },
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
+                        Item_ModifyStats = () => {
+                            Item.damage = (int)(Item.damage * 1.15f);
+                        }
+                    },
+                    new Upgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak.Value) {
+                        Projectile_ModifyHitNPCHook = (projectile, npc, inModifiers) => {
+                            inModifiers.ScalingArmorPenetration += 0.25f;
+                            return inModifiers;
+                        }
+                    }
+                ),
+                new UpgradeTier(4,
+                    new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
+                        Projectile_OnSpawnHook = (projectile, source) => {
+                            projectile.penetrate = projectile.maxPenetrate = 5;
+                        }
+                    },
+                    new Upgrade("DiggingRounds", Assets.Upgrades.Penetrate.Value) {
+                        Projectile_OnSpawnHook = (projectile, source) => {
+                            projectile.tileCollide = false;
+                        }
+                    }
+                ),
+                new UpgradeTier(5,
+                    new Upgrade("IncendiaryRounds", Assets.Upgrades.Heat.Value) {
+                        Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
+                            target.AddBuff(BuffID.OnFire3, 120);    
+                        }
+                    },
+                    new Upgrade("HollowPointRounds", Assets.Upgrades.Stun.Value) {
+                        Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
+                            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+                        }
+                    }
+                )
+            );
+        }
+        public override void ResetStats()
+        {
+            Item.damage = Item.OriginalDamage;
+            AmmoChance = 1f;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             // Store the projectile that would've been shot.
             original_projectile = type;
@@ -59,7 +127,7 @@ namespace deeprockitems.Content.Items.Weapons
             // Set type to be the "helper" projectile.
             type = ModContent.ProjectileType<M1000Helper>();
         }
-        public override bool ShootPrimaryUse(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback);
             if (proj.ModProjectile is HeldProjectileBase modProj)
@@ -95,10 +163,6 @@ namespace deeprockitems.Content.Items.Weapons
             .AddRecipeGroup(nameof(ItemID.CobaltBar), 20)
             .AddIngredient(ItemID.SoulofNight, 15)
             .Register();
-        }
-        public override void ResetStats()
-        {
-            Item.channel = true;
         }
     }
 }

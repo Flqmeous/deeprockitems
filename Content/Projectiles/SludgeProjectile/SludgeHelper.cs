@@ -1,14 +1,8 @@
-﻿using Terraria;
-using deeprockitems.Content.Items.Upgrades;
-using Terraria.ModLoader;
+﻿using deeprockitems.Audio;
+using Terraria;
 using Terraria.Audio;
+using Terraria.ModLoader;
 using static System.Math;
-using Microsoft.Xna.Framework;
-using deeprockitems.Content.Items.Weapons;
-using Terraria.DataStructures;
-using static Humanizer.In;
-using deeprockitems.Assets.Sounds;
-using Terraria.ID;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {

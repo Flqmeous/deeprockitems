@@ -1,11 +1,8 @@
-﻿using Terraria.ModLoader;
-using Terraria;
-using Terraria.DataStructures;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
-using deeprockitems.Content.Items.Weapons;
+﻿using deeprockitems.Content.Buffs;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
-using deeprockitems.Content.Buffs;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {

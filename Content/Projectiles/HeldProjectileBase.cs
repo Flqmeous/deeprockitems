@@ -1,20 +1,13 @@
 ﻿using deeprockitems.Content.Items.Weapons;
-using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static System.Math;
-using System.Reflection.Metadata;
-using Terraria.GameContent;
-using Microsoft.Xna.Framework;
-using static Humanizer.In;
-using Terraria.ID;
-using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.M1000Upgrades;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
-using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles;
 /// <summary>
@@ -75,19 +68,10 @@ public abstract class HeldProjectileBase : ModProjectile
                 Cooldown = parent_weapon.Item.useTime;
             }
             sourceItem = parent_weapon.Item;
-            if (parent_weapon.Upgrades.Contains(ModContent.ItemType<QuickCharge>()))
-            {
-                ChargeTime *= .75f;
-            }
-            if (parent_weapon.Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
-            {
-                ChargeTime *= 1.33f;
-            }
             if (source is EntitySource_ItemUse_WithAmmo { AmmoItemIdUsed: int ammo})
             {
                 ammoUsed = ammo;
             }
-            Projectile.ai[2] = parent_weapon.Overclock;
         }
         Projectile.timeLeft = (int)ProjectileTime + (int)ChargeTime; // Set timeleft to be 15 seconds + time it takes to charge the projectile
         SpecialOnSpawn(source);
@@ -172,7 +156,7 @@ public abstract class HeldProjectileBase : ModProjectile
 
                 Vector2 adjusted_speed = velocity.RotatedByRandom(Spread);
 
-                Projectile proj = Projectile.NewProjectileDirect(projectileOwner.GetSource_ItemUse_WithPotentialAmmo(sourceItem, ammoUsed), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI, ai0: 0f, ai1: timeLeft, ai2: Projectile.ai[2]);
+                Projectile proj = Projectile.NewProjectileDirect(new EntitySource_FromHeldProjectile(projectileOwner, sourceItem, ammoUsed, this), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI);
                 // Make sure projectile is _right_ on the center
                 proj.Center = projectileOwner.Center;
 
@@ -235,4 +219,8 @@ public abstract class HeldProjectileBase : ModProjectile
         player.ChangeDir(-1);
 
     }
+}
+public class EntitySource_FromHeldProjectile(Player player, Item item, int ammoItemID, HeldProjectileBase projectile, string context = null) : EntitySource_ItemUse_WithAmmo(player, item, ammoItemID, context)
+{
+    public HeldProjectileBase SourceProjectile { get => projectile; }
 }
