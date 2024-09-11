@@ -6,6 +6,7 @@ using static System.Math;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
+using deeprockitems.Audio;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -35,7 +36,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .2f }, Projectile.position);
+            SoundEngine.PlaySound(DRGSoundIDs.SludgeBallHit with { Volume = .2f }, Projectile.position);
             for (int i = 0; i < 2; i++)
             {
                 int dust = Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(.9f, 1.1f));
