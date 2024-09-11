@@ -1,4 +1,4 @@
-﻿using deeprockitems.Content.Items.Weapons;
+﻿using deeprockitems.Content.Items;
 using deeprockitems.Content.Upgrades;
 using System.Collections.Generic;
 using Terraria;
@@ -15,7 +15,7 @@ namespace deeprockitems.Content.Projectiles
         {
             if (source is not EntitySource_ItemUse newSource) return;
 
-            if (newSource.Item.ModItem is not UpgradeableItemTemplate modItem) return;
+            if (newSource.Item.ModItem is not IUpgradable modItem) return;
 
             // Get list of equipped upgrades
             _equippedUpgrades = GetEquippedUpgrades(modItem.UpgradeMasterList);
@@ -40,6 +40,8 @@ namespace deeprockitems.Content.Projectiles
             }
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) {
+            // First of all, disable damage variance. Evil!
+            modifiers.DamageVariationScale *= 0f;
             foreach (var upgrade in _equippedUpgrades)
             {
                 if (upgrade.Projectile_ModifyHitNPCHook == null) return;
