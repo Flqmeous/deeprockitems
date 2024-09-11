@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Weapons
 {
-    public class M1000 : UpgradeableItemTemplate
+    public class M1000 : UpgradableWeapon
     {
         private int original_projectile;
         public override void NewSetDefaults()
@@ -89,21 +89,21 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 ),
                 new UpgradeTier(4,
-                    new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
-                        Projectile_OnSpawnHook = (projectile, source) => {
-                            projectile.penetrate = projectile.maxPenetrate = 5;
-                        }
-                    },
                     new Upgrade("DiggingRounds", Assets.Upgrades.Penetrate.Value) {
                         Projectile_OnSpawnHook = (projectile, source) => {
                             projectile.tileCollide = false;
                         }
+                    },
+                    new Upgrade("IncendiaryRounds", Assets.Upgrades.Heat.Value) {
+                        Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
+                            target.AddBuff(BuffID.OnFire3, 120);
+                        }
                     }
                 ),
                 new UpgradeTier(5,
-                    new Upgrade("IncendiaryRounds", Assets.Upgrades.Heat.Value) {
-                        Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
-                            target.AddBuff(BuffID.OnFire3, 120);    
+                    new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
+                        Projectile_OnSpawnHook = (projectile, source) => {
+                            projectile.penetrate = projectile.maxPenetrate = 5;
                         }
                     },
                     new Upgrade("HollowPointRounds", Assets.Upgrades.Stun.Value) {
