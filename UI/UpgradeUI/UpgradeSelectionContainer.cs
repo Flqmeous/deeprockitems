@@ -1,12 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent.UI.Elements;
 using System.Linq;
-using Terraria.GameContent;
-using deeprockitems.Content.Items.Weapons;
+using deeprockitems.Content.Items;
 using deeprockitems.Content.Upgrades;
 
 namespace deeprockitems.UI.UpgradeUI
@@ -45,7 +40,7 @@ namespace deeprockitems.UI.UpgradeUI
             option.Upgrade.IsEquipped = !option.Upgrade.IsEquipped;
             option.VerifyDrawColor();
             // Verify stat changes
-            (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.ParentSlot.ItemInSlot.ModItem as UpgradeableItemTemplate).VerifyUpgrades();
+            (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.ParentSlot.ItemInSlot.ModItem as IUpgradable).VerifyUpgrades();
         }
 
         public void SetUpgrades(UpgradeList upgrades)

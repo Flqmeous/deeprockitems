@@ -1,12 +1,7 @@
-﻿using deeprockitems.Content.Items.Weapons;
+﻿using deeprockitems.Content.Items;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -46,7 +41,7 @@ namespace deeprockitems.UI.UpgradeUI
                 }
             }
             Upgrade.IsEquipped = !Upgrade.IsEquipped;
-            (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.ParentSlot.ItemInSlot.ModItem as UpgradeableItemTemplate).VerifyUpgrades();
+            (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.ParentSlot.ItemInSlot.ModItem as IUpgradable).VerifyUpgrades();
             if (Upgrade.IsEquipped)
             {
                 DrawColor = Color.Yellow;
