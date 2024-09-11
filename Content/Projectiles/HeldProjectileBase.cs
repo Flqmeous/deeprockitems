@@ -1,7 +1,7 @@
-﻿using deeprockitems.Content.Items.Weapons;
+﻿using deeprockitems.Content.Items;
+using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -47,6 +47,7 @@ public abstract class HeldProjectileBase : ModProjectile
     /// The time that this projectile will live for after reaching
     /// </summary>
     public virtual int ProjectileTime { get; set; } = 15*60;
+    public bool HasReachedFullCharge { get; set; } = false;
     public override void SetDefaults()
     {
         Projectile.height = 2;
@@ -61,7 +62,7 @@ public abstract class HeldProjectileBase : ModProjectile
         projectileOwner = Main.player[Projectile.owner];
 
         // Check for upgrades. Due to my new backend, we don't have to check if this upgrade is valid! So we can run this on any item.
-        if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate parent_weapon} )
+        if (source is EntitySource_ItemUse { Item.ModItem: UpgradableWeapon parent_weapon} )
         {
             if (Cooldown is null)
             {
@@ -88,6 +89,7 @@ public abstract class HeldProjectileBase : ModProjectile
             Projectile.Center = projectileOwner.Center;
             if (Projectile.timeLeft == ProjectileTime) // Projectile has been charged, I repeat, projectile has been charged
             {
+                HasReachedFullCharge = true;
                 WhenReachedFullCharge();
                 if (ChargeSound is not null)
                 {
@@ -160,14 +162,15 @@ public abstract class HeldProjectileBase : ModProjectile
                 // Make sure projectile is _right_ on the center
                 proj.Center = projectileOwner.Center;
 
-
                 // Make sure the projectile goes the right direction after charging
-
                 proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - (float)PI / 2; // No sideways projectiles!
 
+                // Modify projectile after spawning
+                ModifyProjectileAfterSpawning(proj);
             }
         }
     }
+    public virtual void ModifyProjectileAfterSpawning(Projectile projectile) { }
     /// <summary>
     /// Allows special behavior when the projectile is killed. Return false to override the base class' code.
     /// </summary>
