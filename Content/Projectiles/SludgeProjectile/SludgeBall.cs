@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using deeprockitems.Audio;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -9,9 +10,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeBall : ModProjectile
     {
+        public bool ShouldSplatter { get; set; } = false;
         float GooTimer = 5f;
-
-        public bool CancelBaseKill = false;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -42,42 +42,20 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.ai[1] <= 900 && Projectile.ai[0] > 0)
-            {
-                target.AddBuff(BuffID.Venom, 300);
-            }
-            else
-            {
-                target.AddBuff(BuffID.Venom, 150);
-            }
-
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            if (info.PvP)
-            {
-                if (Projectile.ai[1] == 1)
-                {
-                    target.AddBuff(BuffID.Venom, 150);
-                }
-                else
-                {
-                    target.AddBuff(BuffID.Venom, 75);
-                }
-            }
+            target.AddBuff(BuffID.Venom, 150);
         }
         public override void OnKill(int timeLeft)
         {
             // Hit effects, dusts, sound
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);
+            SoundEngine.PlaySound(DRGSoundIDs.SludgeBallHit with { Volume = .3f }, Projectile.position);
             for (int i = 0; i < 12; i++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
 
             // Check if projectile should splatter
-            if (!CancelBaseKill && Projectile.ai[1] <= 900 && Projectile.ai[1] > 0 && Main.myPlayer == Projectile.owner)
+            if (ShouldSplatter && Main.myPlayer == Projectile.owner)
             {
                 for (int i = 0; i < 10; i++)
                 {
