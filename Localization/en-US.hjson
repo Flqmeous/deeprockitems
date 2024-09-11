@@ -1,4 +1,4 @@
-﻿Mods: {
+Mods: {
 	deeprockitems: {
 		Items: {
 			LaserPointer: {
@@ -79,85 +79,6 @@
 					'''
 			}
 
-			CryoMineletsOC: {
-				DisplayName: Overclock: Cryo Minelets
-				Tooltip: Shots will produce frostburn mines on the ground
-				Positives: "[c/23DF24:▲Frostburn mines]"
-				Negatives: ""
-			}
-
-			EmbeddedDetsOC: {
-				DisplayName: Overclock: Embedded Detonators
-				Tooltip: Shots will lodge remote bombs in enemies which explode with right click
-				Positives: "[c/23DF24:▲Detonators embed on hit]"
-				Negatives:
-					'''
-					[c/F01318:▼0.75x direct damage]
-					[c/F01318:▼0.75x fire rate]
-					'''
-			}
-
-			StaticBlastOC: {
-				DisplayName: Overclock: Static Blast
-				Tooltip: Bullets will arc electricity between them
-				Positives: "[c/23DF24:▲Electricity arcs between bullets]"
-				Negatives: "[c/F01318:▼Bullets shoot at the same time with wide spread]"
-			}
-
-			DrumMagazine: {
-				DisplayName: Upgrade: Drum Magazine
-				Tooltip: Each gun shoots 2 bullets per volley
-			}
-
-			GetInGetOut: {
-				DisplayName: Upgrade: Get In, Get Out
-				Tooltip: Grants a speed boost after killing an enemy
-			}
-
-			ThinContainmentField: {
-				DisplayName: Upgrade: Thin Containment Field
-				Tooltip: Charged projectiles 'pop' when struck by an uncharged projectile
-			}
-
-			PlasmaSplash: {
-				DisplayName: Upgrade: Plasma Splash
-				Tooltip: Uncharged plasma will damage in a small area of effect
-			}
-
-			ColdPlasmaOC: {
-				DisplayName: Overclock: Cold Plasma
-				Tooltip: Plasma will inflict freeze or frostburn, dependent on the charge time.
-				Positives: "[c/23DF24:▲Plasma inflicts freeze and frostburn]"
-				Negatives: "[c/F01318:▼Plasma moves slower]"
-			}
-
-			HeavyHitterOC: {
-				DisplayName: Overclock: Heavy Hitter
-				Tooltip: Plasma comes out fully charged and with more damage
-				Positives:
-					'''
-						[c/23DF24:▲Plasma is always fully charged]
-						[c/23DF24:▲Plasma deals more damage]
-					'''
-				Negatives:
-					'''
-						[c/F01318:▼Can no longer be charged]
-						[c/F01318:▼Slower shoot speed]
-					'''
-			}
-
-			PersistantPlasmaOC: {
-				DisplayName: Overclock: Persistant Plasma
-				Tooltip: Charged plasma will explode and linger for 5 seconds on death
-				Positives: "[c/23DF24:▲Plasma persists on death]"
-				Negatives: ""
-			}
-
-			HollowPointRounds: {
-				DisplayName: Upgrade: Hollow Point Rounds
-				Tooltip: Shots balloon on impact, stunning enemies
-			}
-
 			CryoCannon: {
 				DisplayName: Cryo Cannon
 				Tooltip:
@@ -166,6 +87,12 @@
 					'Fueled up and raring to go!'
 					'''
 			}
+
+			UpgradeStationItem: {
+				DisplayName: Upgrade Station Item
+				Tooltip: ""
+			}
+		}
 
 		Misc: {
 			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
@@ -344,6 +271,43 @@
 					HoverText: Ignores 25% of enemy defence
 				}
 			}
+
+			JuryShotgun: {
+				MorePellets: {
+					DisplayName: MorePellets
+					HoverText: Hover text
+				}
+
+				DamageUpgrade: {
+					DisplayName: DamageUpgrade
+					HoverText: Hover text
+				}
+
+				BiggerClip: {
+					DisplayName: BiggerClip
+					HoverText: Hover text
+				}
+			}
 		}
+
+		Configs: {
+			DRGClientConfig: {
+				DisplayName: D R G Client Config
+				Headers.UI: U I Header
+
+				temperatureDisplaySetting: {
+					Label: temperature Display Setting
+					Tooltip: ""
+				}
+			}
+
+			TemperatureOptions: {
+				Tooltip: ""
+				Vanilla.Label: Vanilla
+				Fancy.Label: Fancy
+			}
+		}
+
+		DamageClasses.DRGDamageClass.DisplayName: nitrous damage
 	}
 }
