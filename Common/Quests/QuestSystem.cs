@@ -131,6 +131,7 @@ namespace deeprockitems.Common.Quests
             // EMERGENCY ONLY: Generate quest if all is null:
             if (CurrentQuest is null)
             {
+                RecalculateQuests();
                 GenerateQuest();
             }
             // Save the world's current quest data
@@ -175,6 +176,9 @@ namespace deeprockitems.Common.Quests
                 }
                 modPlayer.ActiveQuest = null;
             }
+            // Post launch bug fix!!!
+            if (Quests is null) return;
+
             // Generate quest
             int questType = Main.rand.Next(1, 4);
             QuestCollection questsToChooseFrom = Quests.Where(q => ((int)q.QuestType == questType) && q.Predicate);
