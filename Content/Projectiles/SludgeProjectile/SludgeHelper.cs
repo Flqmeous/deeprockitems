@@ -16,5 +16,10 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             Projectile.damage = (int)Floor(Projectile.damage * 1.75f);
         }
+        public override void ModifyProjectileAfterSpawning(Projectile projectile) {
+            if (!HasReachedFullCharge) return;
+
+            (projectile.ModProjectile as SludgeBall).ShouldSplatter = true;
+        }
     }
 }
