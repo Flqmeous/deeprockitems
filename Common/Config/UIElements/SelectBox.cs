@@ -234,7 +234,6 @@ using Terraria.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.Config.UI;
-using deeprockitems.Assets.Textures;
 using ReLogic.Graphics;
 using Terraria.Localization;
 using Terraria.GameContent;

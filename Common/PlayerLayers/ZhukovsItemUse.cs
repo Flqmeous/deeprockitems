@@ -16,7 +16,7 @@ namespace deeprockitems.Common.PlayerLayers
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
             if (drawInfo.drawPlayer.JustDroppedAnItem) return;
             if (drawInfo.shadow != 0f) return;
-            if (DRGTextures.Zhukovs is null) return;
+            if (Assets.ZhukovsHeld is null) return;
 
             // Set Draw Info defaults
             drawInfo.heldItem = drawInfo.drawPlayer.HeldItem; // Make sure that the held item is updated
@@ -29,7 +29,7 @@ namespace deeprockitems.Common.PlayerLayers
                 // This is where the item will be drawed from
                 Vector2 itemPosition = drawInfo.drawPlayer.itemLocation - Main.screenPosition;
                 // This is the frame of the zhukov's sprite
-                Rectangle frame = new Rectangle(0, 0, DRGTextures.Zhukovs.Value.Width, DRGTextures.Zhukovs.Value.Height);
+                Rectangle frame = new Rectangle(0, 0, Assets.ZhukovsHeld.Value.Width, Assets.ZhukovsHeld.Value.Height);
                 // Is just item rotation
                 float rotation = drawInfo.drawPlayer.itemRotation;
                 // X offset used for the player's direction
@@ -39,8 +39,8 @@ namespace deeprockitems.Common.PlayerLayers
                 // Rotation origin, this must be shifted if the player's direction changes.
                 Vector2 drawOrigin = new Vector2((int)xOffset, (int)(frame.Height * 4/5));
 
-                DrawData zhukovsFrontLayer = new DrawData(DRGTextures.Zhukovs.Value, new Vector2((int)itemPosition.X, (int)itemPosition.Y + yOffset), frame, drawInfo.itemColor, rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
-                DrawData zhukovsBackLayer = new DrawData(DRGTextures.Zhukovs.Value, new Vector2((int)itemPosition.X - (drawInfo.drawPlayer.direction * 8f), (int)itemPosition.Y + yOffset), frame, new Color(drawInfo.itemColor.ToVector3() * 0.75f), rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
+                DrawData zhukovsFrontLayer = new DrawData(Assets.ZhukovsHeld.Value, new Vector2((int)itemPosition.X, (int)itemPosition.Y + yOffset), frame, drawInfo.itemColor, rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
+                DrawData zhukovsBackLayer = new DrawData(Assets.ZhukovsHeld.Value, new Vector2((int)itemPosition.X - (drawInfo.drawPlayer.direction * 8f), (int)itemPosition.Y + yOffset), frame, new Color(drawInfo.itemColor.ToVector3() * 0.75f), rotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect);
                 drawInfo.DrawDataCache.Add(zhukovsBackLayer);
                 drawInfo.DrawDataCache.Add(zhukovsFrontLayer);
 

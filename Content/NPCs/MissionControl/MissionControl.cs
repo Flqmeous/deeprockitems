@@ -40,6 +40,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 Direction = 1
             };
 
+
             NPC.Happiness
                 .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love) // Loves space!
                 .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like) // Likes the underground

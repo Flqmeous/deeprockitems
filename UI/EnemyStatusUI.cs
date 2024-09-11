@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using deeprockitems.Content.Buffs;
-using deeprockitems.Assets.Textures;
 using Terraria.DataStructures;
 using System;
 using Terraria.ID;
@@ -75,11 +74,11 @@ namespace deeprockitems.UI
 
             yPos -= 10f;
             
-            Vector2 adjustedDrawPos = new Vector2(xPos, yPos) - 0.5f * DRGTextures.StunTwinkle.Size();
-            int frameHeight = DRGTextures.StunTwinkle.Value.Height / FRAME_COUNT;
-            Rectangle frame = new Rectangle(0, _stunFrame * frameHeight, DRGTextures.StunTwinkle.Value.Width, frameHeight);
+            Vector2 adjustedDrawPos = new Vector2(xPos, yPos) - 0.5f * Assets.StunTwinkle.Size();
+            int frameHeight = Assets.StunTwinkle.Value.Height / FRAME_COUNT;
+            Rectangle frame = new Rectangle(0, _stunFrame * frameHeight, Assets.StunTwinkle.Value.Width, frameHeight);
             // Draw
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.StunTwinkle.Value, adjustedDrawPos - Main.screenPosition, frame, Color.White));
+            Main.EntitySpriteDraw(new DrawData(Assets.StunTwinkle.Value, adjustedDrawPos - Main.screenPosition, frame, Color.White));
             yPos -= 30f;
         }
     }
@@ -185,7 +184,7 @@ namespace deeprockitems.UI
             yPos -= 26;
 
             // Get real drawing position
-            Vector2 adjustedDrawPos = new Vector2(xPos, yPos) - 0.5f * DRGTextures.TemperatureIndicator.Size();
+            Vector2 adjustedDrawPos = new Vector2(xPos, yPos) - 0.5f * Assets.TemperatureIndicator.Size();
 
             // Get the correct texture based on if we're drawing hot vs cold
             Texture2D texture;
@@ -193,12 +192,12 @@ namespace deeprockitems.UI
             int temperature = NPC.GetGlobalNPC<TemperatureGlobalNPC>().Temperature;
             if (temperature > 0) // If hot
             {
-                texture = DRGTextures.FireStatusIcon.Value;
+                texture = Assets.FireStatusIcon.Value;
                 meterColor = Heat;
             }
             else
             {
-                texture = DRGTextures.CryoStatusIcon.Value;
+                texture = Assets.CryoStatusIcon.Value;
                 meterColor = Cryo;
             }
 
@@ -221,20 +220,20 @@ namespace deeprockitems.UI
 
             // Draw background of filled meter (very dark, almost black!)
             Color unfilledMeterColor = new(25, 25, 25);
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff, adjustedDrawPos.Y - screenPos.Y + yOff), unfilledMeterColor));
+            Main.EntitySpriteDraw(new DrawData(Assets.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff, adjustedDrawPos.Y - screenPos.Y + yOff), unfilledMeterColor));
 
             // There are 3 parts to drawing this meter. The left edge, the right edge, and the center. Let's start with the left edge, it's the easiest
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff, adjustedDrawPos.Y - screenPos.Y + yOff), (Rectangle?)new Rectangle(0, 0, 2, DRGTextures.TemperatureFilledMeter.Height()), meterColor));
+            Main.EntitySpriteDraw(new DrawData(Assets.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff, adjustedDrawPos.Y - screenPos.Y + yOff), (Rectangle?)new Rectangle(0, 0, 2, Assets.TemperatureFilledMeter.Height()), meterColor));
 
             // Right edge.
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff + meterWidth - 2, adjustedDrawPos.Y - screenPos.Y + yOff), (Rectangle?)new Rectangle(DRGTextures.TemperatureFilledMeter.Width() - 2, 0, 2, DRGTextures.TemperatureFilledMeter.Height()), meterColor));
+            Main.EntitySpriteDraw(new DrawData(Assets.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff + meterWidth - 2, adjustedDrawPos.Y - screenPos.Y + yOff), (Rectangle?)new Rectangle(Assets.TemperatureFilledMeter.Width() - 2, 0, 2, Assets.TemperatureFilledMeter.Height()), meterColor));
 
             // Center
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff + 2, adjustedDrawPos.Y - screenPos.Y + yOff), (Rectangle?)new Rectangle(2, 0, meterWidth - 4, DRGTextures.TemperatureFilledMeter.Height()), meterColor));
+            Main.EntitySpriteDraw(new DrawData(Assets.TemperatureFilledMeter.Value, new Vector2(adjustedDrawPos.X - screenPos.X + xOff + 2, adjustedDrawPos.Y - screenPos.Y + yOff), (Rectangle?)new Rectangle(2, 0, meterWidth - 4, Assets.TemperatureFilledMeter.Height()), meterColor));
 
 
             /*Rectangle rect = new((int)(adjustedDrawPos.X - screenPos.X + START - 1), (int)(adjustedDrawPos.Y - screenPos.Y + Y_VALUE), (int)meterWidth, HEIGHT);
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.WhitePixel.Value, rect, meterColor));
+            Main.EntitySpriteDraw(new DrawData(Assets.WhitePixel.Value, rect, meterColor));
             // draw dashed meter
             bool shouldDraw = true;
             for (int i = 0; i < meterWidth; i++)
@@ -247,12 +246,12 @@ namespace deeprockitems.UI
                 {
                     Rectangle dashRect = new((int)(adjustedDrawPos.X - screenPos.X + START + i), (int)(adjustedDrawPos.Y - screenPos.Y + Y_VALUE + 1), 2, 4);
                     Color darkened = new Color(0.9f * meterColor.ToVector3());
-                    Main.EntitySpriteDraw(new DrawData(DRGTextures.WhitePixel.Value, dashRect, darkened));
+                    Main.EntitySpriteDraw(new DrawData(Assets.WhitePixel.Value, dashRect, darkened));
                 }
             }*/
 
             // Draw the actual fancy meter border
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.TemperatureIndicator.Value, adjustedDrawPos - screenPos, Color.White));
+            Main.EntitySpriteDraw(new DrawData(Assets.TemperatureIndicator.Value, adjustedDrawPos - screenPos, Color.White));
 
             Color backgroundColor = new Color(.25f, .25f, .25f);
             Color tempIconColor = Color.White;
@@ -263,7 +262,7 @@ namespace deeprockitems.UI
                 tempIconColor = meterColor;
             }
             // Background
-            Main.EntitySpriteDraw(new DrawData(DRGTextures.TemperatureStatusBackground.Value, adjustedDrawPos - screenPos, backgroundColor));
+            Main.EntitySpriteDraw(new DrawData(Assets.TemperatureStatusBackground.Value, adjustedDrawPos - screenPos, backgroundColor));
 
             // Temperature icon
             Main.EntitySpriteDraw(new DrawData(texture, adjustedDrawPos - screenPos, tempIconColor));
