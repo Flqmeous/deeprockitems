@@ -28,11 +28,11 @@ namespace deeprockitems.UI.UpgradeUI
 
             ParentSlot = new FakeItemSlot((mouseItem, slotItem) =>
             {
-                if (mouseItem.ModItem is UpgradeableItemTemplate)
+                if (mouseItem.ModItem is IUpgradable)
                 {
                     return true;
                 }
-                else if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is UpgradeableItemTemplate))
+                else if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is IUpgradable))
                 {
                     return true;
                 }
@@ -65,7 +65,7 @@ namespace deeprockitems.UI.UpgradeUI
 
         private void ParentSlot_OnItemSwap(Item itemNowInSlot, Item itemThatLeftSlot)
         {
-            if (itemNowInSlot.ModItem is UpgradeableItemTemplate modItem)
+            if (itemNowInSlot.ModItem is IUpgradable modItem)
             {
                 // Set upgrades
                 UpgradeContainer.SetUpgrades(modItem.UpgradeMasterList);
