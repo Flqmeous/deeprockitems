@@ -9,6 +9,9 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\CooldownUIBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
 	<PackageReference Include="AssGen" OutputItemType="Analyzer" ReferenceOutputAssembly="false" Version="1.0.1" />
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />
   </ItemGroup>
