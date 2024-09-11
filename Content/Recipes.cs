@@ -1,6 +1,5 @@
-﻿using deeprockitems.Content.Items.Weapons;
+﻿using deeprockitems.Content.Items;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -28,7 +27,7 @@ namespace deeprockitems
         public override void PostAddRecipes()
         {
             var weaponRecipes = from recipe in Main.recipe
-                                where recipe.createItem.ModItem is UpgradeableItemTemplate
+                                where recipe.createItem.ModItem is IUpgradable
                                 select recipe;
             // Sort weapons
             foreach (var recipe in weaponRecipes)
