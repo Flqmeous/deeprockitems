@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Weapons
 {
-    public class Zhukovs : UpgradeableItemTemplate
+    public class Zhukovs : UpgradableWeapon
     {
         public override void NewSetDefaults()
         {

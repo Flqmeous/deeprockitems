@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Weapons
 {
-    public class SludgePump : UpgradeableItemTemplate
+    public class SludgePump : UpgradableWeapon
     {
         public override void NewSetDefaults()
         {

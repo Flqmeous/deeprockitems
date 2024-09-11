@@ -3,12 +3,11 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Projectiles.CryoCannonProjectiles;
-using deeprockitems.Content.Items.Upgrades.CryoCannon;
-using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Content.Items;
 
 namespace deeprockitems.Content.Items.Weapons
 {
-    public class CryoCannon : UpgradeableItemTemplate
+    public class CryoCannon : UpgradableWeapon
     {
         public override void NewSetDefaults()
         {
@@ -23,7 +22,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.DamageType = DamageClass.Magic;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-            base.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+            velocity = velocity.RotatedByRandom(MathHelper.Pi / 40);
         }
     }
 }
