@@ -36,7 +36,7 @@ namespace deeprockitems.UI.CooldownUI
             Rectangle dimensions = GetDimensions().ToRectangle();
             dimensions.Y += 2 * Assets.UI.CooldownUIBackground.Height();
             // Get percentage (this is what we actually draw with!
-            float lerpPercentage = PlayerWeapon.Cooldown / PlayerWeapon.COOLDOWN_THRESHOLD; // Convert to percentage
+            float lerpPercentage = PlayerWeapon.Cooldown / UpgradableWeapon.COOLDOWN_THRESHOLD; // Convert to percentage
             const float initialAngle = 1 * MathHelper.Pi / 4;
             const float endAngle = 3 * MathHelper.Pi / 4;
             // Inner color
