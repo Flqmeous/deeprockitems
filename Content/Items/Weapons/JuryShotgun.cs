@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Terraria.ModLoader.IO;
 using System;
 using deeprockitems.Content.Upgrades;
+using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -41,30 +43,112 @@ namespace deeprockitems.Content.Items.Weapons
         public override UpgradeList InitializeUpgrades() {
             return new UpgradeList("JuryShotgun",
                 new UpgradeTier(1,
-                    new Upgrade("MorePellets", Assets.Upgrades.Penetrate.Value) {
-                        Item_ModifyStats = () => {
-                            PelletCount += 2;
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.damage * 1.2f);
+                            }
                         }
                     },
-                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Item_ModifyStats = () => {
-                            Item.damage += 2;
+                    new Upgrade("FireRate", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.useTime = item.useAnimation = (int)(item.useAnimation * 0.75f);
+                            }
                         }
                     }
                 ),
-                new UpgradeTier(2, 
-                    new Upgrade("BiggerClip", Assets.Upgrades.FireRate.Value) {
-
+                new UpgradeTier(2,
+                    new Upgrade("Sniper", Assets.Upgrades.Focus.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                (item.ModItem as JuryShotgun).SpreadMultiplier *= 0.75f;
+                            }
+                        }
+                    },
+                    new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                (item.ModItem as JuryShotgun).CooldownTime *= 0.5f;
+                            }
+                        }
+                    }
+                ),
+                new UpgradeTier(3,
+                    new Upgrade("Birdshot", Assets.Upgrades.Penetrate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage -= 2;
+                                (item.ModItem as JuryShotgun).PelletCount += 3;
+                            }
+                        }   
+                                        },
+                    new Upgrade("Buckshot", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage += 12;
+                                (item.ModItem as JuryShotgun).PelletCount -= 1;
+                            }
+                        }
+                    }
+                ),
+                new UpgradeTier(4,
+                    new Upgrade("WhitePhosphorusShells", Assets.Upgrades.Heat.Value) {
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (projectile, npc, hit, damage) => {
+                                npc.ChangeTemperature(125 / PelletCount, projectile.owner);
+                            }
+                        }
+                    },
+                    new Upgrade("Shockwave", Assets.Upgrades.Heat.Value) {
+                        Behavior = {
+                            Item_OnShoot = (item, player, source, projectile) => {
+                                // Find enemies around the player
+                                foreach (var npc in Main.ActiveNPCs)
+                                {
+                                    if (player.Center.DistanceSQ(npc.Center) > 25000) continue;
+                                    
+                                    var hitinfo = npc.CalculateHitInfo(20, -1);
+                                    player.StrikeNPCDirect(npc, hitinfo);
+                                    
+                                }
+                            }
+                        }
+                    },
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.damage * 1.2f);
+                            }
+                        }
+                    }
+                ),
+                new UpgradeTier(5,
+                    new Upgrade("QuadrupleBarrel", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                (item.ModItem as JuryShotgun).ShotsUntilCooldown = 4f;
+                            }
+                        }
+                    },
+                    new Upgrade("QuickFire", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.useTime = item.useAnimation = 6;
+                            }
+                        }
                     }
                 )
             );
         }
         public override void ResetStats() {
-            COOLDOWN_THRESHOLD = 36f;
             PelletCount = 3;
             Item.damage = Item.OriginalDamage;
+            CooldownTime = 75f;
+            ShotsUntilCooldown = 2f;
+            SpreadMultiplier = 1f;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Change player's direction to face the cursor
             if (Main.MouseWorld.X > player.Center.X)
@@ -77,7 +161,7 @@ namespace deeprockitems.Content.Items.Weapons
             }
 
             // Shoot logic
-            int numberProjectiles = PelletCount + Main.rand.Next(1, 3);
+            int numberProjectiles = PelletCount + Main.rand.Next(0, 1);
             double spread = Math.PI / 13;
 
             // This block is for the projectile spread.
