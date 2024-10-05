@@ -1,4 +1,5 @@
-﻿using deeprockitems.Content.Buffs;
+﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Buffs;
 using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.M1000Projectile;
 using deeprockitems.Content.Upgrades;
@@ -42,74 +43,141 @@ namespace deeprockitems.Content.Items.Weapons
             return new UpgradeList("M1000",
                 new UpgradeTier(1,
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Item_ModifyStats = () => {
-                            Item.damage = (int)(Item.OriginalDamage * 1.15f);
-                        }
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.OriginalDamage * 1.15f);
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 10)
+                                    .AddIngredient(ItemID.SoulofNight, 10)
                     },
-                    new Upgrade("BumpFire", Assets.Upgrades.FireRate.Value) {
-                        Item_ModifyStats = () => {
-                            Item.useTime = Item.useAnimation = (int)(Item.useTime * 0.66f);
-                        }
+                    new Upgrade("BiggerClip", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                (item.ModItem as M1000).ShotsUntilCooldown *= 1.33f;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
+                                    .AddIngredient(ItemID.SoulofNight, 10)
                     }
                 ),
                 new UpgradeTier(2,
                     new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
-                        Projectile_OnSpawnHook = (projectile, source) => {
+                        Behavior = { 
+                            Projectile_OnSpawnHook = (projectile, source) => {
                             if (projectile.ModProjectile is not HeldProjectileBase modProj) return;
 
                             modProj.ChargeTime = (int)(modProj.ChargeTime * 0.75f);
-                        }
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 15)
+                                    .AddIngredient(ItemID.SwiftnessPotion, 5)
                     },
-                    new Upgrade("BiggerClip", Assets.Upgrades.FireRate.Value) {
-                        Item_ModifyStats = () => {
-                            AmmoChance = 0.5f;
-                        }
+                    new Upgrade("EfficientCharge", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Projectile_OnSpawnHook = (projectile, source) => {
+                                if (projectile.ModProjectile is not HeldProjectileBase modProj) return;
+
+                                modProj.ChargeShotCooldownMultiplier = 1f;
+                            } 
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 15)
+                                    .AddIngredient(ItemID.MusketBall, 99)
+                    },
+                    new Upgrade("BumpFire", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.useTime = item.useAnimation = (int)(item.useTime * 0.66f);
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 15)
+                                    .AddIngredient(ItemID.IllegalGunParts, 1)
                     }
                 ),
                 new UpgradeTier(3,
                     new Upgrade("FocusDamage", Assets.Upgrades.Focus.Value) {
-                        Projectile_OnSpawnHook = (projectile, source) => {
-                            if (source is not EntitySource_FromHeldProjectile newSource) return;
+                        Behavior = {
+                            Projectile_OnSpawnHook = (projectile, source) => {
+                                if (source is not EntitySource_FromHeldProjectile newSource) return;
 
-                            if (newSource.SourceProjectile.Projectile.timeLeft >= newSource.SourceProjectile.ProjectileTime) return;
+                                if (newSource.SourceProjectile.Projectile.timeLeft >= newSource.SourceProjectile.ProjectileTime) return;
 
-                            projectile.damage = (int)(projectile.damage * 1.5f);
-                        } 
+                                projectile.damage = (int)(projectile.damage * 1.5f);
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 5)
                     },
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Item_ModifyStats = () => {
-                            Item.damage = (int)(Item.damage * 1.15f);
-                        }
+                        Behavior = {
+                            Item_ModifyStats = (item) => { 
+                                item.damage = (int)(item.damage * 1.15f); 
+                            } 
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
+                                    .AddIngredient(ItemID.SoulofNight, 10)
                     },
                     new Upgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak.Value) {
-                        Projectile_ModifyHitNPCHook = (projectile, npc, inModifiers) => {
-                            inModifiers.ScalingArmorPenetration += 0.25f;
-                            return inModifiers;
-                        }
+                        Behavior = {
+                            Projectile_ModifyHitNPCHook = (projectile, npc, inModifiers) => {
+                                inModifiers.ScalingArmorPenetration += 0.25f;
+                                return inModifiers;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
+                                    .AddIngredient(ItemID.SharkToothNecklace, 1)
                     }
                 ),
                 new UpgradeTier(4,
                     new Upgrade("DiggingRounds", Assets.Upgrades.Penetrate.Value) {
-                        Projectile_OnSpawnHook = (projectile, source) => {
-                            projectile.tileCollide = false;
-                        }
+                        Behavior = {
+                            Projectile_OnSpawnHook = (projectile, source) => {
+                                projectile.tileCollide = false;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 10)
+                                    .AddIngredient(ItemID.SoulofMight, 10)
                     },
-                    new Upgrade("IncendiaryRounds", Assets.Upgrades.Heat.Value) {
-                        Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
-                            target.AddBuff(BuffID.OnFire3, 120);
-                        }
+                    new Upgrade("QuickReload", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                (item.ModItem as M1000).CooldownTime *= 0.5f;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 10)
+                                    .AddIngredient(ItemID.SoulofSight, 10)
                     }
                 ),
                 new UpgradeTier(5,
                     new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
-                        Projectile_OnSpawnHook = (projectile, source) => {
-                            projectile.penetrate = projectile.maxPenetrate = 5;
-                        }
+                        Behavior = {
+                            Projectile_OnSpawnHook = (projectile, source) => {
+                                projectile.penetrate = projectile.maxPenetrate = 5;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 15)
+                                    .AddIngredient(ItemID.SoulofFright, 10)
                     },
                     new Upgrade("HollowPointRounds", Assets.Upgrades.Stun.Value) {
-                        Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
-                            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
-                        }
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (projectile, target, hitInfo, damageDone) => {
+                                target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.ChlorophyteBar, 10)
+                                    .AddCandidateIngredient([ItemID.CopperBar, ItemID.TinBar], 10)
                     }
                 )
             );
@@ -118,6 +186,8 @@ namespace deeprockitems.Content.Items.Weapons
         {
             Item.damage = Item.OriginalDamage;
             AmmoChance = 1f;
+            CooldownTime = 75f;
+            ShotsUntilCooldown = 12f;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
@@ -127,7 +197,7 @@ namespace deeprockitems.Content.Items.Weapons
             // Set type to be the "helper" projectile.
             type = ModContent.ProjectileType<M1000Helper>();
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback);
             if (proj.ModProjectile is HeldProjectileBase modProj)
