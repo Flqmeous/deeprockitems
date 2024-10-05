@@ -1,13 +1,14 @@
-﻿using deeprockitems.Content.Items;
+﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Items;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static System.Math;
 
 namespace deeprockitems.Content.Projectiles;
 /// <summary>
@@ -39,15 +40,17 @@ public abstract class HeldProjectileBase : ModProjectile
     /// The spread (in radians) that the resultant projectile will have. Defaults to no spread.
     /// </summary>
     public virtual double Spread { get; set; } = 0;
+    public float ChargeShotCooldownMultiplier { get; set; } = 1f;
 
     protected Player projectileOwner;
-    protected Item sourceItem;
+    protected UpgradableWeapon sourceItem;
     protected int ammoUsed = 0;
     /// <summary>
     /// The time that this projectile will live for after reaching
     /// </summary>
     public virtual int ProjectileTime { get; set; } = 15*60;
     public bool HasReachedFullCharge { get; set; } = false;
+    public virtual void NewSetDefaults() { }
     public override void SetDefaults()
     {
         Projectile.height = 2;
@@ -55,6 +58,7 @@ public abstract class HeldProjectileBase : ModProjectile
         Projectile.timeLeft = 2;
         Projectile.hide = true;
         Projectile.tileCollide = false;
+        NewSetDefaults();
     }
     public override string Texture => "Terraria/Images/MagicPixel";
     public override void OnSpawn(IEntitySource source)
@@ -62,14 +66,14 @@ public abstract class HeldProjectileBase : ModProjectile
         projectileOwner = Main.player[Projectile.owner];
 
         // Check for upgrades. Due to my new backend, we don't have to check if this upgrade is valid! So we can run this on any item.
-        if (source is EntitySource_ItemUse { Item.ModItem: UpgradableWeapon parent_weapon} )
+        if (source is EntitySource_FromUpgradableWeapon newSource)
         {
             if (Cooldown is null)
             {
-                Cooldown = parent_weapon.Item.useTime;
+                Cooldown = newSource.Item.Item.useTime;
             }
-            sourceItem = parent_weapon.Item;
-            if (source is EntitySource_ItemUse_WithAmmo { AmmoItemIdUsed: int ammo})
+            sourceItem = newSource.Item;
+            if (source is EntitySource_FromUpgradableWeapon { AmmoItemIdUsed: int ammo})
             {
                 ammoUsed = ammo;
             }
@@ -130,9 +134,20 @@ public abstract class HeldProjectileBase : ModProjectile
     /// </summary>
     public virtual void WhenReachedFullCharge() { }
     /// <summary>
-    /// This hook is for enabling special functionality while the projectile is fully charged. Called every frame that the projectile is being channeled and at max charge.
+    /// This hook is for enabling special functionality while the projectile is fully charged. Called every frame that the projectile is being channeled and at max charge. By default, the weapon will automatically fire when held at full charge for 5 ticks, if autofire is enabled.
     /// </summary>
-    public virtual void WhileHeldAtCharge() { }
+    public virtual void WhileHeldAtCharge() {
+        // If autofire, shoot after 5 ticks
+        if (!Main.player[Projectile.owner].autoReuseAllWeapons) return;
+
+        _heldChargeTimer++;
+        if (_heldChargeTimer == 5)
+        {
+            Projectile.Kill();
+            _heldChargeTimer = 0; ;
+        }
+    }
+    private int _heldChargeTimer = 0;
 
     // This is for when the projectile is killed. Spawn the new projectile, play sound, etc.
     public override void OnKill(int timeLeft)
@@ -163,7 +178,13 @@ public abstract class HeldProjectileBase : ModProjectile
                 proj.Center = projectileOwner.Center;
 
                 // Make sure the projectile goes the right direction after charging
-                proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - (float)PI / 2; // No sideways projectiles!
+                proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
+
+                // Add overheat in case the projectile was fully charged
+                if (timeLeft <= ProjectileTime)
+                {
+                    sourceItem.Cooldown += (float)Math.Ceiling((ChargeShotCooldownMultiplier - 1f) * UpgradableWeapon.COOLDOWN_THRESHOLD / sourceItem.ShotsUntilCooldown);
+                }
 
                 // Modify projectile after spawning
                 ModifyProjectileAfterSpawning(proj);
@@ -210,20 +231,16 @@ public abstract class HeldProjectileBase : ModProjectile
         if (Main.MouseWorld.Y < player.Center.Y)
         {
             // Here's where it messes up. If the cursor is in quadrant II, it needs to add PI
-            player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
+            player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + MathHelper.Pi;
         }
         // If cursor is below the player
         else
         {
             // But if the cursor is in Quadrant III, it has to subtract. guh??
-            player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() - (float)PI;
+            player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() - MathHelper.Pi;
         }
         // Make the player face left
         player.ChangeDir(-1);
 
     }
-}
-public class EntitySource_FromHeldProjectile(Player player, Item item, int ammoItemID, HeldProjectileBase projectile, string context = null) : EntitySource_ItemUse_WithAmmo(player, item, ammoItemID, context)
-{
-    public HeldProjectileBase SourceProjectile { get => projectile; }
 }

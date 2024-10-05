@@ -12,6 +12,9 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override float ChargeTime { get; set; } = 50f;
         public override SoundStyle? ChargeSound => DRGSoundIDs.SludgePumpFocus with { Volume = .8f, PitchVariance = 1f};
         public override SoundStyle? FireSound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
+        public override void NewSetDefaults() {
+            ChargeShotCooldownMultiplier = 3f;
+        }
         public override void WhenReachedFullCharge()
         {
             Projectile.damage = (int)Floor(Projectile.damage * 1.75f);
