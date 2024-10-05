@@ -19,7 +19,7 @@ namespace deeprockitems.Common.Config
         [DefaultValue(TemperatureOptions.Vanilla)]
         public TemperatureOptions temperatureDisplaySetting;
     }
-    [CustomModConfigItem(typeof(SelectBoxParent<TemperatureOptions>))]
+    [CustomModConfigItem(typeof(SelectBox<TemperatureOptions>))]
     public enum TemperatureOptions
     {
         Vanilla = 0,
