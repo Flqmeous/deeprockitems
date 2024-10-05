@@ -16,7 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
         private int original_projectile;
         public override void NewSetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 55;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.knockBack = 7.75f;
@@ -24,8 +24,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.width = 60;
             Item.height = 12;
             Item.useAmmo = AmmoID.Bullet;
-            Item.useTime = 17;
-            Item.useAnimation = 17;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;
@@ -153,14 +153,14 @@ namespace deeprockitems.Content.Items.Weapons
             Recipe.Create(ModContent.ItemType<M1000>())
             .AddIngredient(ItemID.Musket, 1)
             .AddIngredient(ItemID.IllegalGunParts, 1)
-            .AddRecipeGroup(nameof(ItemID.CobaltBar), 20)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 12)
             .AddIngredient(ItemID.SoulofNight, 15)
             .Register();
 
             Recipe.Create(ModContent.ItemType<M1000>())
             .AddIngredient(ItemID.TheUndertaker, 1)
             .AddIngredient(ItemID.IllegalGunParts, 1)
-            .AddRecipeGroup(nameof(ItemID.CobaltBar), 20)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 12)
             .AddIngredient(ItemID.SoulofNight, 15)
             .Register();
         }
