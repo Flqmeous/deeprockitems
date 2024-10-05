@@ -1,4 +1,6 @@
-﻿using deeprockitems.Content.Items;
+﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Items;
+using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Upgrades;
 using System.Collections.Generic;
 using Terraria;
@@ -10,43 +12,50 @@ namespace deeprockitems.Content.Projectiles
     public class UpgradeGlobalProjectile : GlobalProjectile
     {
         Upgrade[] _equippedUpgrades = [];
+        UpgradableWeapon parentItem;
         public override bool InstancePerEntity => true;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (source is not EntitySource_ItemUse newSource) return;
+            if (source is not EntitySource_FromUpgradableWeapon newSource) return;
 
-            if (newSource.Item.ModItem is not IUpgradable modItem) return;
+            // Save weapon
+            parentItem = newSource.Item;
 
             // Get list of equipped upgrades
-            _equippedUpgrades = GetEquippedUpgrades(modItem.UpgradeMasterList);
+            _equippedUpgrades = GetEquippedUpgrades(newSource.Item.UpgradeMasterList);
 
             foreach (var upgrade in _equippedUpgrades)
             {
-                upgrade.Projectile_OnSpawnHook?.Invoke(projectile, source);
+                upgrade.Behavior.Projectile_OnSpawnHook?.Invoke(projectile, source);
             }
         }
         public override void AI(Projectile projectile)
         {
             foreach (var upgrade in _equippedUpgrades)
             {
-                upgrade.Projectile_AIHook?.Invoke(projectile);
+                upgrade.Behavior.Projectile_AIHook?.Invoke(projectile);
             }
         }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             foreach (var upgrade in _equippedUpgrades)
             {
-                upgrade.Projectile_OnHitNPCHook?.Invoke(projectile, target, hit, damageDone);
+                upgrade.Behavior.Projectile_OnHitNPCHook?.Invoke(projectile, target, hit, damageDone);
             }
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) {
-            // First of all, disable damage variance. Evil!
-            modifiers.DamageVariationScale *= 0f;
+            if (parentItem != null)
+            {
+                // First of all, disable damage variance. Evil!
+                modifiers.DamageVariationScale *= 0f;
+                modifiers.DisableCrit();
+            }
+
             foreach (var upgrade in _equippedUpgrades)
             {
-                if (upgrade.Projectile_ModifyHitNPCHook == null) return;
+                if (upgrade.Behavior.Projectile_ModifyHitNPCHook == null) return;
                 
-                modifiers = upgrade.Projectile_ModifyHitNPCHook.Invoke(projectile, target, modifiers);
+                modifiers = upgrade.Behavior.Projectile_ModifyHitNPCHook.Invoke(projectile, target, modifiers);
             }
         }
         static Upgrade[] GetEquippedUpgrades(UpgradeList upgrades)
@@ -56,7 +65,7 @@ namespace deeprockitems.Content.Projectiles
             {
                 foreach (var upgrade in tiers)
                 {
-                    if (!upgrade.IsEquipped) continue;
+                    if (!upgrade.UpgradeState.IsEquipped) continue;
 
                     equippedUpgrades.Add(upgrade);
                 }
