@@ -94,13 +94,7 @@ Mods: {
 			}
 		}
 
-		Misc: {
-			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
-			ValidUpgradesText: "{0} can upgrade the following weapons:"
-			WeaponShiftTooltip: Hold Left Shift to show what weapons this upgrade can affect
-			UpgradeShiftTooltip: Hold Left Shift to show the currently equipped upgrades
-			HowToOpenMenu: Right click on this weapon to open the upgrade menu
-		}
+		Misc.UsefulWords: Recipe: "Recipe:"
 
 		NPCs: {
 			MissionControl: {
@@ -108,14 +102,14 @@ Mods: {
 
 				TownNPCMood: {
 					// Neutral mood
-					Content: This is... fine. Better than the surface of Hoxxes!
+					Content: This is fine. I'd say it beats the surface of Hoxxes.
 					// Messages pertaining to housing
-					NoHome: Just because I'm a dwarf doesn't mean I'll go live in a cave!
-					FarFromHome: What did you do? I can't observe from here!
+					NoHome: I'm a dwarf, not a troll! I'd like to stay somewhere that isn't under a bridge.
+					FarFromHome: What did you do? I can't keep tabs on anything from here!
 					// Messages regarding crowding
-					LoveSpace: Ah, I love the alone time I get! No one bothering me--except you I guess.
-					DislikeCrowded: I miss the days of having the rig to myself.
-					HateCrowded: Get me out of here! I feel like a dwarf in a glyphid storm.
+					LoveSpace: I love the alone time I get here.
+					DislikeCrowded: I miss the days of having my operations to myself.
+					HateCrowded: Get me out of here! I feel like a chicken surrounded by glyphids!
 					// Biome messages
 					LoveBiome: This place is excellent; it reminds me of the space rig.
 					LikeBiome: "{BiomeName} really makes me feel at home."
@@ -246,11 +240,6 @@ Mods: {
 					HoverText: Shots can penetrate 5 total enemies
 				}
 
-				IncendiaryRounds: {
-					DisplayName: Incendiary Rounds
-					HoverText: Enemies will become ignited on hit
-				}
-
 				HollowPointRounds: {
 					DisplayName: Hollow Point Rounds
 					HoverText: Enemies will become stunned on hit
@@ -258,7 +247,7 @@ Mods: {
 
 				BiggerClip: {
 					DisplayName: Bigger Clip
-					HoverText: 50% ammo conservation
+					HoverText: Fire 33% more shots before cooling down
 				}
 
 				DiggingRounds: {
@@ -270,21 +259,71 @@ Mods: {
 					DisplayName: Armor Piercing
 					HoverText: Ignores 25% of enemy defence
 				}
+
+				QuickReload: {
+					DisplayName: Quick Reload
+					HoverText: Cuts reload time in half
+				}
+
+				EfficientCharge: {
+					DisplayName: Efficient Coils
+					HoverText: Charge shots only consume 1 ammo
+				}
 			}
 
 			JuryShotgun: {
 				MorePellets: {
-					DisplayName: MorePellets
-					HoverText: Hover text
+					DisplayName: Birdshot
+					HoverText: +2 pellets per shot
 				}
 
 				DamageUpgrade: {
-					DisplayName: DamageUpgrade
+					DisplayName: Damage Upgrade
+					HoverText: +2 damage per pellet
+				}
+
+				QuadrupleBarrel: {
+					DisplayName: Quad-Barrel
+					HoverText: Ability to fire 4 shots without cooldown
+				}
+
+				WhitePhosphorusShells: {
+					DisplayName: White Phosphorus Shells
+					HoverText: Pellets inflict heat on hit
+				}
+
+				QuickFire: {
+					DisplayName: Quick-Fire Ejectors
+					HoverText: Both shots fire in quick succession
+				}
+
+				Shockwave: {
+					DisplayName: Shockwave
+					HoverText: Damages enemies in radius upon firing
+				}
+
+				Birdshot: {
+					DisplayName: Birdshot
 					HoverText: Hover text
 				}
 
-				BiggerClip: {
-					DisplayName: BiggerClip
+				Buckshot: {
+					DisplayName: Buckshot
+					HoverText: Hover text
+				}
+
+				Sniper: {
+					DisplayName: Sniper
+					HoverText: Hover text
+				}
+
+				ReloadSpeed: {
+					DisplayName: ReloadSpeed
+					HoverText: Hover text
+				}
+
+				FireRate: {
+					DisplayName: FireRate
 					HoverText: Hover text
 				}
 			}
@@ -292,22 +331,28 @@ Mods: {
 
 		Configs: {
 			DRGClientConfig: {
-				DisplayName: D R G Client Config
-				Headers.UI: U I Header
+				DisplayName: Client Configuration
+				Headers.UI: UI
 
 				temperatureDisplaySetting: {
-					Label: temperature Display Setting
-					Tooltip: ""
+					Label: Temperature Display
+					Tooltip: What style to use for enemy temperature display
 				}
 			}
 
 			TemperatureOptions: {
 				Tooltip: ""
-				Vanilla.Label: Vanilla
-				Fancy.Label: Fancy
+
+				Vanilla: {
+					Label: Vanilla
+					Tooltip: Appears as a colored healthbar above enemies
+				}
+
+				Fancy: {
+					Label: Fancy
+					Tooltip: Visually larger bar with DRG-inspired flair
+				}
 			}
 		}
-
-		DamageClasses.DRGDamageClass.DisplayName: nitrous damage
 	}
 }
