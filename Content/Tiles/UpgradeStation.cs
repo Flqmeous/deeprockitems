@@ -24,11 +24,11 @@ namespace deeprockitems.Content.Tiles
             if (system.Interface.CurrentState == null)
             {
                 Main.playerInventory = true;
-                system.Interface.SetState(system.UpgradeUIState);
+                UpgradeSystem.SetState(system.UpgradeUIState);
             }
             else // Set state
             {
-                system.Interface.SetState(null);
+                UpgradeSystem.SetState(null);
             }
             return true;
         }
