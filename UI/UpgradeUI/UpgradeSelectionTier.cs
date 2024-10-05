@@ -14,7 +14,7 @@ namespace deeprockitems.UI.UpgradeUI
             Options = upgrades.Select(upgrade => new UpgradeSelectOption(upgrades, upgrade)).ToArray();
             // Space out elements to fit in the height allowed.
             const int PADDING = 2;
-            int computedHeight = (heightToWorkWith - upgrades.Length * PADDING) / 5;
+            int computedHeight = (int)((heightToWorkWith - upgrades.Length * PADDING) / 3.5f);
             for (int i = 0; i < upgrades.Length; i++)
             {
                 Options[i].Top.Pixels = (i + 1) * PADDING + i * computedHeight;
