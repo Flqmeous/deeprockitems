@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI
@@ -10,6 +12,12 @@ namespace deeprockitems.UI.UpgradeUI
     {
         public UpgradeState UpgradeUIState;
         public UserInterface Interface;
+        public static bool IsUIOpen { get => ModContent.GetInstance<UpgradeSystem>().Interface.CurrentState != null; }
+        public static void SetState(UIState state) {
+            // Set state
+            var self = ModContent.GetInstance<UpgradeSystem>();
+            self.Interface.SetState(state);
+        }
         public override void Load()
         {
             UpgradeUIState = new();
@@ -21,7 +29,14 @@ namespace deeprockitems.UI.UpgradeUI
             Interface?.Update(gameTime);
             if (!Main.playerInventory)
             {
-                Interface.SetState(null);
+                SetState(null);
+                // Give item in slot the player
+                if (UpgradeUIState.Panel.ParentSlot.ItemInSlot != null && UpgradeUIState.Panel.ParentSlot.ItemInSlot.type != 0)
+                {
+                    Main.LocalPlayer.QuickSpawnItem(UpgradeUIState.Panel.ParentSlot.ItemInSlot.GetSource_ReleaseEntity(), UpgradeUIState.Panel.ParentSlot.ItemInSlot);
+                }
+                UpgradeUIState.Panel.ParentSlot.ItemInSlot = new(0);
+                UpgradeUIState.Panel.UpgradeContainer.SetUpgrades(null);
             }
             if (UpgradeUIState.Panel.IsMouseHovering)
             {
