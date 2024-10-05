@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Common.EntitySources;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -42,7 +43,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .AddTile(TileID.Anvils)
                 .Register();
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item41, player.Center);
             // Shoot with spread. Doing this here to preserve overclocks.
