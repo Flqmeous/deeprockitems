@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace deeprockitems.Content.Buffs
 {
@@ -264,13 +265,37 @@ namespace deeprockitems.Content.Buffs
         }
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
-            if (IsFrozen && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
-            {
-                modifiers.SourceDamage *= 3f;
-            }
-            else if (IsMarkedForDeath && modifiers.DamageType != DamageClass.Melee)
+            if (IsFrozen && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.Summon || modifiers.DamageType == DamageClass.MagicSummonHybrid || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
             {
                 modifiers.SourceDamage *= 2f;
+                modifiers.HideCombatText();
+            }
+            else if (IsMarkedForDeath && (modifiers.DamageType == DamageClass.Ranged || modifiers.DamageType == DamageClass.Magic || modifiers.DamageType == DamageClass.MagicSummonHybrid))
+            {
+                modifiers.SourceDamage *= 2f;
+                modifiers.HideCombatText();
+            }
+        }
+        public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone) {
+            if (IsFrozen && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
+            {
+                CombatText.NewText(npc.getRect(), Frozen_Text_Color, damageDone);
+            }
+            else if (IsMarkedForDeath && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
+            {
+                CombatText.NewText(npc.getRect(), Marked_Text_Color, damageDone);
+            }
+        }
+        Color Frozen_Text_Color => new Color(110, 150, 245);
+        Color Marked_Text_Color => new Color(245, 30, 60);
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone) {
+            if (IsFrozen && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
+            {
+                CombatText.NewText(npc.getRect(), Frozen_Text_Color, damageDone);
+            }
+            else if (IsMarkedForDeath && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
+            {
+                CombatText.NewText(npc.getRect(), Marked_Text_Color, damageDone);
             }
         }
         public override void DrawEffects(NPC npc, ref Color drawColor)
