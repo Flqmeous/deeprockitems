@@ -15,7 +15,7 @@ namespace deeprockitems.UI.UpgradeUI
     {
         public UpgradeSelectOption Option;
         private UpgradeRecipeOption[] optionItems;
-        LocalizedText recipeText => Language.GetOrRegister("deeprockitems.Misc.UsefulWords.Recipe", () => "Recipe:");
+        LocalizedText recipeText => Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Recipe", () => "Recipe:");
         public UpgradeRecipeDisplay() {
             _ = recipeText;
         }

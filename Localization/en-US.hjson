@@ -94,7 +94,12 @@ Mods: {
 			}
 		}
 
-		Misc.UsefulWords: Recipe: "Recipe:"
+		Misc: {
+			UsefulWords: {
+				$parentVal: Recipe: "Recipe:"
+				Recipe: Recipe:
+			}
+		}
 
 		NPCs: {
 			MissionControl: {
@@ -272,14 +277,9 @@ Mods: {
 			}
 
 			JuryShotgun: {
-				MorePellets: {
-					DisplayName: Birdshot
-					HoverText: +2 pellets per shot
-				}
-
 				DamageUpgrade: {
 					DisplayName: Damage Upgrade
-					HoverText: +2 damage per pellet
+					HoverText: Each pellet will deal x1.2 damage
 				}
 
 				QuadrupleBarrel: {
@@ -304,27 +304,27 @@ Mods: {
 
 				Birdshot: {
 					DisplayName: Birdshot
-					HoverText: Hover text
+					HoverText: +3 pellets with a slight damage decrease
 				}
 
 				Buckshot: {
 					DisplayName: Buckshot
-					HoverText: Hover text
+					HoverText: +12 damage with one less pellet
 				}
 
 				Sniper: {
 					DisplayName: Sniper
-					HoverText: Hover text
+					HoverText: Halves the spread of the gun
 				}
 
 				ReloadSpeed: {
-					DisplayName: ReloadSpeed
-					HoverText: Hover text
+					DisplayName: Snaploader
+					HoverText: Reduces the cooldown time by 50%
 				}
 
-				FireRate: {
-					DisplayName: FireRate
-					HoverText: Hover text
+				Blowthrough: {
+					DisplayName: Blowthrough Rounds
+					HoverText: Shots will penetrate up to 3 enemies
 				}
 			}
 		}
@@ -336,7 +336,7 @@ Mods: {
 
 				temperatureDisplaySetting: {
 					Label: Temperature Display
-					Tooltip: What style to use for enemy temperature display
+					Tooltip: Dictates the style of the enemy temperature meter
 				}
 			}
 
@@ -345,7 +345,7 @@ Mods: {
 
 				Vanilla: {
 					Label: Vanilla
-					Tooltip: Appears as a colored healthbar above enemies
+					Tooltip: Uses vanilla's healthbar system
 				}
 
 				Fancy: {
