@@ -48,30 +48,42 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 item.damage = (int)(item.damage * 1.2f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddIngredient(ItemID.HellstoneBar, 10)
+                            .AddIngredient(ItemID.Bone, 8)
                     },
-                    new Upgrade("FireRate", Assets.Upgrades.FireRate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.useTime = item.useAnimation = (int)(item.useAnimation * 0.75f);
-                            }
-                        }
-                    }
-                ),
-                new UpgradeTier(2,
                     new Upgrade("Sniper", Assets.Upgrades.Focus.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 (item.ModItem as JuryShotgun).SpreadMultiplier *= 0.75f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 12)
+                            .AddCandidateIngredient([ItemID.IronBar, ItemID.LeadBar], 5)
+                    }
+                ),
+                new UpgradeTier(2,
+                    new Upgrade("QuickFire", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.useTime = item.useAnimation = 8;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddIngredient(ItemID.Hellstone, 12)
+                            .AddIngredient(ItemID.Feather, 8)
                     },
                     new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 (item.ModItem as JuryShotgun).CooldownTime *= 0.5f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 10)
+                            .AddIngredient(ItemID.Deathweed, 8)
                     }
                 ),
                 new UpgradeTier(3,
@@ -81,15 +93,21 @@ namespace deeprockitems.Content.Items.Weapons
                                 item.damage -= 2;
                                 (item.ModItem as JuryShotgun).PelletCount += 3;
                             }
-                        }   
-                                        },
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 12)
+                            .AddIngredient(ItemID.SoulofLight, 6)
+                    },
                     new Upgrade("Buckshot", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 12;
                                 (item.ModItem as JuryShotgun).PelletCount -= 1;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 12)
+                            .AddIngredient(ItemID.SoulofLight, 6)
                     }
                 ),
                 new UpgradeTier(4,
@@ -131,10 +149,10 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         }
                     },
-                    new Upgrade("QuickFire", Assets.Upgrades.FireRate.Value) {
+                    new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
                         Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.useTime = item.useAnimation = 6;
+                            Projectile_OnSpawnHook = (projectile, source) => {
+                                projectile.penetrate = projectile.maxPenetrate = 3;
                             }
                         }
                     }
