@@ -96,7 +96,8 @@ namespace deeprockitems.UI.UpgradeUI
             // Determine which upgrade was clicked:
             if (evt.Target is not UpgradeSelectOption option) return;
 
-            if (!option.Upgrade.UpgradeState.IsUnlocked)
+            // DEBUG: All upgrades are free
+            if (!deeprockitems.DebugMode && !option.Upgrade.UpgradeState.IsUnlocked)
             {
                 SelectThisLockedUpgrade(option);
                 return;
