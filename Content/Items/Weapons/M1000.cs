@@ -45,22 +45,22 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.OriginalDamage * 1.15f);
+                                item.damage = (int)(item.OriginalDamage * 1.25f);
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 10)
-                                    .AddIngredient(ItemID.SoulofNight, 10)
+                                    .AddIngredient(ItemID.HellstoneBar, 6)
+                                    .AddIngredient(ItemID.SoulofNight, 4)
                     },
                     new Upgrade("BiggerClip", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                (item.ModItem as M1000).ShotsUntilCooldown *= 1.33f;
+                                (item.ModItem as M1000).ShotsUntilCooldown *= 1.5f;
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
-                                    .AddIngredient(ItemID.SoulofNight, 10)
+                                    .AddIngredient(ItemID.HellstoneBar, 6)
+                                    .AddIngredient(ItemID.SoulofLight, 4)
                     }
                 ),
                 new UpgradeTier(2,
@@ -69,12 +69,12 @@ namespace deeprockitems.Content.Items.Weapons
                             Projectile_OnSpawnHook = (projectile, source) => {
                             if (projectile.ModProjectile is not HeldProjectileBase modProj) return;
 
-                            modProj.ChargeTime = (int)(modProj.ChargeTime * 0.75f);
+                            modProj.ChargeTime = (int)(modProj.ChargeTime * 0.66f);
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 15)
-                                    .AddIngredient(ItemID.SwiftnessPotion, 5)
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
+                                    .AddIngredient(ItemID.SwiftnessPotion, 3)
                     },
                     new Upgrade("EfficientCharge", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
@@ -85,7 +85,7 @@ namespace deeprockitems.Content.Items.Weapons
                             } 
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 15)
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
                                     .AddIngredient(ItemID.MusketBall, 99)
                     },
                     new Upgrade("BumpFire", Assets.Upgrades.FireRate.Value) {
@@ -95,7 +95,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 15)
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 6)
                                     .AddIngredient(ItemID.IllegalGunParts, 1)
                     }
                 ),
@@ -107,22 +107,22 @@ namespace deeprockitems.Content.Items.Weapons
 
                                 if (newSource.SourceProjectile.Projectile.timeLeft >= newSource.SourceProjectile.ProjectileTime) return;
 
-                                projectile.damage = (int)(projectile.damage * 1.5f);
+                                projectile.damage = (int)(projectile.damage * 1.85f);
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
-                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 5)
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 6)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                     },
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => { 
-                                item.damage = (int)(item.damage * 1.15f); 
+                                item.damage = (int)(item.damage * 1.25f); 
                             } 
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
-                                    .AddIngredient(ItemID.SoulofNight, 10)
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 6)
+                                    .AddIngredient(ItemID.SoulofNight, 4)
                     },
                     new Upgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak.Value) {
                         Behavior = {
@@ -132,7 +132,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 10)
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 6)
                                     .AddIngredient(ItemID.SharkToothNecklace, 1)
                     }
                 ),
@@ -144,8 +144,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.HallowedBar, 10)
-                                    .AddIngredient(ItemID.SoulofMight, 10)
+                                    .AddIngredient(ItemID.HallowedBar, 6)
+                                    .AddIngredient(ItemID.SoulofMight, 4)
                     },
                     new Upgrade("QuickReload", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
@@ -154,8 +154,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.HallowedBar, 10)
-                                    .AddIngredient(ItemID.SoulofSight, 10)
+                                    .AddIngredient(ItemID.HallowedBar, 6)
+                                    .AddIngredient(ItemID.SoulofSight, 4)
                     }
                 ),
                 new UpgradeTier(5,
@@ -166,8 +166,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.HallowedBar, 15)
-                                    .AddIngredient(ItemID.SoulofFright, 10)
+                                    .AddIngredient(ItemID.HallowedBar, 8)
+                                    .AddIngredient(ItemID.SoulofFright, 4)
                     },
                     new Upgrade("HollowPointRounds", Assets.Upgrades.Stun.Value) {
                         Behavior = {
@@ -176,8 +176,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.ChlorophyteBar, 10)
-                                    .AddCandidateIngredient([ItemID.CopperBar, ItemID.TinBar], 10)
+                                    .AddIngredient(ItemID.ChlorophyteBar, 8)
+                                    .AddCandidateIngredient([ItemID.CopperBar, ItemID.TinBar], 4)
                     }
                 )
             );
@@ -223,15 +223,13 @@ namespace deeprockitems.Content.Items.Weapons
             Recipe.Create(ModContent.ItemType<M1000>())
             .AddIngredient(ItemID.Musket, 1)
             .AddIngredient(ItemID.IllegalGunParts, 1)
-            .AddRecipeGroup(nameof(ItemID.CobaltBar), 12)
-            .AddIngredient(ItemID.SoulofNight, 15)
+            .AddIngredient(ItemID.HellstoneBar, 12)
             .Register();
 
             Recipe.Create(ModContent.ItemType<M1000>())
             .AddIngredient(ItemID.TheUndertaker, 1)
             .AddIngredient(ItemID.IllegalGunParts, 1)
-            .AddRecipeGroup(nameof(ItemID.CobaltBar), 12)
-            .AddIngredient(ItemID.SoulofNight, 15)
+            .AddIngredient(ItemID.HellstoneBar, 12)
             .Register();
         }
     }

@@ -60,8 +60,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 12)
-                            .AddCandidateIngredient([ItemID.IronBar, ItemID.LeadBar], 5)
+                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
+                            .AddCandidateIngredient([ItemID.IronBar, ItemID.LeadBar], 3)
                     }
                 ),
                 new UpgradeTier(2,
@@ -72,8 +72,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                            .AddIngredient(ItemID.Hellstone, 12)
-                            .AddIngredient(ItemID.Feather, 8)
+                            .AddIngredient(ItemID.Hellstone, 6)
+                            .AddIngredient(ItemID.Feather, 4)
                     },
                     new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
@@ -82,8 +82,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 10)
-                            .AddIngredient(ItemID.Deathweed, 8)
+                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
+                            .AddIngredient(ItemID.Deathweed, 3)
                     }
                 ),
                 new UpgradeTier(3,
@@ -95,8 +95,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 12)
-                            .AddIngredient(ItemID.SoulofLight, 6)
+                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
+                            .AddIngredient(ItemID.SoulofLight, 4)
                     },
                     new Upgrade("Buckshot", Assets.Upgrades.Damage.Value) {
                         Behavior = {
@@ -106,8 +106,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         },
                         Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 12)
-                            .AddIngredient(ItemID.SoulofLight, 6)
+                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
+                            .AddIngredient(ItemID.SoulofNight, 4)
                     }
                 ),
                 new UpgradeTier(4,
@@ -116,7 +116,10 @@ namespace deeprockitems.Content.Items.Weapons
                             Projectile_OnHitNPCHook = (projectile, npc, hit, damage) => {
                                 npc.ChangeTemperature(125 / PelletCount, projectile.owner);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 6)
+                            .AddIngredient(ItemID.Fireblossom, 3)
                     },
                     new Upgrade("Shockwave", Assets.Upgrades.Heat.Value) {
                         Behavior = {
@@ -131,14 +134,20 @@ namespace deeprockitems.Content.Items.Weapons
                                     
                                 }
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddIngredient(ItemID.HellstoneBar, 6)
+                            .AddIngredient(ItemID.MeteoriteBar, 4)
                     },
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage = (int)(item.damage * 1.2f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.MythrilBar], 6)
+                            .AddCandidateIngredient([ItemID.Ebonkoi, ItemID.Hemopiranha], 3)
                     }
                 ),
                 new UpgradeTier(5,
@@ -147,14 +156,20 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 (item.ModItem as JuryShotgun).ShotsUntilCooldown = 4f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 6)
+                            .AddIngredient(ItemID.QuadBarrelShotgun, 1)
                     },
                     new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
                         Behavior = {
                             Projectile_OnSpawnHook = (projectile, source) => {
                                 projectile.penetrate = projectile.maxPenetrate = 3;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                            .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 6)
+                            .AddIngredient(ItemID.MeteoriteBar, 4)
                     }
                 )
             );
