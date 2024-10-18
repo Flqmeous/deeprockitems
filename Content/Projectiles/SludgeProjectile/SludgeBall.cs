@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Audio;
+using deeprockitems.Content.Buffs;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -11,6 +12,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
     public class SludgeBall : ModProjectile
     {
         public bool ShouldSplatter { get; set; } = false;
+        public int NumProjectilesToSpawn { get; set; } = 8;
         float GooTimer = 5f;
         public override void SetDefaults()
         {
@@ -26,11 +28,6 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 
 
         }
-        public override void OnSpawn(IEntitySource source)
-        {
-
-
-        }
         public override void AI()
         {
             if (Projectile.velocity.Y <= 30f) // Set gravity cap
@@ -42,7 +39,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Venom, 150);
+            target.AddBuff(ModContent.BuffType<Sludged>(), 150);
         }
         public override void OnKill(int timeLeft)
         {
@@ -57,9 +54,9 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             // Check if projectile should splatter
             if (ShouldSplatter && Main.myPlayer == Projectile.owner)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < NumProjectilesToSpawn; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
                 }
             }
         }
