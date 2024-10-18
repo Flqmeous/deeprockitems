@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Content.Buffs;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,13 +39,13 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(ModContent.BuffType<Sludged>(), 300);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP)
             {
-                target.AddBuff(BuffID.Venom, 150);
+                target.AddBuff(ModContent.BuffType<Sludged>(), 150);
             }
         }
         public override void AI()

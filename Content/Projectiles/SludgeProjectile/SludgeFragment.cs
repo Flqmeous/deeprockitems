@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
 using deeprockitems.Audio;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -44,13 +45,13 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Venom, 60);
+            target.AddBuff(ModContent.BuffType<Sludged>(), 60);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP)
             {
-                target.AddBuff(BuffID.Venom, 30);
+                target.AddBuff(ModContent.BuffType<Sludged>(), 30);
             }
         }
     }
