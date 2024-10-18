@@ -172,6 +172,7 @@ namespace deeprockitems.UI.UpgradeUI
 
                 // Sum stacks of the items. If we didn't find every item, then we are unable to craft the recipe.
                 int totalStack = matchingItems.Where(item => recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(item.type)).Sum(item => item.stack);
+                // Mark recipe as uncraftable
                 if (totalStack < recipe.ItemsAndAmounts[recipeIndex].Stack) return false;
             }
 
