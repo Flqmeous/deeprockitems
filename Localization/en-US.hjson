@@ -216,6 +216,11 @@ Mods: {
 				DisplayName: Stunned Enemy
 				Description: You cannot move!
 			}
+
+			Sludged: {
+				DisplayName: Sludged
+				Description: You're being corroded!
+			}
 		}
 
 		Upgrades: {
@@ -325,6 +330,43 @@ Mods: {
 				Blowthrough: {
 					DisplayName: Blowthrough Rounds
 					HoverText: Shots will penetrate up to 3 enemies
+				}
+			}
+
+			SludgePump: {
+				MoreFragments: {
+					DisplayName: MoreFragments
+					HoverText: Hover text
+				}
+
+				EfficientCharge: {
+					DisplayName: EfficientCharge
+					HoverText: Hover text
+				}
+
+				TracerRounds: {
+					DisplayName: TracerRounds
+					HoverText: Hover text
+				}
+
+				VisualCalculus: {
+					DisplayName: VisualCalculus
+					HoverText: Hover text
+				}
+
+				Glowstick: {
+					DisplayName: Glowstick
+					HoverText: Hover text
+				}
+
+				WasteOrdnance: {
+					DisplayName: WasteOrdnance
+					HoverText: Hover text
+				}
+
+				StrongerPoison: {
+					DisplayName: StrongerPoison
+					HoverText: Hover text
 				}
 			}
 		}
