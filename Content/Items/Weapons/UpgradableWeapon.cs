@@ -39,6 +39,18 @@ namespace deeprockitems.Content.Items.Weapons
         /// The timer used to passively cool down the weapon if it is not being used.
         /// </summary>
         protected float _cooldownTimer = 0;
+        public override void HoldItem(Player player) {
+            foreach (var tier in UpgradeMasterList)
+            {
+                foreach (var upgrade in tier)
+                {
+                    if (upgrade.UpgradeState.IsEquipped)
+                    {
+                        upgrade.Behavior.Item_HoldItemHook?.Invoke(Item, player);
+                    }
+                }
+            }
+        }
         public override void UpdateInventory(Player player) {
             // PSEUDOCODE FOR COOLDOWN
             /*
