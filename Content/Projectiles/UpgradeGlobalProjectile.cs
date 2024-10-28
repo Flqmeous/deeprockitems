@@ -4,21 +4,25 @@ using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Projectiles
 {
-    /// <summary>
-    /// This class facilitates two purposes:
-    /// 1. Allow upgrades to affect upgradable projectiles
-    /// 2. Allow upgrade information to pass between parent and child projectiles.
-    /// </summary>
     public class UpgradeGlobalProjectile : GlobalProjectile
     {
         Upgrade[] _equippedUpgrades = [];
         public override bool InstancePerEntity => true;
+        /// <summary>
+        /// Finds if an upgrade is associated with this projectile by searching for its' internal name. If two upgrades share the same internal name, either upgrade has to be equipped.
+        /// </summary>
+        /// <param name="name">The internal name of the upgrade</param>
+        /// <returns></returns>
+        public bool IsUpgradeEquipped(string name) {
+            return _equippedUpgrades.Any(upgrade => upgrade.InternalName == name);
+        }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             // Pass entitySource
