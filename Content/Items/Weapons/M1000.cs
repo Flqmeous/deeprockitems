@@ -69,7 +69,7 @@ namespace deeprockitems.Content.Items.Weapons
                             Projectile_OnSpawnHook = (projectile, source) => {
                             if (projectile.ModProjectile is not HeldProjectileBase modProj) return;
 
-                            modProj.ChargeTime = (int)(modProj.ChargeTime * 0.66f);
+                            modProj.ChargeTime *= 0.5f;
                             }
                         },
                         Recipe = new UpgradeRecipe()
