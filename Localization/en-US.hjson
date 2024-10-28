@@ -368,6 +368,21 @@ Mods: {
 					DisplayName: StrongerPoison
 					HoverText: Hover text
 				}
+
+				QuickCharge: {
+					DisplayName: QuickCharge
+					HoverText: Hover text
+				}
+
+				HigherDamage: {
+					DisplayName: HigherDamage
+					HoverText: Hover text
+				}
+
+				SlowingPoison: {
+					DisplayName: SlowingPoison
+					HoverText: Hover text
+				}
 			}
 		}
 

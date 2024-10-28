@@ -65,18 +65,6 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 ),
                 new UpgradeTier(2,
-                    new Upgrade("MoreFragments", Assets.Upgrades.Focus.Value) {
-                        Behavior = {
-                            Projectile_OnSpawnHook = (proj, source) => {
-                                if (proj.ModProjectile is SludgeBall ball)
-                                {
-                                    ball.NumProjectilesToSpawn += 4;
-                                }
-                            }
-                        }
-                    }
-                ),
-                new UpgradeTier(3, 
                     new Upgrade("EfficientCharge", Assets.Upgrades.Focus.Value) {
                         Behavior = {
                             Projectile_OnSpawnHook = (proj, source) => {
@@ -86,18 +74,29 @@ namespace deeprockitems.Content.Items.Weapons
                                 }
                             }
                         }
-                    }
-                ),
-                new UpgradeTier(4,
-                    new Upgrade("StrongerPoison", Assets.Upgrades.Heat.Value) {
+                    },
+                    new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
                         Behavior = {
-                            Projectile_OnHitNPCHook = (proj, target, info, damage) => {
-                                
-                            }
+                            Projectile_OnSpawnHook = (proj, source) => {
+                                if (proj.ModProjectile is SludgeHelper helper)
+                                {
+                                    helper.ChargeTime *= 0.5f;
+                                }
+                            },
                         }
                     }
                 ),
-                new UpgradeTier(5,
+                new UpgradeTier(3, 
+                    new Upgrade("MoreFragments", Assets.Upgrades.Focus.Value) {
+                        Behavior = {
+                            Projectile_OnSpawnHook = (proj, source) => {
+                                if (proj.ModProjectile is SludgeBall ball)
+                                {
+                                    ball.NumProjectilesToSpawn += 4;
+                                }
+                            }
+                        }
+                    },
                     new Upgrade("WasteOrdnance", Assets.Upgrades.Penetrate.Value) {
                         Behavior = {
                             Projectile_PreKillHook = (projectile, timeLeft) => {
@@ -109,6 +108,21 @@ namespace deeprockitems.Content.Items.Weapons
                                 return false;
                             }
                         }
+                    }
+                ),
+                new UpgradeTier(4,
+                    // This upgrade has no innate behavior with it, since this is buff-related
+                    new Upgrade("StrongerPoison", Assets.Upgrades.Heat.Value) {
+                    },
+                    new Upgrade("HigherDamage", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.OriginalDamage * 1.33f);
+                            }
+                        }
+                    },
+                    // This upgrade also affects a buff, so no change here either.
+                    new Upgrade("SlowingPoison", Assets.Upgrades.Stun.Value) {
                     }
                 )
             );
