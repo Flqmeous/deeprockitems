@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Buffs
@@ -46,15 +47,39 @@ namespace deeprockitems.Content.Buffs
         public virtual bool OnReapply(Player player) => true;
 
         public int TimeLeft { get; set; } = 0;
+        /// <summary>
+        /// Adds behavior to this stateful buff. Utilize the damage parameter to change the displayed damage/tick.
+        /// </summary>
+        /// <param name="npc"></param>
+        /// <param name="damage"></param>
         public virtual void Update(NPC npc, ref int damage) {
             
         }
+        /// <summary>
+        /// Called after NPC's <see cref="Update(NPC, ref int)">Update</see>. Useful for setting movement speed
+        /// </summary>
+        /// <param name="npc"></param>
+        public virtual void PostUpdate(NPC npc) {
+
+        }
+        /// <summary>
+        /// Adds behavior to this stateful buff.
+        /// </summary>
+        /// <param name="player">The player that this buff affects.</param>
         public virtual void Update(Player player) {
 
         }
+        /// <summary>
+        /// Called when the buff is removed from this NPC.
+        /// </summary>
+        /// <param name="npc"></param>
         public virtual void OnRemove(NPC npc) {
 
         }
+        /// <summary>
+        /// Called when the buff is removed from this player.
+        /// </summary>
+        /// <param name="player"></param>
         public virtual void OnRemove(Player player) {
 
         }
@@ -135,6 +160,13 @@ namespace deeprockitems.Content.Buffs
                     Buffs[i].OnRemove(npc);
                     Buffs.RemoveAt(i);
                 }
+            }
+        }
+        public override void PostAI(NPC npc) {
+            base.PostAI(npc);
+            for (int i = Buffs.Count - 1; i >= 0; i--)
+            {
+                Buffs[i].PostUpdate(npc);
             }
         }
     }
