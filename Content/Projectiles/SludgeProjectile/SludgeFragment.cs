@@ -45,14 +45,11 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<Sludged>(), 60);
+            var buff = target.AddStatefulBuff<StatefulSludged>(300);
+            buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongerPoison"), () => buff.StrongSludge = true);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (info.PvP)
-            {
-                target.AddBuff(ModContent.BuffType<Sludged>(), 30);
-            }
         }
     }
 }
