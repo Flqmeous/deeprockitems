@@ -47,6 +47,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             var buff = target.AddStatefulBuff<StatefulSludged>(300);
             buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongerPoison"), () => buff.StrongSludge = true);
+            buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingPoison"), () => buff.SlowingSludge = true);
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
