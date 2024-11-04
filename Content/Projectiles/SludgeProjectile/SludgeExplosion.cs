@@ -1,7 +1,5 @@
 ﻿using deeprockitems.Content.Buffs;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
@@ -39,9 +37,10 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            var buff = target.AddStatefulBuff<StatefulSludged>(300);
-            buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongerPoison"), () => buff.StrongSludge = true);
-            buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingPoison"), () => buff.SlowingSludge = true);
+            if (target.AddInstancedBuff(600, out Sludged? buff))
+            {
+                buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
+            }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
