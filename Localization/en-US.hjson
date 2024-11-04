@@ -383,6 +383,11 @@ Mods: {
 					DisplayName: SlowingPoison
 					HoverText: Hover text
 				}
+
+				StrongSludge: {
+					DisplayName: StrongSludge
+					HoverText: Hover text
+				}
 			}
 		}
 

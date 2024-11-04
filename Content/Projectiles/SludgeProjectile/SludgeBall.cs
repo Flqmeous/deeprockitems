@@ -39,11 +39,9 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (target.AddInstancedBuff(300, out Sludged? buff))
             {
+                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
                 buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
-            }
-            //var buff = target.AddStatefulBuff<StatefulSludged>(300);
-            //buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongerPoison"), () => buff.StrongSludge = true);
-            //buff.AddStateChange(() => Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingPoison"), () => buff.SlowingSludge = true);
+            }        
         }
         public override void OnKill(int timeLeft)
         {

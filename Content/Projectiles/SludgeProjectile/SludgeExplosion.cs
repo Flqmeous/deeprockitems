@@ -39,6 +39,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (target.AddInstancedBuff(600, out Sludged? buff))
             {
+                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
                 buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
             }
         }
