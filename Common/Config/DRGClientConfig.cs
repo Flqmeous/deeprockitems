@@ -1,11 +1,6 @@
 ﻿using System.ComponentModel;
-using Terraria;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using Terraria.ModLoader.Config.UI;
 using deeprockitems.Common.Config.UIElements;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
 
 namespace deeprockitems.Common.Config
 {

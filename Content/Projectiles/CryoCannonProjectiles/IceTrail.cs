@@ -1,5 +1,4 @@
 ﻿using deeprockitems.Content.Buffs;
-using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;

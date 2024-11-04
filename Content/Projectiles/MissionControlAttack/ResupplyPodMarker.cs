@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
-using deeprockitems.Utilities;
-using System;
 
 namespace deeprockitems.Content.Projectiles.MissionControlAttack
 {

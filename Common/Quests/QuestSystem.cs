@@ -1,10 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Collections;
-using Terraria.WorldBuilding;
 using Terraria.ID;
 using Terraria.ModLoader.IO;
 using System.IO;

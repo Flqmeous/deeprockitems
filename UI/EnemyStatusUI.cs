@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.UI;
 using deeprockitems.Content.Buffs;
 using Terraria.DataStructures;
 using System;

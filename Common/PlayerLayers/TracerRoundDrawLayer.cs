@@ -2,10 +2,7 @@
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using deeprockitems.Content.Projectiles.SludgeProjectile;
 using deeprockitems.Content.Items.Weapons;
-using System.Linq;
-using System;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 

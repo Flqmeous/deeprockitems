@@ -1,11 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
-using static System.Math;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
-using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Audio;
 
 namespace deeprockitems.Content.Projectiles.M1000Projectile

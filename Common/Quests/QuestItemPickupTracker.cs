@@ -1,8 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria.ModLoader.IO;
-using deeprockitems.Common.Items;
 
 namespace deeprockitems.Common.Quests
 {

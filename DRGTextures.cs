@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System.Collections.Generic;
 using deeprockitems.Content.Items.Weapons;
-using System.IO;
-using MonoMod.Utils;
-using System.Linq;
 
 namespace deeprockitems
 {

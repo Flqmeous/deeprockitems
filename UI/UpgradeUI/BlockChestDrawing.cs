@@ -1,10 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using Terraria.UI;
 using System.Linq;
 using System;
 using MonoMod.Utils;

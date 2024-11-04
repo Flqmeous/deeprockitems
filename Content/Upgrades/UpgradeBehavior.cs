@@ -1,13 +1,7 @@
 ﻿using deeprockitems.Common.EntitySources;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.DataStructures;
 using Terraria;
-using deeprockitems.Content.Items.Weapons;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Upgrades

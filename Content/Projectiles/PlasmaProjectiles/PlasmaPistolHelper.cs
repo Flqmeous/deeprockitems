@@ -2,9 +2,6 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using static System.Math;
-using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {

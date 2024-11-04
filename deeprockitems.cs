@@ -1,11 +1,8 @@
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using static System.Math;
 
 namespace deeprockitems
 {
-	public class deeprockitems : Mod
+    public class deeprockitems : Mod
 	{
 		public static bool DebugMode { get => true; }
     }

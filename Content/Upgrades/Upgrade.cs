@@ -1,13 +1,5 @@
-﻿using deeprockitems.Common.EntitySources;
-using deeprockitems.Content.Items.Weapons;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Text;
-using Terraria;
-using Terraria.DataStructures;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Upgrades
 {

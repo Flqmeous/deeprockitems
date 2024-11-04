@@ -1,5 +1,4 @@
 ﻿using deeprockitems.Content.Projectiles;
-using Terraria.DataStructures;
 using Terraria;
 using deeprockitems.Content.Items.Weapons;
 

@@ -1,10 +1,8 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
-using System;
 
 namespace deeprockitems.Common.PlayerLayers
 {

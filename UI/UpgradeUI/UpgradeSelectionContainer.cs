@@ -1,7 +1,5 @@
-﻿using Terraria.ModLoader;
-using Terraria.UI;
+﻿using Terraria.UI;
 using System.Linq;
-using deeprockitems.Content.Items;
 using deeprockitems.Content.Upgrades;
 
 namespace deeprockitems.UI.UpgradeUI

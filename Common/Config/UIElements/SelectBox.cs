@@ -1,13 +1,10 @@
 ﻿using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SmartFormat.Core.Parsing;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.GameContent;
-using Terraria.GameContent.UI.Elements;
-using Terraria.Localization;
 using Terraria.ModLoader.Config.UI;
 using Terraria.UI;
 

@@ -3,7 +3,6 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Projectiles.CryoCannonProjectiles;
-using deeprockitems.Content.Items;
 
 namespace deeprockitems.Content.Items.Weapons
 {

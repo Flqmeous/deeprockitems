@@ -1,11 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
-using System.Collections.Generic;
-using Terraria.ModLoader.IO;
 using System;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Common.EntitySources;

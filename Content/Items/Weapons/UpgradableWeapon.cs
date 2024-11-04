@@ -1,6 +1,5 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Upgrades;
-using deeprockitems.UI.UpgradeUI;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;

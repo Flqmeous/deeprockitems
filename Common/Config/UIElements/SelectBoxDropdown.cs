@@ -1,11 +1,9 @@
-﻿using Terraria.UI;
-using Terraria.GameContent.UI.Elements;
+﻿using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework.Graphics;
 using deeprockitems.Utilities;
 using Terraria.GameContent;
 using Microsoft.Xna.Framework;
 using System.Linq;
-using Terraria;
 using System;
 
 namespace deeprockitems.Common.Config.UIElements

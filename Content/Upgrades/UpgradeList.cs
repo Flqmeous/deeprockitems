@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Terraria.ModLoader;
-using System.Threading.Tasks;
-using Terraria.Localization;
 
 namespace deeprockitems.Content.Upgrades
 {

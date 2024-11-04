@@ -1,12 +1,4 @@
 ﻿using deeprockitems.Content.Upgrades;
-using deeprockitems.Types;
-using System;
-using System;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.GameContent.Creative;
-using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace deeprockitems.Content.Items
 {

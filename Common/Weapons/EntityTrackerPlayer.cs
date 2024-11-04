@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using System.Collections.Generic;
 using deeprockitems.Common.Types;
 
 namespace deeprockitems.Common.Weapons

@@ -1,10 +1,7 @@
 ﻿using Terraria;
 using Terraria.UI;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using deeprockitems.Content.Items.Weapons;
-using System;
 using Terraria.GameInput;
 using Terraria.Audio;
 using Terraria.ID;

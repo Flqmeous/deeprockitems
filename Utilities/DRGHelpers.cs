@@ -1,9 +1,7 @@
-﻿using deeprockitems.Common.PlayerLayers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using ReLogic.Content;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 

@@ -1,6 +1,4 @@
 ﻿using deeprockitems.Common.EntitySources;
-using deeprockitems.Content.Items;
-using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;

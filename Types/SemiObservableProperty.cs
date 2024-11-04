@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace deeprockitems.Types
+﻿namespace deeprockitems.Types
 {
     /// <summary>
     /// Defines a property that may, but is not obligated, to send a notification.

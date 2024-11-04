@@ -2,9 +2,7 @@
 using Terraria.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader.UI;
 using Terraria.Localization;
-using Terraria.ID;
 using deeprockitems.Content.Upgrades;
 using System.Linq;
 
