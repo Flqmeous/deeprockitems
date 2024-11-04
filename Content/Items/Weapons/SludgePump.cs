@@ -112,7 +112,7 @@ namespace deeprockitems.Content.Items.Weapons
                 ),
                 new UpgradeTier(4,
                     // This upgrade has no innate behavior with it, since this is buff-related
-                    new Upgrade("StrongerPoison", Assets.Upgrades.Heat.Value) {
+                    new Upgrade("StrongSludge", Assets.Upgrades.Heat.Value) {
                     },
                     new Upgrade("HigherDamage", Assets.Upgrades.Damage.Value) {
                         Behavior = {
