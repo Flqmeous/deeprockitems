@@ -19,5 +19,7 @@ namespace deeprockitems.Content.Upgrades
         public delegate bool ProjectilePreKill(Projectile projectile, int timeLeft);
         // Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback
         public Action<Item, Player, EntitySource_FromUpgradableWeapon, Projectile> Item_OnShoot { get; set; }
+        public delegate bool ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity);
+        public ProjectileOnTileCollide Projectile_OnTileCollideHook { get; set; }
     }
 }
