@@ -184,6 +184,7 @@ Mods: {
 			PlasmaSplashProj.DisplayName: Plasma Splash Proj
 			CryoProjectile.DisplayName: Cryo Projectile
 			IceTrail.DisplayName: Ice Trail
+			DebugProjectile.DisplayName: Debug Projectile
 		}
 
 		Buffs: {
@@ -386,6 +387,11 @@ Mods: {
 
 				StrongSludge: {
 					DisplayName: StrongSludge
+					HoverText: Hover text
+				}
+
+				LingeringSludge: {
+					DisplayName: LingeringSludge
 					HoverText: Hover text
 				}
 			}

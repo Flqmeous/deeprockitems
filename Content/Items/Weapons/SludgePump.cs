@@ -1,7 +1,11 @@
 ﻿using deeprockitems.Common.PlayerLayers;
+using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
+using deeprockitems.Content.Tiles;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -104,7 +108,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 // Spawn the waste ordance if the projectile is fully charged
                                 if (!ball.ShouldSplatter) return true;
 
-                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)(projectile.damage * 1.5f), 0f, Owner: projectile.owner);
+                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)(projectile.damage * 2f), 0f, Owner: projectile.owner);
                                 return false;
                             }
                         }
@@ -117,12 +121,95 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("HigherDamage", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.OriginalDamage * 1.33f);
+                                item.damage = (int)(item.OriginalDamage * 1.5f);
                             }
                         }
                     },
                     // This upgrade also affects a buff, so no change here either.
                     new Upgrade("SlowingPoison", Assets.Upgrades.Stun.Value) {
+                    }
+                ),
+                new UpgradeTier(5,
+                    new Upgrade("LingeringSludge", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Projectile_OnTileCollideHook = (proj, oldVelocity) => {
+                                // get instance of modsystem
+                                SludgeTileSystem system = ModContent.GetInstance<SludgeTileSystem>();
+                                // Get the tile of collision
+                                Point tileCollision = proj.Center.ToTileCoordinates();
+                                // Convert to center of the tile
+                                Vector2 collisionPoint = new Vector2(tileCollision.X * 16f, tileCollision.Y * 16f);
+                                // Spawn hitbox
+                                var debug = Projectile.NewProjectileDirect(proj.GetSource_FromAI(), collisionPoint, Vector2.Zero, ModContent.ProjectileType<DebugProjectile>(), 0, 0f);
+                                debug.Center = collisionPoint;
+                                debug.width = proj.width;
+                                debug.height = proj.height;
+                                // Get the tile collision points of this projectile.
+                                Point topLeftTileIntersection = new Point((int)Math.Floor((proj.position.X) / 16f),
+                                                                          (int)Math.Floor((proj.position.Y) / 16f));
+                                Point bottomRightTileIntersection = new Point((int)Math.Ceiling((proj.position.X + proj.width) / 16f),
+                                                                              (int)Math.Ceiling((proj.position.Y + proj.height) / 16f));
+                                // We can then for-each these tiles and try drawing a line to the center of each face of them.
+                                for (int i = topLeftTileIntersection.X; i <= bottomRightTileIntersection.X; i++)
+                                {
+                                    for (int j = topLeftTileIntersection.Y; j <= bottomRightTileIntersection.Y; j++)
+                                    {
+                                        // preliminary check to make sure we arent sludging air blocks
+                                        if (!Main.tile[i, j].HasTile || !Main.tileSolid[Main.tile[i, j].TileType] || Main.tileFrameImportant[Main.tile[i, j].TileType]) continue;
+
+
+                                        // Get positions of face centers
+                                        Vector2 topFace = new Vector2(i * 16f, j * 16f);
+                                        Vector2 rightFace = new Vector2(i * 16f, j * 16f);
+                                        Vector2 bottomFace = new Vector2(i * 16f, j * 16f);
+                                        Vector2 leftFace = new Vector2(i * 16f, j * 16f);
+                                        // Try drawing to face centers
+                                        SludgeSurfaces surfaces = SludgeSurfaces.None;
+                                        if (Collision.CanHitLine(collisionPoint - oldVelocity, 1, 1, topFace, 1, 1))
+                                        {
+                                            surfaces |= SludgeSurfaces.Top;
+                                        }
+                                        if (Collision.CanHitLine(collisionPoint - oldVelocity, 1, 1, rightFace, 1, 1))
+                                        {
+                                            surfaces |= SludgeSurfaces.Right;
+                                        }
+                                        if (Collision.CanHitLine(collisionPoint - oldVelocity, 1, 1, bottomFace, 1, 1))
+                                        {
+                                            surfaces |= SludgeSurfaces.Bottom;
+                                        }
+                                        if (Collision.CanHitLine(collisionPoint - oldVelocity, 1, 1, leftFace, 1, 1))
+                                        {
+                                            surfaces |= SludgeSurfaces.Left;
+                                        }
+                                        // Send tile data
+                                        if (surfaces > 0)
+                                        {
+                                            system.AddNewSludgeTile(i, j, 600, surfaces);
+                                        }
+                                    }
+                                }
+
+                                return true; // Continue vanilla behavior.
+
+                                /*SludgeTileSystem system = ModContent.GetInstance<SludgeTileSystem>();
+                                // Sludge all tiles that are nearby where this hit:
+                                // Get the estimated point of collision in tile coordinates (which is projectile center + old velocity)
+                                Point collisionPoint = (proj.Center + oldVelocity).ToTileCoordinates();
+                                // Get points within the bounds of the projectile
+                                Point topLeft = new Point(collisionPoint.X - (int)(proj.width / 16f), collisionPoint.Y - (int)(proj.height / 16f));
+                                Point bottomRight = new Point(collisionPoint.X + (int)(proj.width / 16f), collisionPoint.Y + (int)(proj.height / 16f));
+                                for (int x = topLeft.X; x <= bottomRight.X; x++)
+                                {
+                                    for (int y = topLeft.Y; y <= bottomRight.Y; y++)
+                                    {
+                                        // Check if 
+                                        system.AddNewSludgeTile(x, y, 600);
+                                    }
+                                }
+                                // Sludge all of the points
+                                return true;*/
+                            }
+                        }
                     }
                 )
             );
