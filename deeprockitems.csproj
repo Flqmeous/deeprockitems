@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\CooldownUIBackground.png" />
+    <None Remove="Assets\Tiles\SludgeTiles.png" />
     <None Remove="Content\Buffs\Sludge.png" />
   </ItemGroup>
   <ItemGroup>
