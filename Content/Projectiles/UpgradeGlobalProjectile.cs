@@ -101,6 +101,22 @@ namespace deeprockitems.Content.Projectiles
             if (!callBase) return false;
             return base.PreKill(projectile, timeLeft);
         }
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity) {
+            bool callBase = true;
+            foreach (var upgrade in _equippedUpgrades)
+            {
+                if (upgrade.Behavior.Projectile_OnTileCollideHook == null) continue;
+
+                // If the hook was found, collide and return base 
+                bool result = upgrade.Behavior.Projectile_OnTileCollideHook.Invoke(projectile, oldVelocity);
+                if (!result)
+                {
+                    callBase = false;
+                }
+            }
+            if (!callBase) return false;
+            return base.OnTileCollide(projectile, oldVelocity);
+        }
         static Upgrade[] GetEquippedUpgrades(UpgradeList upgrades)
         {
             List<Upgrade> equippedUpgrades = new();
