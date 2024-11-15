@@ -8,6 +8,7 @@ using System.Collections;
 using System.Linq;
 using System;
 using MonoMod.Core.Platforms;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Tiles
 {
@@ -54,13 +55,14 @@ namespace deeprockitems.Content.Tiles
         }
         private static void DrawSludgeFromFrame(int i, int j, float rotation, SludgeDirections direction) {
             // Create offset
-            Vector2 offset = Main.screenPosition - (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange));
-            Main.EntitySpriteDraw(new DrawData(Assets.WhitePixel.Value, new Rectangle(i * 16 - (int)offset.X, j * 16 - (int)offset.Y, 16, 16), Color.White));
-            /*Vector2 tilePos = new((i + 12) * 16 + 8, (j + 12) * 16 + 8);
-            Vector2 drawOffset = 12 * new Vector2((float)Math.Cos(rotation + MathHelper.PiOver2), (float)Math.Sin(rotation + MathHelper.PiOver2));
+            Vector2 screenOffset = Main.screenPosition - (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange));
+            // Add offset for hammered tiles
+            Vector2 hammerOffset = new(4f, 0);
+            Vector2 tilePos = new(i * 16 + 5f, j * 16 + 8f);
+            Vector2 rotationOffset = 12 * new Vector2((float)Math.Cos(rotation + MathHelper.PiOver2), (float)Math.Sin(rotation + MathHelper.PiOver2));
             Rectangle sourceRect = new(GetXFrame(direction), 0, 16, 16);
-            Main.EntitySpriteDraw(new DrawData(Assets.Tiles.Sludge.Value, tilePos - Main.screenPosition - drawOffset, sourceRect, Color.White, rotation, new Vector2(8, 8), 1f, SpriteEffects.None));
-        */}
+            Main.EntitySpriteDraw(new DrawData(Assets.Tiles.Sludge.Value, tilePos - screenOffset - rotationOffset + hammerOffset, sourceRect, Lighting.GetColor(i, j), rotation, new Vector2(8, 8), 1f, SpriteEffects.None));
+        }
         public override void PostDraw(int i, int j, int type, SpriteBatch spriteBatch) {
             base.PostDraw(i, j, type, spriteBatch);
             SludgeTileSystem system = ModContent.GetInstance<SludgeTileSystem>();
@@ -204,6 +206,34 @@ namespace deeprockitems.Content.Tiles
                     SludgeTimer[i, j] = 0;
                 }
             }*/
+        }
+    }
+    public class SludgeTileNPC : GlobalNPC {
+        public override void PostAI(NPC npc) {
+            // If NPC is touching a sludge tile, inflict sludge debuff with slowing
+            // Check for regular collision first
+            if (!npc.collideX && !npc.collideY) return;
+            // Get all tiles that intersect 1.2f times the hitbox
+            Point topLeftTileIntersection = new Point((int)Math.Floor((npc.position.X - npc.width * 0.2f) / 16f),
+                                                      (int)Math.Floor((npc.position.Y - npc.height * 0.2f) / 16f));
+            Point bottomRightTileIntersection = new Point((int)Math.Ceiling((npc.position.X + 1.2f * npc.width) / 16f),
+                                                          (int)Math.Ceiling((npc.position.Y + 1.2f * npc.height) / 16f));
+            // Check if each tile is sludged. If so, we can inflict the buff on our NPC
+            var system = ModContent.GetInstance<SludgeTileSystem>();
+            for (int i = topLeftTileIntersection.X; i <= bottomRightTileIntersection.X; i++)
+            {
+                for (int j = topLeftTileIntersection.Y; j <= bottomRightTileIntersection.Y; j++)
+                {
+                    // If tile is not sludged, continue
+                    if (!system.IsTileSludged(i, j)) continue;
+                    // Else, sludge this enemy!
+                    if (npc.AddInstancedBuff(300, out Sludged buff))
+                    {
+                        buff.StrongSludge = true;
+                        buff.SlowingSludge = true;
+                    }
+                }
+            }
         }
     }
     public class SludgeTile
