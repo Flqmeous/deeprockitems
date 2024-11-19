@@ -441,6 +441,16 @@ Mods: {
 					DisplayName: ArmorBreak
 					HoverText: Hover text
 				}
+
+				FireRateIncrease: {
+					DisplayName: FireRateIncrease
+					HoverText: Hover text
+				}
+
+				QuickCharge: {
+					DisplayName: QuickCharge
+					HoverText: Hover text
+				}
 			}
 		}
 

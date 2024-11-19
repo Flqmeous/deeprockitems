@@ -41,7 +41,7 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.OriginalDamage * 1.15);
+                                item.damage = (int)(item.OriginalDamage * 1.10f);
                             }
                         }
                     },
@@ -49,6 +49,14 @@ namespace deeprockitems.Content.Items.Weapons
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 (item.ModItem as UpgradableWeapon).ShotsUntilCooldown = 24f;
+                            }
+                        }
+                    },
+                    new Upgrade("IncreasedChargeDamage", Assets.Upgrades.AreaOfEffect.Value) {
+                        Behavior = {
+                            Projectile_OnSpawnHook = (proj, source) => {
+                                if (proj.ModProjectile is not BigPlasma) return;
+                                proj.damage = (int)(proj.damage * 1.25f);
                             }
                         }
                     }
@@ -59,6 +67,14 @@ namespace deeprockitems.Content.Items.Weapons
                             Projectile_OnSpawnHook = (proj, source) => {
                                 if (proj.ModProjectile is not PlasmaBullet) return;
                                 proj.velocity *= 1.25f;
+                            }
+                        }
+                    },
+                    new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
+                        Behavior = {
+                            Projectile_OnSpawnHook = (proj, source) => {
+                                if (proj.ModProjectile is not PlasmaPistolHelper helper) return;
+                                helper.ChargeTimeMultiplier = 0.75f;
                             }
                         }
                     }
