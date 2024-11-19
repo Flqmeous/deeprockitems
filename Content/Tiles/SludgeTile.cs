@@ -73,11 +73,11 @@ namespace deeprockitems.Content.Tiles
                 // Draw top face
                 if (tile.CoveredSurfaces.HasFlag(SludgeSurfaces.Top))
                 {
-                    // Check for connected textures through the left and right faces
-                    if (system.IsTileSludged(i - 1, j)) {
+                    // Check for connected textures with left and right tiles
+                    if (system.IsTileSludged(i - 1, j, SludgeSurfaces.Top)) {
                         direction |= SludgeDirections.Negative;
                     }
-                    if (system.IsTileSludged(i + 1, j))
+                    if (system.IsTileSludged(i + 1, j, SludgeSurfaces.Top))
                     {
                         direction |= SludgeDirections.Positive;
                     }
@@ -87,12 +87,12 @@ namespace deeprockitems.Content.Tiles
                 // Draw right face
                 if (tile.CoveredSurfaces.HasFlag(SludgeSurfaces.Right))
                 {
-                    // Check for connected textures through the left and right faces
-                    if (system.IsTileSludged(i, j - 1))
+                    // Check for connected textures from the top and bottom tiles
+                    if (system.IsTileSludged(i, j - 1, SludgeSurfaces.Right))
                     {
                         direction |= SludgeDirections.Negative;
                     }
-                    if (system.IsTileSludged(i, j + 1))
+                    if (system.IsTileSludged(i, j + 1, SludgeSurfaces.Right))
                     {
                         direction |= SludgeDirections.Positive;
                     }
@@ -102,12 +102,12 @@ namespace deeprockitems.Content.Tiles
                 // Draw bottom face
                 if (tile.CoveredSurfaces.HasFlag(SludgeSurfaces.Bottom))
                 {
-                    // Check for connected textures through the left and right faces
-                    if (system.IsTileSludged(i - 1, j))
+                    // Check for connected textures with side tiles
+                    if (system.IsTileSludged(i - 1, j, SludgeSurfaces.Bottom))
                     {
                         direction |= SludgeDirections.Negative;
                     }
-                    if (system.IsTileSludged(i + 1, j))
+                    if (system.IsTileSludged(i + 1, j, SludgeSurfaces.Bottom))
                     {
                         direction |= SludgeDirections.Positive;
                     }
@@ -117,12 +117,12 @@ namespace deeprockitems.Content.Tiles
                 // Draw left face
                 if (tile.CoveredSurfaces.HasFlag(SludgeSurfaces.Left))
                 {
-                    // Check for connected textures through the left and right faces
-                    if (system.IsTileSludged(i, j - 1))
+                    // Check for connected textures with top and bottom tiles
+                    if (system.IsTileSludged(i, j - 1, SludgeSurfaces.Left))
                     {
                         direction |= SludgeDirections.Negative;
                     }
-                    if (system.IsTileSludged(i, j + 1))
+                    if (system.IsTileSludged(i, j + 1, SludgeSurfaces.Left))
                     {
                         direction |= SludgeDirections.Positive;
                     }
@@ -158,6 +158,9 @@ namespace deeprockitems.Content.Tiles
                 return;
             }
             SludgedTiles.Add(new SludgeTile() { X = x, Y = y, Timer = time, CoveredSurfaces = surfaces});
+        }
+        public bool IsTileSludged(int x, int y, SludgeSurfaces surfaces) {
+            return SludgedTiles.Any(t => t.X == x && t.Y == y && (surfaces & t.CoveredSurfaces) == surfaces);
         }
         public bool IsTileSludged(int x, int y) {
             return SludgedTiles.Where(t => t.X == x && t.Y == y).Any();
