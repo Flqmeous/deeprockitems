@@ -33,7 +33,7 @@ namespace deeprockitems.Content.Items.Weapons
         /// <summary>
         /// The time in ticks it takes for the weapon to cool down.
         /// </summary>
-        public float CooldownTime { get; set; } = 2f;
+        public float CooldownTime { get; set; } = 60f;
         /// <summary>
         /// The timer used to passively cool down the weapon if it is not being used.
         /// </summary>
@@ -180,9 +180,9 @@ namespace deeprockitems.Content.Items.Weapons
         }
         private Upgrade[] GetEquippedUpgrades() {
             return (from upgradeTier in UpgradeMasterList
-                   from upgrade in upgradeTier
-                   where upgrade.UpgradeState.IsEquipped
-                   select upgrade).ToArray();
+                    from upgrade in upgradeTier
+                    where upgrade.UpgradeState.IsEquipped
+                    select upgrade).ToArray();
         }
         public override void Load() {
             _ = InitializeUpgrades();
