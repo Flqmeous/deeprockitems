@@ -394,6 +394,53 @@ Mods: {
 					DisplayName: LingeringSludge
 					HoverText: Hover text
 				}
+
+				DamageUpgrade: {
+					DisplayName: DamageUpgrade
+					HoverText: Hover text
+				}
+			}
+
+			PlasmaPistol: {
+				ThinContainmentField: {
+					DisplayName: ThinContainmentField
+					HoverText: Hover text
+				}
+
+				HeatDump: {
+					DisplayName: HeatDump
+					HoverText: Hover text
+				}
+
+				DamageUpgrade: {
+					DisplayName: DamageUpgrade
+					HoverText: Hover text
+				}
+
+				PlasmaSplash: {
+					DisplayName: PlasmaSplash
+					HoverText: Hover text
+				}
+
+				IncreasedBattery: {
+					DisplayName: IncreasedBattery
+					HoverText: Hover text
+				}
+
+				SuperSpeedPlasma: {
+					DisplayName: SuperSpeedPlasma
+					HoverText: Hover text
+				}
+
+				FlyingNightmare: {
+					DisplayName: FlyingNightmare
+					HoverText: Hover text
+				}
+
+				ArmorBreak: {
+					DisplayName: ArmorBreak
+					HoverText: Hover text
+				}
 			}
 		}
 
