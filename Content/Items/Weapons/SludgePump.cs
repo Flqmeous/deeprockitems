@@ -16,8 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : UpgradableWeapon
     {
-        public override void NewSetDefaults()
-        {
+        public override void NewSetDefaults() {
             Item.damage = 34;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
@@ -144,9 +143,16 @@ namespace deeprockitems.Content.Items.Weapons
                                 return true; // Continue vanilla behavior.
                             }
                         }
+                    },
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.OriginalDamage * 1.25f);
+                            }
+                        }
                     }
                 ),
-                new UpgradeTier(4, 
+                new UpgradeTier(4,
                     new Upgrade("MoreFragments", Assets.Upgrades.Focus.Value) {
                         Behavior = {
                             Projectile_OnSpawnHook = (proj, source) => {
@@ -174,10 +180,10 @@ namespace deeprockitems.Content.Items.Weapons
                     // This upgrade has no innate behavior with it, since this is buff-related
                     new Upgrade("StrongSludge", Assets.Upgrades.Heat.Value) {
                     },
-                    new Upgrade("HigherDamage", Assets.Upgrades.Damage.Value) {
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.OriginalDamage * 1.5f);
+                                item.damage = (int)(item.OriginalDamage * 1.25f);
                             }
                         }
                     },
@@ -187,8 +193,7 @@ namespace deeprockitems.Content.Items.Weapons
                 )
             );
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             Recipe.Create(ModContent.ItemType<SludgePump>())
             .AddIngredient(ItemID.HellstoneBar, 15)
             .AddIngredient(ItemID.Gel, 50)
