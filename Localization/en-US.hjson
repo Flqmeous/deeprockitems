@@ -451,6 +451,43 @@ Mods: {
 					DisplayName: QuickCharge
 					HoverText: Hover text
 				}
+
+				IncreasedChargeDamage: {
+					DisplayName: IncreasedChargeDamage
+					HoverText: Hover text
+				}
+			}
+
+			Zhukovs: {
+				DamageUpgrade: {
+					DisplayName: DamageUpgrade
+					HoverText: Hover text
+				}
+
+				FireRate: {
+					DisplayName: FireRate
+					HoverText: Hover text
+				}
+
+				FireRounds: {
+					DisplayName: FireRounds
+					HoverText: Hover text
+				}
+
+				CryoRounds: {
+					DisplayName: CryoRounds
+					HoverText: Hover text
+				}
+
+				GetInGetOut: {
+					DisplayName: GetInGetOut
+					HoverText: Hover text
+				}
+
+				Blowthrough: {
+					DisplayName: Blowthrough
+					HoverText: Hover text
+				}
 			}
 		}
 

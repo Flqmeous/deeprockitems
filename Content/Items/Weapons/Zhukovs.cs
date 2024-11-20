@@ -1,4 +1,6 @@
 ﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -41,6 +43,62 @@ namespace deeprockitems.Content.Items.Weapons
                 .AddIngredient(ItemID.SoulofNight, 15)
                 .AddTile(TileID.Anvils)
                 .Register();
+        }
+        public override UpgradeList InitializeUpgrades() {
+            return new UpgradeList("Zhukovs",
+                new UpgradeTier(1,
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.OriginalDamage * 1.10f);
+                            }
+                        }
+                    },
+                    new Upgrade("FireRate", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.useTime = (int)(item.useTime * 0.8f);
+                                item.useAnimation = (int)(item.useAnimation * 0.8f);
+                            }
+                        }
+                    }
+                ),
+                new UpgradeTier(4,
+                    new Upgrade("FireRounds", Assets.Upgrades.Heat.Value) {
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
+                                npc.ChangeTemperature(10, proj.owner);
+                            }
+                        }
+                    },
+                    new Upgrade("CryoRounds", Assets.Upgrades.Cryo.Value) {
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
+                                npc.ChangeTemperature(-10, proj.owner);
+                            }
+                        }
+                    }
+                ),
+                new UpgradeTier(5,
+                    new Upgrade("GetInGetOut", Assets.Upgrades.Haste.Value) {
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
+                                // Is the npc dead? return
+                                if (npc.life > 0) return;
+                                Main.player[proj.owner].AddBuff(ModContent.BuffType<Haste>(), 180);
+                            }
+                        }
+                    },
+                    new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
+                        Behavior = {
+                            Projectile_OnSpawnHook = (proj, source) => {
+                                if (proj.penetrate > 5) return;
+                                proj.penetrate = 5;
+                            }
+                        }
+                    }
+                )
+            );
         }
         public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
