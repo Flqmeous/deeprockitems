@@ -21,5 +21,7 @@ namespace deeprockitems.Content.Upgrades
         public Action<Item, Player, EntitySource_FromUpgradableWeapon, Projectile> Item_OnShoot { get; set; }
         public delegate bool ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity);
         public ProjectileOnTileCollide Projectile_OnTileCollideHook { get; set; }
+        public delegate void ItemModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread);
+        public ItemModifyShootStats Item_ModifyShootStatsHook { get; set; }
     }
 }
