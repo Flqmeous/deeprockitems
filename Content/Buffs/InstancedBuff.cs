@@ -43,6 +43,33 @@ namespace deeprockitems.Content.Buffs
     public static class Extensions
     {
         /// <summary>
+        /// Checks if an NPC currently has the type of instanced buff, and outs the instance of the buff if it does.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="npc"></param>
+        /// <param name="instancedBuff"></param>
+        /// <returns></returns>
+        public static bool HasInstancedBuff<T>(this NPC npc, out T instancedBuff) where T : InstancedBuff {
+            // Get global npc
+            InstancedNPC global = npc.GetGlobalNPC<InstancedNPC>();
+            // Search for buff
+            int buffType = ModContent.BuffType<T>();
+            int buffIndex = npc.FindBuffIndex(buffType);
+            if (buffIndex == -1)
+            {
+                instancedBuff = null;
+                return false;
+            }
+            var query = global.InstancedBuffs.Where(buff => buff.BuffIndex == buffIndex);
+            if (!query.Any())
+            {
+                instancedBuff = null;
+                return false;
+            }
+            instancedBuff = query.First() as T;
+            return true;
+        }
+        /// <summary>
         /// Attempts to add an instanced buff to this NPC. 
         /// </summary>
         /// <typeparam name="T">The instanced buff</typeparam>
@@ -51,7 +78,7 @@ namespace deeprockitems.Content.Buffs
         /// <param name="instancedBuff">Is null if the function returns false</param>
         /// <param name="quiet"></param>
         /// <returns></returns>
-        public static bool AddInstancedBuff<T>(this NPC npc, int time, out T? instancedBuff, bool quiet = false) where T : InstancedBuff, new() {
+        public static bool AddInstancedBuff<T>(this NPC npc, int time, out T instancedBuff, bool quiet = false) where T : InstancedBuff, new() {
             // Get global npc
             InstancedNPC globalNpc = npc.GetGlobalNPC<InstancedNPC>();
             // Search for the buff type
