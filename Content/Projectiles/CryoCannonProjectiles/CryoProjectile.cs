@@ -18,11 +18,13 @@ namespace deeprockitems.Content.Projectiles.CryoCannonProjectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
         }
+        public float VelocityDecay { get => Projectile.ai[2]; set => Projectile.ai[2] = value; }
         public float CoolingAmount { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public float AliveTime { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
         public override void OnSpawn(IEntitySource source)
         {
-            CoolingAmount = -8f;
+            CoolingAmount = -4f;
+            VelocityDecay = 0.93f;
         }
         public override void AI()
         {
@@ -34,7 +36,7 @@ namespace deeprockitems.Content.Projectiles.CryoCannonProjectiles
                 dust.alpha = 100;
             }
             // Slow down!
-            Projectile.velocity *= 0.95f;
+            Projectile.velocity *= VelocityDecay;
 
             // Kill older dust
             foreach (Dust dust in Main.dust)
