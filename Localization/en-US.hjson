@@ -336,8 +336,8 @@ Mods: {
 
 			SludgePump: {
 				MoreFragments: {
-					DisplayName: MoreFragments
-					HoverText: Hover text
+					DisplayName: Perforated Nozzle
+					HoverText: +4 fragments on charged shots
 				}
 
 				EfficientCharge: {
@@ -345,71 +345,61 @@ Mods: {
 					HoverText: Hover text
 				}
 
-				TracerRounds: {
-					DisplayName: TracerRounds
-					HoverText: Hover text
-				}
-
 				VisualCalculus: {
-					DisplayName: VisualCalculus
-					HoverText: Hover text
+					DisplayName: Visual Calculus
+					HoverText: Shows a tracer where the projectile will travel
 				}
 
 				Glowstick: {
 					DisplayName: Glowstick
-					HoverText: Hover text
+					HoverText: Goo emits light in the dark
 				}
 
 				WasteOrdnance: {
-					DisplayName: WasteOrdnance
-					HoverText: Hover text
-				}
-
-				StrongerPoison: {
-					DisplayName: StrongerPoison
-					HoverText: Hover text
+					DisplayName: Waste Ordnance
+					HoverText: Fully charged goo explodes instead of fragmenting
 				}
 
 				QuickCharge: {
-					DisplayName: QuickCharge
-					HoverText: Hover text
-				}
-
-				HigherDamage: {
-					DisplayName: HigherDamage
-					HoverText: Hover text
+					DisplayName: Smaller Pressure Chamber
+					HoverText: 25% faster charge time
 				}
 
 				SlowingPoison: {
-					DisplayName: SlowingPoison
-					HoverText: Hover text
+					DisplayName: Paralytic Agents
+					HoverText: Slows down sludged enemies
 				}
 
 				StrongSludge: {
-					DisplayName: StrongSludge
-					HoverText: Hover text
+					DisplayName: Hydofluoric Acid
+					HoverText: 2x damage over time
 				}
 
 				LingeringSludge: {
-					DisplayName: LingeringSludge
-					HoverText: Hover text
+					DisplayName: Sticky Mix
+					HoverText: Sludge will stick to tiles
+				}
+
+				SpreadingSludge: {
+					DisplayName: Biochemical Warfare
+					HoverText: Enemies affected by sludge will infect other enemies
 				}
 
 				DamageUpgrade: {
-					DisplayName: DamageUpgrade
-					HoverText: Hover text
+					DisplayName: Hardened Mixture
+					HoverText: +15% damage to sludge
 				}
 			}
 
 			PlasmaPistol: {
 				ThinContainmentField: {
-					DisplayName: ThinContainmentField
-					HoverText: Hover text
+					DisplayName: Thin Containment Field
+					HoverText: Hitting charged plasma with uncharged plasma will make it explode
 				}
 
 				HeatDump: {
-					DisplayName: HeatDump
-					HoverText: Hover text
+					DisplayName: Heat Dump
+					HoverText: Plasma sheds heat onto enemies
 				}
 
 				DamageUpgrade: {
@@ -418,43 +408,43 @@ Mods: {
 				}
 
 				PlasmaSplash: {
-					DisplayName: PlasmaSplash
-					HoverText: Hover text
+					DisplayName: Plasma Splash
+					HoverText: Uncharged plasma impacts with a small area of effect
 				}
 
 				IncreasedBattery: {
-					DisplayName: IncreasedBattery
-					HoverText: Hover text
+					DisplayName: Higher Capacity Battery
+					HoverText: Increased cooldown capacity
 				}
 
 				SuperSpeedPlasma: {
-					DisplayName: SuperSpeedPlasma
-					HoverText: Hover text
+					DisplayName: Overtuned Nozzle
+					HoverText: Increased velocity of plasma
 				}
 
 				FlyingNightmare: {
-					DisplayName: FlyingNightmare
-					HoverText: Hover text
+					DisplayName: Flying Nightmare
+					HoverText: Charged plasma will pass through enemies
 				}
 
 				ArmorBreak: {
-					DisplayName: ArmorBreak
-					HoverText: Hover text
+					DisplayName: Gamma Ray Bursts
+					HoverText: Plasma will ignore 10 defense
 				}
 
 				FireRateIncrease: {
-					DisplayName: FireRateIncrease
+					DisplayName: FireRate
 					HoverText: Hover text
 				}
 
 				QuickCharge: {
-					DisplayName: QuickCharge
-					HoverText: Hover text
+					DisplayName: Quick Charge Coils
+					HoverText: Procure a charge shot 25% faster
 				}
 
 				IncreasedChargeDamage: {
-					DisplayName: IncreasedChargeDamage
-					HoverText: Hover text
+					DisplayName: Oxygen Coil Injectors
+					HoverText: Increased charge daamge
 				}
 			}
 
@@ -480,12 +470,84 @@ Mods: {
 				}
 
 				GetInGetOut: {
-					DisplayName: GetInGetOut
-					HoverText: Hover text
+					DisplayName: Get In, Get Out
+					HoverText: +50% haste while actively fighting an enemy
 				}
 
 				Blowthrough: {
 					DisplayName: Blowthrough
+					HoverText: Hover text
+				}
+
+				ReducedSpread: {
+					DisplayName: ReducedSpread
+					HoverText: Hover text
+				}
+
+				HighVelocityRounds: {
+					DisplayName: HighVelocityRounds
+					HoverText: Hover text
+				}
+
+				DamageUpgrade2: {
+					DisplayName: DamageUpgrade2
+					HoverText: Hover text
+				}
+
+				BiggerMagazine: {
+					DisplayName: BiggerMagazine
+					HoverText: Hover text
+				}
+			}
+
+			CryoCannon: {
+				IncreasedCooling: {
+					DisplayName: IncreasedCooling
+					HoverText: Hover text
+				}
+
+				ReloadSpeed: {
+					DisplayName: ReloadSpeed
+					HoverText: Hover text
+				}
+
+				ReducedManaCost: {
+					DisplayName: ReducedManaCost
+					HoverText: Hover text
+				}
+
+				FireRate: {
+					DisplayName: FireRate
+					HoverText: Hover text
+				}
+
+				ColdRadiance: {
+					DisplayName: ColdRadiance
+					HoverText: Hover text
+				}
+
+				ReversedEntropy: {
+					DisplayName: ReversedEntropy
+					HoverText: Hover text
+				}
+
+				FartherStream: {
+					DisplayName: FartherStream
+					HoverText: Hover text
+				}
+
+				NucleationSites: {
+					DisplayName: NucleationSites
+					HoverText: Hover text
+				}
+
+				DamageUpgrade1: {
+					DisplayName: DamageUpgrade1
+					HoverText: Hover text
+				}
+
+				DamageUpgrade2: {
+					DisplayName: DamageUpgrade2
 					HoverText: Hover text
 				}
 			}
