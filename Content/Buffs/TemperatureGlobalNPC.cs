@@ -358,16 +358,24 @@ namespace deeprockitems.Content.Buffs
         /// <param name="player"></param>
         public static void TempShock(this NPC self, ref int tempAmount, int player = -1)
         {
+            var info = self.CalculateHitInfo(3 * Math.Abs(tempAmount), -1, damageType: DamageClass.Generic, damageVariation: true);
             if (player != 1)
             {
-                var info = self.CalculateHitInfo(3 * Math.Abs(tempAmount), -1, damageType: DamageClass.Generic, damageVariation: true);
                 Main.player[player].StrikeNPCDirect(self, info);
                 tempAmount = 0;
+            }
+            else
+            {
+                self.StrikeNPC(info);
             }
             var modNPC = self.GetGlobalNPC<TemperatureGlobalNPC>();
             modNPC.TempChangeCooldown = 15;
             modNPC.Temperature = 0;
             
         }
+        /// <summary>
+        /// Gets the temperature of an NPC, which ranges from -100 to 100
+        /// </summary>
+        public static int GetTemperature(this NPC self) => self.GetGlobalNPC<TemperatureGlobalNPC>().Temperature;
     }
 }
