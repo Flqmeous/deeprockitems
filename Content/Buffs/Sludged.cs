@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Content.Buffs;
+using System.Linq;
 using Terraria;
 
 namespace deeprockitems.Content.Buffs
@@ -9,17 +10,39 @@ namespace deeprockitems.Content.Buffs
             int dps = StrongSludge ? 30 : 15;
             npc.lifeRegen -= dps * 2;
             damage = dps;
-            // Update movement
-            if (npc.noGravity)
+            if (SlowingSludge)
             {
-                // Flying NPCs get vertical slowing
-                npc.position.Y -= npc.velocity.Y * (1 - SlowMultiplier);
+                // Update movement
+                if (npc.noGravity)
+                {
+                    // Flying NPCs get vertical slowing
+                    npc.position.Y -= npc.velocity.Y * (1 - SlowMultiplier);
+                }
+                // All NPCs get horizontal slowing
+                npc.position.X -= npc.velocity.X * (1 - SlowMultiplier);
             }
-            // All NPCs get horizontal slowing
-            npc.position.X -= npc.velocity.X * (1 - SlowMultiplier);
+            else if (AmContagious)
+            {
+                // Get all NPCs around this npc
+                var query = Main.npc.Where(n => n.active && npc.Center.DistanceSQ(n.Center) <= 2304);
+                foreach (NPC n in query)
+                {
+                    // If an NPC has the buff but is not contagious, add buff
+                    if (npc.HasInstancedBuff(out Sludged buff))
+                    {
+                        if (buff.AmContagious) continue;
+
+                        npc.AddInstancedBuff<Sludged>(60, out _);
+                        continue;
+                    }
+                    // Else, add buff regardless
+                    npc.AddInstancedBuff<Sludged>(60, out _);
+                }
+            }
         }
         private float SlowMultiplier => 0.75f;
         public bool SlowingSludge { get; set; } = false;
         public bool StrongSludge { get; set; } = false;
+        public bool AmContagious { get; set; } = false;
     }
 }
