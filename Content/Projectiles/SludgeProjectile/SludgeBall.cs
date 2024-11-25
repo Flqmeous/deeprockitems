@@ -41,6 +41,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             {
                 buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
                 buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
+                buff.AmContagious = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SpreadingSludge");
             }        
         }
         public override void OnKill(int timeLeft)
