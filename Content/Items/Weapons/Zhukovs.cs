@@ -34,6 +34,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
+            ShotsUntilCooldown = 12f;
         }
         public override void AddRecipes()
         {
@@ -63,6 +64,38 @@ namespace deeprockitems.Content.Items.Weapons
                         }
                     }
                 ),
+                new UpgradeTier(2,
+                    new Upgrade("ReducedSpread", Assets.Upgrades.Focus.Value) {
+                        Behavior = {
+                            Item_ModifyShootStatsHook = (Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                                spread /= 2f;
+                            }
+                        }
+                    },
+                    new Upgrade("HighVelocityRounds", Assets.Upgrades.ProjectileVelocity.Value) {
+                        Behavior = {
+                            Item_ModifyShootStatsHook = (Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                                velocity *= 1.25f;
+                            }
+                        }
+                    }
+                ),
+                new UpgradeTier(3,
+                    new Upgrade("DamageUpgrade2", Assets.Upgrades.Damage.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage = (int)(item.OriginalDamage * 1.20f);
+                            }
+                        }
+                    },
+                    new Upgrade("BiggerMagazine", Assets.Upgrades.FireRate.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                (item.ModItem as UpgradableWeapon).ShotsUntilCooldown *= 1.75f;
+                            }
+                        }
+                    }
+                ),
                 new UpgradeTier(4,
                     new Upgrade("FireRounds", Assets.Upgrades.Heat.Value) {
                         Behavior = {
@@ -83,9 +116,7 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("GetInGetOut", Assets.Upgrades.Haste.Value) {
                         Behavior = {
                             Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
-                                // Is the npc dead? return
-                                if (npc.life > 0) return;
-                                Main.player[proj.owner].AddBuff(ModContent.BuffType<Haste>(), 180);
+                                Main.player[proj.owner].AddBuff(ModContent.BuffType<Haste>(), 119);
                             }
                         }
                     },
@@ -100,13 +131,13 @@ namespace deeprockitems.Content.Items.Weapons
                 )
             );
         }
+        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
+            spread = MathHelper.Pi / 24f;
+        }
         public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item41, player.Center);
-            // Shoot with spread. Doing this here to preserve overclocks.
-            Vector2 spreadVelocity = velocity.RotatedByRandom(MathHelper.Pi / 32);
-            Projectile.NewProjectile(source, position, spreadVelocity, type, damage, knockback, Owner: player.whoAmI);
-            return false;
+            return true;
         }
     }
 }

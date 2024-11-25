@@ -137,10 +137,10 @@ namespace deeprockitems.Content.Items.Weapons
             ApplyStatUpgrades();
         }
         #endregion
-        public override bool? CanAutoReuseItem(Player player) {
+/*        public override bool? CanAutoReuseItem(Player player) {
             if (Item.channel && player.autoReuseAllWeapons) return true;
             return null;
-        }
+        }*/
         public override void ModifyTooltips(List<TooltipLine> tooltips) {
             // Remove the crit line
             tooltips.Find(tl => tl.FullName == "Terraria/CritChance")?.Hide();
@@ -167,6 +167,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useTime = _oldUseTime;
             Item.useAnimation = _oldUseAnimation;
             ResetStats();
+            NewSetDefaults();
             foreach (var upgradeTier in UpgradeMasterList)
             {
                 foreach (var upgrade in upgradeTier)
@@ -199,10 +200,25 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public virtual void NewSetStaticDefaults() { }
         public sealed override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-            var newSource = new EntitySource_FromUpgradableWeapon(player, this, source.AmmoItemIdUsed, source.Context);
-            if (NewShoot(player, newSource, position, velocity, type, damage, knockback))
+            // Start modifying the shoot stats of each upgrade
+            float spread = 0f;
+            // Create duplicates of each parameter to use as ref
+            Vector2 position2 = position;
+            Vector2 spreadVelocity = velocity;
+            int type2 = type;
+            int damage2 = damage;
+            float knockback2 = knockback;
+            NewModifyShootStats(player, ref position2, ref spreadVelocity, ref type2, ref damage2, ref knockback2, ref spread);
+            foreach (var upgrade in GetEquippedUpgrades())
             {
-                Projectile spawnedProj = Projectile.NewProjectileDirect(newSource, position, velocity, type, damage, knockback, owner: player.whoAmI);
+                upgrade.Behavior.Item_ModifyShootStatsHook?.Invoke(Item, player, ref position, ref velocity, ref type, ref damage, ref knockback, ref spread);
+            }
+            // Now begin doing shoot logic
+            var newSource = new EntitySource_FromUpgradableWeapon(player, this, source.AmmoItemIdUsed, source.Context);
+            if (NewShoot(player, newSource, position2, spreadVelocity, type2, damage2, knockback2))
+            {
+                spreadVelocity = spreadVelocity.RotatedByRandom(spread);
+                Projectile spawnedProj = Projectile.NewProjectileDirect(newSource, position2, spreadVelocity, type2, damage2, knockback2, owner: player.whoAmI);
                 // Activate upgrades if equipped
                 foreach (var upgrade in GetEquippedUpgrades())
                 {
@@ -211,6 +227,10 @@ namespace deeprockitems.Content.Items.Weapons
             }
             return false;
         }
+        public override sealed void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
+
+        }
+        public virtual void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) { }
         public virtual bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => true;
         public override bool? PrefixChance(int pre, UnifiedRandom rand) {
             return false;

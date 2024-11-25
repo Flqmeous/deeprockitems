@@ -163,7 +163,7 @@ namespace deeprockitems.Content.Items.Weapons
                 )
             );
         }
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
+        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             type = ModContent.ProjectileType<Projectiles.PlasmaProjectiles.PlasmaPistolHelper>();
         }
         public override void AddRecipes() {

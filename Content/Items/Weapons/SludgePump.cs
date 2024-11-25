@@ -177,17 +177,11 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 ),
                 new UpgradeTier(5,
-                    // This upgrade has no innate behavior with it, since this is buff-related
+                    // All 3 upgrades in this tier will change how the buff behaves.
                     new Upgrade("StrongSludge", Assets.Upgrades.Heat.Value) {
                     },
-                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.OriginalDamage * 1.25f);
-                            }
-                        }
+                    new Upgrade("SpreadingSludge", Assets.Upgrades.GooBall.Value) {
                     },
-                    // This upgrade also affects a buff, so no change here either.
                     new Upgrade("SlowingPoison", Assets.Upgrades.Stun.Value) {
                     }
                 )
