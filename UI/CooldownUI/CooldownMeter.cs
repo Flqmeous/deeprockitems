@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
 using Terraria.ModLoader;
+using System;
+using System.Collections.Generic;
 
 namespace deeprockitems.UI.CooldownUI
 {
@@ -23,8 +25,10 @@ namespace deeprockitems.UI.CooldownUI
         }
         void ILoadable.Unload() {
             // Dispose of the basicEffect
-            basicEffect?.Dispose();
-            basicEffect = null;
+            Main.RunOnMainThread(() => {
+                basicEffect?.Dispose();
+                basicEffect = null;
+            });
         }
         #endregion
 #nullable enable
@@ -85,7 +89,10 @@ namespace deeprockitems.UI.CooldownUI
                 new Vector3(960f, 340f, 0f)
             ];
             // Draw
-            DrawPolygonViaPrimitive(Main.instance.GraphicsDevice, Color.Red, vertices);
+            DrawPrimPolygon(Main.instance.GraphicsDevice, Color.Red, vertices);
+
+            // Draw the 20-sided gon
+            DrawPrimPolygonCenteredOnPoint(Main.instance.GraphicsDevice, new Vector2(Main.LocalPlayer.Center.X - Main.screenPosition.X, Main.LocalPlayer.Center.Y - Main.screenPosition.Y + 80), 3, 32f, Color.White);
 
 
            /* // A new spritebatch will have to begin with the adjusted parameters. Specifically, the matrix needs to be scaled to 2x.
@@ -179,7 +186,35 @@ namespace deeprockitems.UI.CooldownUI
                 graphics.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, vertices, 0, vertices.Length, indices, 0, indices.Length);
             }
         }
-        private void DrawPolygonViaPrimitive(GraphicsDevice graphics, Color color, params Vector3[] vertices) {
+        private void DrawPrimPolygonCenteredOnPoint(GraphicsDevice graphics, Vector2 center, int numberOfSides, float radius, Color color) {
+            if (numberOfSides < 3)
+            {
+                throw new Exception("Polygons cannot have less than 3 sides!");
+            }
+            // First get the internal angle in radians
+            //float internalAngle = (numberOfSides - 2) * MathHelper.Pi / numberOfSides;
+            float angleToRotateBy = 2 * MathHelper.Pi / numberOfSides;
+            // Calculate side length
+            float sideLength = (float)Math.Sqrt(2 * radius * radius * (1 - Math.Cos(2 * MathHelper.Pi / numberOfSides)));
+            Vector3 originalPoint = new Vector3(center.X, center.Y - radius, 0f);
+            // Now we need to dynamically create the vertices
+            List<Vector3> vertexPositions = [];
+            // Dynamically create vertices based on rotation and iteration
+            for (int i = 0; i < numberOfSides + 1; i++)
+            {
+                // modulo the 'i' value
+                int iMod = i % numberOfSides;
+                // Rotated X coordinate
+                float rotatedX = (int)(center.X + (originalPoint.X - center.X) * Math.Cos(iMod * angleToRotateBy) - (originalPoint.Y - center.Y) * Math.Sin(iMod * angleToRotateBy));
+                // Rotated Y coordinate
+                float rotatedY = (int)(center.Y + (originalPoint.X - center.X) * Math.Sin(iMod * angleToRotateBy) - (originalPoint.Y - center.Y) * Math.Cos(iMod * angleToRotateBy));
+                // Add the vector to the vertex positions list
+                vertexPositions.Add(new Vector3(rotatedX, rotatedY, 0f));
+            }
+            // Call primitive drawing
+            DrawPrimPolygon(graphics, Color.White, [..vertexPositions]);
+        }
+        private void DrawPrimPolygon(GraphicsDevice graphics, Color color, params Vector3[] vertices) {
             // Create the projection matrix
             basicEffect.Projection = Matrix.CreateOrthographicOffCenter(0f, graphics.Viewport.Width, graphics.Viewport.Height, 0f, -1f, 10f);
             // Create list of vertices
