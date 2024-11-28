@@ -14,6 +14,6 @@
     <None Remove="Content\Buffs\Sludge.png" />
   </ItemGroup>
   <ItemGroup>
-	<PackageReference Include="AssGen" OutputItemType="Analyzer" ReferenceOutputAssembly="false" Version="1.0.1" />
+	<PackageReference Include="AssGen" OutputItemType="Analyzer" ReferenceOutputAssembly="false" Version="2.0.0" />
   </ItemGroup>
 </Project>
