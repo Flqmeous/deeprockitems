@@ -432,11 +432,6 @@ Mods: {
 					HoverText: Plasma will ignore 10 defense
 				}
 
-				FireRateIncrease: {
-					DisplayName: FireRate
-					HoverText: Hover text
-				}
-
 				QuickCharge: {
 					DisplayName: Quick Charge Coils
 					HoverText: Procure a charge shot 25% faster
@@ -450,23 +445,23 @@ Mods: {
 
 			Zhukovs: {
 				DamageUpgrade: {
-					DisplayName: DamageUpgrade
-					HoverText: Hover text
+					DisplayName: Increased Caliber Rounds
+					HoverText: +10% damage
 				}
 
 				FireRate: {
-					DisplayName: FireRate
-					HoverText: Hover text
+					DisplayName: Bump Stock
+					HoverText: +20% fire rate increase
 				}
 
 				FireRounds: {
-					DisplayName: FireRounds
-					HoverText: Hover text
+					DisplayName: Incendiary Rounds
+					HoverText: Shots add heat on hit
 				}
 
 				CryoRounds: {
-					DisplayName: CryoRounds
-					HoverText: Hover text
+					DisplayName: Cryo Rounds
+					HoverText: Shots add cryo on hit
 				}
 
 				GetInGetOut: {
@@ -475,80 +470,70 @@ Mods: {
 				}
 
 				Blowthrough: {
-					DisplayName: Blowthrough
-					HoverText: Hover text
+					DisplayName: Blowthrough Rounds
+					HoverText: Shots will penetrate up to 5 enemies
 				}
 
 				ReducedSpread: {
-					DisplayName: ReducedSpread
-					HoverText: Hover text
+					DisplayName: Red Dot Sights
+					HoverText: Reduces spread by 50%
 				}
 
 				HighVelocityRounds: {
-					DisplayName: HighVelocityRounds
-					HoverText: Hover text
+					DisplayName: Dense-Packed Propellant
+					HoverText: +25% velocity increase
 				}
 
 				DamageUpgrade2: {
-					DisplayName: DamageUpgrade2
-					HoverText: Hover text
+					DisplayName: Titanium Rounds
+					HoverText: +20% damage
 				}
 
 				BiggerMagazine: {
-					DisplayName: BiggerMagazine
-					HoverText: Hover text
+					DisplayName: Drum Magazines
+					HoverText: Fire 75% bullets until having to reload
 				}
 			}
 
 			CryoCannon: {
 				IncreasedCooling: {
-					DisplayName: IncreasedCooling
-					HoverText: Hover text
+					DisplayName: Adiabatic Chambers
+					HoverText: +2 cooling on hit
 				}
 
 				ReloadSpeed: {
-					DisplayName: ReloadSpeed
-					HoverText: Hover text
+					DisplayName: Faster Chamber Recharge
+					HoverText: 25% faster cooldown
 				}
 
 				ReducedManaCost: {
-					DisplayName: ReducedManaCost
-					HoverText: Hover text
+					DisplayName: Exorcist
+					HoverText: Reduced mana cost by 1
 				}
 
 				FireRate: {
 					DisplayName: FireRate
-					HoverText: Hover text
+					HoverText: Increased the fire rate of cooling particles
 				}
 
 				ColdRadiance: {
-					DisplayName: ColdRadiance
-					HoverText: Hover text
+					DisplayName: Cold Radiance
+					HoverText: Enemies nearby the player will begin to freeze
 				}
 
 				ReversedEntropy: {
 					DisplayName: ReversedEntropy
-					HoverText: Hover text
+					HoverText: Enemies above 25% freeze will spread to nearby enemies
 				}
 
 				FartherStream: {
-					DisplayName: FartherStream
-					HoverText: Hover text
+					DisplayName: High Pressure Nozzles
+					HoverText: Increased the maximum distance of the stream
 				}
 
-				NucleationSites: {
-					DisplayName: NucleationSites
-					HoverText: Hover text
-				}
-
-				DamageUpgrade1: {
-					DisplayName: DamageUpgrade1
-					HoverText: Hover text
-				}
-
-				DamageUpgrade2: {
-					DisplayName: DamageUpgrade2
-					HoverText: Hover text
+				DamageUpgrade: {
+					DisplayName: Nucleation
+					HoverText: +2 damage on hit
 				}
 			}
 		}
