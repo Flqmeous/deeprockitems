@@ -62,16 +62,15 @@ namespace deeprockitems.UI.CooldownUI
             //return;
             
             // Only draw if the player weapon is not null, and the cooldown is greater than 0
-            if (PlayerWeapon is null || PlayerWeapon.Cooldown <= 0) {
-                _didCooldownMaxOut = false;
+            if (PlayerWeapon is null || PlayerWeapon.OverheatCooldown <= 0) {
                 return;
             }
             // We only have the simple meter right now
             Rectangle dimensions = GetDimensions().ToRectangle();
-            DrawSimpleMeter(spriteBatch, new Vector2(dimensions.Center.X, dimensions.Center.Y + 60f), PlayerWeapon.Cooldown / UpgradableWeapon.COOLDOWN_THRESHOLD, Color.White);
+            DrawSimpleMeter(spriteBatch, new Vector2(dimensions.Center.X, dimensions.Center.Y + 60f), PlayerWeapon.OverheatCooldown / UpgradableWeapon.COOLDOWN_THRESHOLD, CooldownDrawColor);
 
         }
-        private bool _didCooldownMaxOut = false;
+        public Color CooldownDrawColor => PlayerWeapon.IsWeaponEnabledByCooldown ? Color.White : Color.IndianRed;
         private void DrawSimpleMeter(SpriteBatch spriteBatch, Vector2 center, float percentageFilled, Color drawColor) {
             // Adjust draw center
             center.Y -= 20;
@@ -82,17 +81,6 @@ namespace deeprockitems.UI.CooldownUI
             if (filledMeterWidth < 3)
             {
                 filledMeterWidth = 3;
-            }
-            // If the percentage roughly hit 0, the color should reset
-            if (percentageFilled == 0f)
-            {
-                _didCooldownMaxOut = false;
-            }
-
-            // If the meter maxed out, change the color to red
-            if (_didCooldownMaxOut)
-            {
-                drawColor = Color.IndianRed;
             }
 
             // If the meter is not full
@@ -124,16 +112,12 @@ namespace deeprockitems.UI.CooldownUI
                     Main.EntitySpriteDraw(new DrawData(TextureAssets.Hb2.Value, new Vector2(adjustedDrawPos.X + filledMeterWidth, adjustedDrawPos.Y), (Rectangle?)new Rectangle(filledMeterWidth, 0, 36 - filledMeterWidth, TextureAssets.Hb2.Height()), drawColor));
                 }
                 // Draw filled meter
-                if (filledMeterWidth >= 36)
-                {
-                    _didCooldownMaxOut = true;
-                }
                 Main.EntitySpriteDraw(new DrawData(TextureAssets.Hb1.Value, new Vector2(adjustedDrawPos.X, adjustedDrawPos.Y), (Rectangle?)new Rectangle(0, 0, filledMeterWidth, TextureAssets.Hb1.Height()), drawColor));
             }
         }
         private void DrawFancyMeter(SpriteBatch spriteBatch) {
             // The percentage of the player cooldown to the weapon's max cooldown. 
-            float percentFilledMeter = PlayerWeapon.Cooldown / UpgradableWeapon.COOLDOWN_THRESHOLD;
+            float percentFilledMeter = PlayerWeapon.OverheatCooldown / UpgradableWeapon.COOLDOWN_THRESHOLD;
             // Get fancy meter dimensions
             Rectangle dimensions = GetDimensions().ToRectangle();
             dimensions.Y += 2 * Assets.UI.CooldownUIBackground.Height();
