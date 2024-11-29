@@ -441,6 +441,11 @@ Mods: {
 					DisplayName: Oxygen Coil Injectors
 					HoverText: Increased charge daamge
 				}
+
+				FireRateIncrease: {
+					DisplayName: Crystal Capacitors
+					HoverText: 33% faster fire rate
+				}
 			}
 
 			Zhukovs: {
