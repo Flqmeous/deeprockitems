@@ -33,7 +33,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void ResetStats() {
             this.ShotsUntilCooldown = 12f;
-            this.CooldownTime = 75f;
+            this.TimeToEndCooldown = 75f;
         }
         public override UpgradeList InitializeUpgrades() {
             return new UpgradeList("PlasmaPistol",

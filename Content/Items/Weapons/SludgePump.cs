@@ -38,7 +38,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void ResetStats() {
             Item.damage = Item.OriginalDamage;
-            CooldownTime = 110f;
+            TimeToEndCooldown = 110f;
             ShotsUntilCooldown = 24f;
         }
         public override UpgradeList InitializeUpgrades() {
