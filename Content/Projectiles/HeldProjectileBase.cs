@@ -155,7 +155,6 @@ namespace deeprockitems.Content.Projectiles
             }
         }
         private int _heldChargeTimer = 0;
-
         // This is for when the projectile is killed. Spawn the new projectile, play sound, etc.
         public override void OnKill(int timeLeft) {
 

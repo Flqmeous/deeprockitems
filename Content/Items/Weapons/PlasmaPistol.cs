@@ -28,6 +28,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.noMelee = true;
             Item.height = 28;
             Item.width = 30;
+            Item.autoReuse = true;
 
             Item.value = Item.sellPrice(0, 1, 60, 0);
         }

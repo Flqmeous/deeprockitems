@@ -31,6 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.channel = true;
             Item.shoot = ModContent.ProjectileType<SludgeHelper>();
             Item.shootSpeed = 22f;
+            Item.autoReuse = true;
             Item.rare = ItemRarityID.Orange;
 
             Item.value = Item.sellPrice(0, 5, 30, 0);

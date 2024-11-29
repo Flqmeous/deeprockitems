@@ -33,6 +33,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.rare = ItemRarityID.Pink;
             Item.value = Item.sellPrice(0, 9, 25, 0);
             Item.consumable = false;
+            Item.autoReuse = true;
         }
         public float AmmoChance { get; set; } = 1f;
         public override bool CanConsumeAmmo(Item ammo, Player player) {
