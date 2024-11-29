@@ -62,7 +62,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         }
                     },
-                    new Upgrade("DamageUpgrade1", Assets.Upgrades.Damage.Value) {
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 2;
@@ -96,7 +96,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         }
                     },
-                    new Upgrade("DamageUpgrade2", Assets.Upgrades.Damage.Value) {
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 2;
