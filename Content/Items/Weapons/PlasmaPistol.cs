@@ -43,14 +43,20 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 item.damage = (int)(item.OriginalDamage * 1.10f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 1)
                     },
                     new Upgrade("IncreasedBattery", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 (item.ModItem as UpgradableWeapon).ShotsUntilCooldown = 24f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
+                                    .AddIngredient(ItemID.FallenStar, 5)
                     },
                     new Upgrade("IncreasedChargeDamage", Assets.Upgrades.AreaOfEffect.Value) {
                         Behavior = {
@@ -58,7 +64,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (proj.ModProjectile is not BigPlasma) return;
                                 proj.damage = (int)(proj.damage * 1.25f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.MeteoriteBar, 6)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                     }
                 ),
                 new UpgradeTier(2,
@@ -68,7 +77,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (proj.ModProjectile is not PlasmaBullet) return;
                                 proj.velocity *= 1.25f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                        .AddIngredient(ItemID.MeteoriteBar, 6)
+                                        .AddIngredient(ItemID.SwiftnessPotion, 3)
                     },
                     new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
                         Behavior = {
@@ -76,7 +88,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (proj.ModProjectile is not PlasmaPistolHelper helper) return;
                                 helper.ChargeTimeMultiplier = 0.75f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
+                                    .AddIngredient(ItemID.SwiftnessPotion, 3)
                     }
                 ),
                 new UpgradeTier(3,
@@ -87,7 +102,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 outModifiers.ScalingArmorPenetration += .25f;
                                 return outModifiers;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 8)
+                                    .AddIngredient(ItemID.SharkToothNecklace, 1)
                     },
                     new Upgrade("FireRateIncrease", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
@@ -95,7 +113,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 item.useTime = (int)(item.useTime * 0.67f);
                                 item.useAnimation = (int)(item.useAnimation * 0.67f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
+                                    .AddIngredient(ItemID.FallenStar, 5)
                     }
                 ),
                 new UpgradeTier(4,
@@ -114,7 +135,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (plasma.IsExploding) return;
                                 plasma.Explode();
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HellstoneBar, 8)
+                                    .AddIngredient(ItemID.Grenade, 15)
                     },
                     new Upgrade("FlyingNightmare", Assets.Upgrades.Penetrate.Value) {
                         Behavior = {
@@ -124,7 +148,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 proj.usesLocalNPCImmunity = true;
                                 proj.localNPCHitCooldown = 10;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HellstoneBar, 8)
+                                    .AddCandidateIngredient([ItemID.Vilethorn, ItemID.CrimsonRod], 1)
                     }
                 ),
                 new UpgradeTier(5,
@@ -147,7 +174,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 Main.projectile[intersection].Kill();
                                 proj.Kill();
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 10)
+                                    .AddIngredient(ItemID.Dynamite, 10)
                     },
                     new Upgrade("HeatDump", Assets.Upgrades.Heat.Value) {
                         Behavior = {
@@ -158,7 +188,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 };
                                 npc.ChangeTemperature(heatAmount);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 10)
+                                    .AddIngredient(ItemID.AncientBattleArmorMaterial, 1)
                     }
                 )
             );
