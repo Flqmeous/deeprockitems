@@ -150,7 +150,7 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("QuickReload", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                (item.ModItem as M1000).CooldownTime *= 0.5f;
+                                (item.ModItem as M1000).TimeToEndCooldown *= 0.5f;
                             }
                         },
                         Recipe = new UpgradeRecipe()
@@ -186,7 +186,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             Item.damage = Item.OriginalDamage;
             AmmoChance = 1f;
-            CooldownTime = 75f;
+            TimeToEndCooldown = 75f;
             ShotsUntilCooldown = 12f;
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread)

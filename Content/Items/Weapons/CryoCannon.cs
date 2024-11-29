@@ -25,7 +25,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.DamageType = DamageClass.Magic;
             Item.autoReuse = true;
             this.ShotsUntilCooldown = 40f;
-            this.CooldownTime = 180f;
+            this.TimeToEndCooldown = 180f;
         }
         public override UpgradeList InitializeUpgrades() {
             return new UpgradeList("CryoCannon",
@@ -62,7 +62,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         }
                     },
-                    new Upgrade("DamageUpgrade1", Assets.Upgrades.Damage.Value) {
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 2;
@@ -82,7 +82,7 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                Cooldown *= 0.75f;
+                                OverheatCooldown *= 0.75f;
                             }
                         }
                     }
@@ -96,7 +96,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         }
                     },
-                    new Upgrade("DamageUpgrade2", Assets.Upgrades.Damage.Value) {
+                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 2;

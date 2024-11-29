@@ -97,6 +97,23 @@ namespace deeprockitems.Content.Buffs
                 ImmuneToMarkForDeath = true;
             }
         }
+        public override void UpdateLifeRegen(NPC npc, ref int damage) {
+            // Set buff id
+            int buffId = -1;
+            if (Temperature <= this.ColdThreshold)
+            {
+                buffId = Main.hardMode ? BuffID.Frostburn2 : BuffID.Frostburn;
+            }
+            else if (Temperature >= this.HeatThreshold)
+            {
+                buffId = Main.hardMode ? BuffID.OnFire3 : BuffID.OnFire;
+            }
+            // If buff id wasn't -1, apply the buff for 2 ticks
+            if (buffId != -1)
+            {
+                npc.AddBuff(buffId, 2);
+            }
+        }
         public override bool PreAI(NPC npc)
         {
             if (TempChangeCooldown > 0)
@@ -124,11 +141,9 @@ namespace deeprockitems.Content.Buffs
                     // Mark enemy for death
                     IsMarkedForDeath = true;
                 }
-                else
-                {
-                    npc.onFire = !Main.hardMode;
-                    npc.onFire2 = Main.hardMode;
-                }
+                // Add fire debuffs
+                npc.onFire = !Main.hardMode;
+                npc.onFire2 = Main.hardMode;
             }
 
             // If temperature is not zero and enemy is not falling, increase time since temperature changed

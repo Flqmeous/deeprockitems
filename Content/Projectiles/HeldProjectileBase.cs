@@ -188,7 +188,7 @@ namespace deeprockitems.Content.Projectiles
                     // Add overheat in case the projectile was fully charged
                     if (TimeSinceSpawning >= (int)(ChargeTime * ChargeTimeMultiplier))
                     {
-                        sourceItem.Cooldown += (float)Math.Ceiling((ChargeShotCooldownMultiplier - 1f) * UpgradableWeapon.COOLDOWN_THRESHOLD / sourceItem.ShotsUntilCooldown);
+                        sourceItem.OverheatCooldown += (float)Math.Ceiling((ChargeShotCooldownMultiplier - 1f) * UpgradableWeapon.COOLDOWN_THRESHOLD / sourceItem.ShotsUntilCooldown);
                     }
 
                     // Modify projectile after spawning

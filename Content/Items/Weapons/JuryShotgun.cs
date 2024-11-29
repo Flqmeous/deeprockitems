@@ -74,7 +74,7 @@ namespace deeprockitems.Content.Items.Weapons
                     new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
-                                (item.ModItem as JuryShotgun).CooldownTime *= 0.5f;
+                                (item.ModItem as JuryShotgun).TimeToEndCooldown *= 0.5f;
                             }
                         },
                         Recipe = new UpgradeRecipe()
@@ -173,7 +173,7 @@ namespace deeprockitems.Content.Items.Weapons
         public override void ResetStats() {
             PelletCount = 3;
             Item.damage = Item.OriginalDamage;
-            CooldownTime = 75f;
+            TimeToEndCooldown = 75f;
             ShotsUntilCooldown = 2f;
             SpreadMultiplier = 1f;
         }

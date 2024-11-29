@@ -39,7 +39,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void ResetStats() {
             Item.damage = Item.OriginalDamage;
-            CooldownTime = 110f;
+            TimeToEndCooldown = 110f;
             ShotsUntilCooldown = 24f;
         }
         public override UpgradeList InitializeUpgrades() {
@@ -50,7 +50,10 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_HoldItemHook = (item, player) => {
                                 player.GetModPlayer<TracerRoundPlayer>().IsLayerAllowedToDraw = true;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.MechanicalLens, 1)
+                                    .AddIngredient(ItemID.Gel, 30)
                     },
                     new Upgrade("Glowstick", Assets.Upgrades.Heat.Value) {
                         Behavior = {
@@ -65,7 +68,10 @@ namespace deeprockitems.Content.Items.Weapons
 
                                 Lighting.AddLight(projectile.position, new Vector3(0.05f, 0.9f, 0.05f));
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.Glowstick, 15)
+                                    .AddIngredient(ItemID.Gel, 30)
                     }
                 ),
                 new UpgradeTier(2,
@@ -77,7 +83,10 @@ namespace deeprockitems.Content.Items.Weapons
                                     helper.ChargeShotCooldownMultiplier = 1.5f;
                                 }
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HellstoneBar, 6)
+                                    .AddIngredient(ItemID.Gel, 30)
                     },
                     new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
                         Behavior = {
@@ -87,7 +96,10 @@ namespace deeprockitems.Content.Items.Weapons
                                     helper.ChargeTime *= 0.75f;
                                 }
                             },
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddIngredient(ItemID.SwiftnessPotion, 3)
                     }
                 ),
                 new UpgradeTier(3,
@@ -150,7 +162,10 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 item.damage = (int)(item.OriginalDamage * 1.25f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                     }
                 ),
                 new UpgradeTier(4,
@@ -162,7 +177,10 @@ namespace deeprockitems.Content.Items.Weapons
                                     ball.NumProjectilesToSpawn += 4;
                                 }
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddIngredient(ItemID.Gel, 30)
                     },
                     new Upgrade("WasteOrdnance", Assets.Upgrades.Penetrate.Value) {
                         Behavior = {
@@ -174,16 +192,28 @@ namespace deeprockitems.Content.Items.Weapons
                                 Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)(projectile.damage * 2f), 0f, Owner: projectile.owner);
                                 return false;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
+                                    .AddIngredient(ItemID.Bomb, 15)
                     }
                 ),
                 new UpgradeTier(5,
                     // All 3 upgrades in this tier will change how the buff behaves.
                     new Upgrade("StrongSludge", Assets.Upgrades.Heat.Value) {
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.OrichalcumBar], 8)
+                                    .AddIngredient(ItemID.Stinger, 6)
                     },
                     new Upgrade("SpreadingSludge", Assets.Upgrades.GooBall.Value) {
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddIngredient(ItemID.PinkGel, 15)
                     },
                     new Upgrade("SlowingPoison", Assets.Upgrades.Stun.Value) {
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                                    .AddIngredient(ItemID.HoneyComb, 6)
                     }
                 )
             );

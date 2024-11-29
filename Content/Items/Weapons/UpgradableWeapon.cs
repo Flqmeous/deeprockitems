@@ -1,6 +1,7 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -17,7 +18,7 @@ namespace deeprockitems.Content.Items.Weapons
         /// <summary>
         /// Whether the weapon is disabled or not.
         /// </summary>
-        public bool IsWeaponEnabled { get; private set; } = true;
+        public bool IsWeaponEnabledByCooldown { get; private set; } = true;
         /// <summary>
         /// The threshold before the weapon is disabled.
         /// </summary>
@@ -27,17 +28,18 @@ namespace deeprockitems.Content.Items.Weapons
         /// </summary>
         public float ShotsUntilCooldown { get; set; } = 12f;
         /// <summary>
-        /// The initial cooldown used to determine whether the weapon will go on cooldown
+        /// The initial 
         /// </summary>
-        public float Cooldown { get; set; } = 0;
+        public float OverheatCooldown { get; set; } = 0;
         /// <summary>
         /// The time in ticks it takes for the weapon to cool down.
         /// </summary>
-        public float CooldownTime { get; set; } = 60f;
+        public float TimeToEndCooldown { get; set; } = 60f;
         /// <summary>
-        /// The timer used to passively cool down the weapon if it is not being used.
+        /// The timer that must finish before the weapon will start cooling down
         /// </summary>
-        protected float _cooldownTimer = 0;
+        protected float _passiveCooldownTimer = 0;
+        protected float _activeCooldownTimer = 0;
         public override void HoldItem(Player player) {
             foreach (var tier in UpgradeMasterList)
             {
@@ -51,61 +53,71 @@ namespace deeprockitems.Content.Items.Weapons
             }
         }
         public override void UpdateInventory(Player player) {
-            // PSEUDOCODE FOR COOLDOWN
-            /*
-             * if cooldown active:
-             *      disable weapon
-             *      decrement cooldown
-             * if cooldown at 0:
-             *      re-enable weapon
-             *  
-             * 
-             */
-            // If cooldown timer is at 0, start passively cooling the weapon
-            if (_cooldownTimer <= 0)
+            // Run separate logic if the weapon was overheated or not
+            if (IsWeaponEnabledByCooldown)
             {
-                if (Cooldown > 0)
+                // Set active cooldown timer
+                _activeCooldownTimer = 0;
+                // If cooldown timer is at 0, start passively cooling the weapon
+                if (_passiveCooldownTimer <= 0)
                 {
-                    Cooldown -= (COOLDOWN_THRESHOLD / CooldownTime);
+                    if (OverheatCooldown > 0)
+                    {
+                        // Passive cooldown should be the fastest way to cool down the weapon
+                        OverheatCooldown -= 1.5f * (COOLDOWN_THRESHOLD / TimeToEndCooldown);
+                    }
+                    else
+                    {
+                        OverheatCooldown = 0f;
+                    }
+                }
+                else // Else decrement time since using this weapon
+                {
+                    _passiveCooldownTimer--;
+                }
+            }
+            else // Else, run slightly different active behavior
+            {
+                // Set passive cooldown to zero
+                _passiveCooldownTimer = 0;
+                if (_activeCooldownTimer <= 0)
+                {
+                    if (OverheatCooldown > 0)
+                    {
+                        OverheatCooldown -= COOLDOWN_THRESHOLD / TimeToEndCooldown;
+                    }
+                    else
+                    {
+                        OverheatCooldown = 0f;
+                    }
                 }
                 else
                 {
-                    Cooldown = 0f;
+                    _activeCooldownTimer--;
                 }
             }
-            else // Else decrement time since using this weapon
+
+            if (OverheatCooldown <= 0) // If cooldown is at or below 0, re-enable weapon
             {
-                _cooldownTimer--;
-            }
-            if (Cooldown <= 0) // If cooldown is at or below 0, re-enable weapon
-            {
-                IsWeaponEnabled = true;
+                IsWeaponEnabledByCooldown = true;
+                OverheatCooldown = 0;
             }
             // Disable weapon if cooldown gets too high
-            if (Cooldown >= COOLDOWN_THRESHOLD)
+            if (IsWeaponEnabledByCooldown && OverheatCooldown >= COOLDOWN_THRESHOLD)
             {
-                IsWeaponEnabled = false;
-                _cooldownTimer = 0;
-                Cooldown = COOLDOWN_THRESHOLD;
+                IsWeaponEnabledByCooldown = false;
+                _activeCooldownTimer = Item.useTime;
+                OverheatCooldown = COOLDOWN_THRESHOLD;
             }
 
             // Calculate whether cooldown should begin or be added to
-            // Ignore other items
+            // Make sure the player is holding this weapon
             if (player.HeldItem != Item) return;
 
             // If player channeling, increment cooldown timer to prevent it from going down
-            if (player.channel && _cooldownTimer > 0)
+            if (player.channel && _passiveCooldownTimer > 0)
             {
-                _cooldownTimer++;
-            }
-
-            // Detect release
-            if (player.ItemAnimationActive && player.itemAnimation + 1 == Item.useAnimation)
-            {
-                // Add to cooldown
-                Cooldown += COOLDOWN_THRESHOLD / ShotsUntilCooldown;
-                // Add to cooldown use timer
-                _cooldownTimer = 90;
+                _passiveCooldownTimer++;
             }
 
         }
@@ -146,7 +158,7 @@ namespace deeprockitems.Content.Items.Weapons
             tooltips.Find(tl => tl.FullName == "Terraria/CritChance")?.Hide();
         }
         public override bool CanUseItem(Player player) {
-            return IsWeaponEnabled;
+            return IsWeaponEnabledByCooldown;
         }
         protected int _oldUseTime;
         protected int _oldUseAnimation;
@@ -225,8 +237,17 @@ namespace deeprockitems.Content.Items.Weapons
                     upgrade.Behavior.Item_OnShoot?.Invoke(Item, player, newSource, spawnedProj);
                 }
             }
+            // Mess with the cooldown
+            AddCooldownOnShoot();
             return false;
         }
+        private void AddCooldownOnShoot() {
+            // Add to cooldown
+            OverheatCooldown += COOLDOWN_THRESHOLD / ShotsUntilCooldown;
+            // Add to cooldown use timer
+            _passiveCooldownTimer = 30 + Item.useTime;
+        }
+
         public override sealed void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
 
         }
