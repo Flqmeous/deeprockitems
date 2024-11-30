@@ -15,6 +15,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             ResetStats();
             Item.CloneDefaults(ItemID.Boomstick);
+            Item.material = false; // Prevents the weapon being erronously being called a material after upgrading
             Item.damage = 15;
             Item.width = 40;
             Item.height = 16;
