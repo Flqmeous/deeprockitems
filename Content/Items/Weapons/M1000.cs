@@ -16,7 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
         private int original_projectile;
         public override void NewSetDefaults()
         {
-            Item.damage = 55;
+            Item.damage = 42;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.knockBack = 7.75f;
@@ -223,7 +223,7 @@ namespace deeprockitems.Content.Items.Weapons
             Recipe.Create(ModContent.ItemType<M1000>())
             .AddIngredient(ItemID.Musket, 1)
             .AddIngredient(ItemID.IllegalGunParts, 1)
-            .AddIngredient(ItemID.HellstoneBar, 12)
+            .AddRecipeGroup(ItemID.HellstoneBar, 12)
             .Register();
 
             Recipe.Create(ModContent.ItemType<M1000>())
