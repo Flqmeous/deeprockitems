@@ -102,13 +102,6 @@ namespace deeprockitems.Content.Items.Weapons
                 IsWeaponEnabledByCooldown = true;
                 OverheatCooldown = 0;
             }
-            // Disable weapon if cooldown gets too high
-            if (IsWeaponEnabledByCooldown && OverheatCooldown >= COOLDOWN_THRESHOLD)
-            {
-                IsWeaponEnabledByCooldown = false;
-                _activeCooldownTimer = Item.useTime;
-                OverheatCooldown = COOLDOWN_THRESHOLD;
-            }
 
             // Calculate whether cooldown should begin or be added to
             // Make sure the player is holding this weapon
@@ -246,6 +239,13 @@ namespace deeprockitems.Content.Items.Weapons
             OverheatCooldown += COOLDOWN_THRESHOLD / ShotsUntilCooldown;
             // Add to cooldown use timer
             _passiveCooldownTimer = 30 + Item.useTime;
+            // Disable weapon if cooldown gets too high
+            if (IsWeaponEnabledByCooldown && OverheatCooldown >= COOLDOWN_THRESHOLD)
+            {
+                IsWeaponEnabledByCooldown = false;
+                _activeCooldownTimer = Item.useTime;
+                OverheatCooldown = COOLDOWN_THRESHOLD;
+            }
         }
 
         public override sealed void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
