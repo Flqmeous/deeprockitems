@@ -37,6 +37,9 @@ namespace deeprockitems.Content.Items.Weapons
                                 cryo.CoolingAmount -= 2f;
                             }
                         },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddIngredient(ItemID.IceBlock, 50)
                     },
                     new Upgrade("FartherStream", Assets.Upgrades.BigArrow.Value) {
                         Behavior = {
@@ -44,7 +47,10 @@ namespace deeprockitems.Content.Items.Weapons
                                     if (proj.ModProjectile is not CryoProjectile cryo) return;
                                     cryo.VelocityDecay += 0.02f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddIngredient(ItemID.SoulofNight, 6)
                     }
                 ),
                 new UpgradeTier(2,
@@ -53,21 +59,30 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 item.mana -= 1;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddIngredient(ItemID.FallenStar, 5)
                     },
                     new Upgrade("FireRate", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.useTime -= 4;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddIngredient(ItemID.SoulofLight, 6)
                     },
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 2;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                     }
                 ),
                 new UpgradeTier(3,
@@ -77,14 +92,20 @@ namespace deeprockitems.Content.Items.Weapons
                                     if (proj.ModProjectile is not CryoProjectile cryo) return;
                                     cryo.VelocityDecay += 0.02f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                                    .AddIngredient(ItemID.SoulofNight, 6)
                     },
                     new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 OverheatCooldown *= 0.75f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                                    .AddIngredient(ItemID.ManaRegenerationPotion, 6)
                     }
                 ),
                 new UpgradeTier(4,
@@ -94,21 +115,30 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (proj.ModProjectile is not CryoProjectile cryo) return;
                                 cryo.CoolingAmount -= 2f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 8)
+                                    .AddIngredient(ItemID.IceBlock, 50)
                     },
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.damage += 2;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 8)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                     },
                     new Upgrade("ReducedManaCost", Assets.Upgrades.SpecialStar.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 item.mana -= 1;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 8)
+                                    .AddIngredient(ItemID.FallenStar, 5)
                     }
                 ),
                 new UpgradeTier(5,
@@ -122,7 +152,10 @@ namespace deeprockitems.Content.Items.Weapons
                                     npc.ChangeTemperature(-8, player.whoAmI);
                                 }
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.ChlorophyteBar, 8)
+                                    .AddIngredient(ItemID.InfernoPotion, 6)
                     },
                     new Upgrade("ReversedEntropy", Assets.Upgrades.SpecialStar.Value) {
                         Behavior = {
@@ -149,13 +182,24 @@ namespace deeprockitems.Content.Items.Weapons
                                 // Begin the lag spikening
                                 ChainTemperature(npc);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.ChlorophyteBar, 8)
+                                    .AddIngredient(ItemID.FrostCore, 1)
                     }
                 )
             );
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             spread = MathHelper.Pi / 40;
+        }
+        public override void AddRecipes() {
+            Recipe.Create(Type)
+                .AddRecipeGroup(nameof(ItemID.CobaltBar), 12)
+                .AddIngredient(ItemID.FrostCore, 1)
+                .AddIngredient(ItemID.FallenStar, 10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
