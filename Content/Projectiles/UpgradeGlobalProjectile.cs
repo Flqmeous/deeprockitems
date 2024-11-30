@@ -12,6 +12,7 @@ namespace deeprockitems.Content.Projectiles
     public class UpgradeGlobalProjectile : GlobalProjectile
     {
         Upgrade[] _equippedUpgrades = [];
+        bool _cameFromUpgradableWeapon = false;
         public override bool InstancePerEntity => true;
         /// <summary>
         /// Finds if an upgrade is associated with this projectile by searching for its' internal name. If two upgrades share the same internal name, either upgrade has to be equipped.
@@ -31,6 +32,8 @@ namespace deeprockitems.Content.Projectiles
                 return;
             }
             if (source is not EntitySource_FromUpgradableWeapon newSource) return;
+
+            _cameFromUpgradableWeapon = true;
 
             // Get list of equipped upgrades
             _equippedUpgrades = GetEquippedUpgrades(newSource.Item.UpgradeMasterList);
@@ -55,7 +58,7 @@ namespace deeprockitems.Content.Projectiles
             }
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) {
-            if (_equippedUpgrades != null)
+            if (_cameFromUpgradableWeapon)
             {
                 // First of all, disable damage variance. Evil!
                 modifiers.DamageVariationScale *= 0f;
