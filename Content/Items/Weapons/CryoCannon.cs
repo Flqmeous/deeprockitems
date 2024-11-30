@@ -14,8 +14,8 @@ namespace deeprockitems.Content.Items.Weapons
     {
         public override void NewSetDefaults()
         {
-            Item.width = 36;
-            Item.height = 26;
+            Item.width = 40;
+            Item.height = 32;
             Item.mana = 6;
             Item.damage = 4;
             Item.useStyle = ItemUseStyleID.Shoot;
