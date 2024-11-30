@@ -53,7 +53,10 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 item.damage = (int)(item.OriginalDamage * 1.10f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HellstoneBar, 8)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                     },
                     new Upgrade("FireRate", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
@@ -61,7 +64,10 @@ namespace deeprockitems.Content.Items.Weapons
                                 item.useTime = (int)(item.useTime * 0.8f);
                                 item.useAnimation = (int)(item.useAnimation * 0.8f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HellstoneBar, 8)
+                                    .AddIngredient(ItemID.SoulofLight, 6)
                     }
                 ),
                 new UpgradeTier(2,
@@ -70,14 +76,20 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyShootStatsHook = (Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
                                 spread /= 2f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddCandidateIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
                     },
                     new Upgrade("HighVelocityRounds", Assets.Upgrades.ProjectileVelocity.Value) {
                         Behavior = {
                             Item_ModifyShootStatsHook = (Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
                                 velocity *= 1.25f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddIngredient(ItemID.HighVelocityBullet, 60)
                     }
                 ),
                 new UpgradeTier(3,
@@ -86,39 +98,32 @@ namespace deeprockitems.Content.Items.Weapons
                             Item_ModifyStats = (item) => {
                                 item.damage = (int)(item.OriginalDamage * 1.20f);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 6)
                     },
                     new Upgrade("BiggerMagazine", Assets.Upgrades.FireRate.Value) {
                         Behavior = {
                             Item_ModifyStats = (item) => {
                                 (item.ModItem as UpgradableWeapon).ShotsUntilCooldown *= 1.75f;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                                    .AddIngredient(ItemID.AmmoReservationPotion, 6)
                     }
                 ),
                 new UpgradeTier(4,
-                    new Upgrade("FireRounds", Assets.Upgrades.Heat.Value) {
-                        Behavior = {
-                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
-                                npc.ChangeTemperature(10, proj.owner);
-                            }
-                        }
-                    },
-                    new Upgrade("CryoRounds", Assets.Upgrades.Cryo.Value) {
-                        Behavior = {
-                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
-                                npc.ChangeTemperature(-10, proj.owner);
-                            }
-                        }
-                    }
-                ),
-                new UpgradeTier(5,
                     new Upgrade("GetInGetOut", Assets.Upgrades.Haste.Value) {
                         Behavior = {
                             Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
                                 Main.player[proj.owner].AddBuff(ModContent.BuffType<Haste>(), 119);
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                                    .AddCandidateIngredient([ItemID.HermesBoots, ItemID.FlurryBoots, ItemID.SailfishBoots, ItemID.SandBoots], 1)
                     },
                     new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
                         Behavior = {
@@ -126,7 +131,32 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (proj.penetrate > 5) return;
                                 proj.penetrate = 5;
                             }
-                        }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                                    .AddIngredient(ItemID.MeteoriteBar, 6)
+                    }
+                ),
+                new UpgradeTier(5,
+                    new Upgrade("FireRounds", Assets.Upgrades.Heat.Value) {
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
+                                npc.ChangeTemperature(10, proj.owner);
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 8)
+                                    .AddIngredient(ItemID.HellstoneBar, 6)
+                    },
+                    new Upgrade("CryoRounds", Assets.Upgrades.Cryo.Value) {
+                        Behavior = {
+                            Projectile_OnHitNPCHook = (proj, npc, hit, damage) => {
+                                npc.ChangeTemperature(-10, proj.owner);
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                                    .AddIngredient(ItemID.HallowedBar, 8)
+                                    .AddIngredient(ItemID.FrostCore, 1)
                     }
                 )
             );
