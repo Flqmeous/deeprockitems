@@ -223,7 +223,7 @@ namespace deeprockitems.Content.Items.Weapons
             Recipe.Create(ModContent.ItemType<M1000>())
             .AddIngredient(ItemID.Musket, 1)
             .AddIngredient(ItemID.IllegalGunParts, 1)
-            .AddRecipeGroup(ItemID.HellstoneBar, 12)
+            .AddIngredient(ItemID.HellstoneBar, 12)
             .Register();
 
             Recipe.Create(ModContent.ItemType<M1000>())
