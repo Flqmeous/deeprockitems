@@ -13,10 +13,10 @@ namespace deeprockitems.Content.Items.Weapons
     public class PlasmaPistol : UpgradableWeapon
     {
         public override void NewSetDefaults() {
-            Item.damage = 15;
+            Item.damage = 20;
             Item.rare = ItemRarityID.Green;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 7;
+            Item.mana = 4;
             Item.knockBack = 4;
             Item.crit = 4;
             Item.useTime = 14;
