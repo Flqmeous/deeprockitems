@@ -341,8 +341,8 @@ Mods: {
 				}
 
 				EfficientCharge: {
-					DisplayName: EfficientCharge
-					HoverText: Hover text
+					DisplayName: Foaming Mixture
+					HoverText: Reduces the cooldown gained by charging a shot
 				}
 
 				VisualCalculus: {
