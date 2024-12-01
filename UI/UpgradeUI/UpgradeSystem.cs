@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -15,7 +16,7 @@ namespace deeprockitems.UI.UpgradeUI
             // Set state
             var self = ModContent.GetInstance<UpgradeSystem>();
             self.Interface.SetState(state);
-        }
+        }   
         public override void Load()
         {
             UpgradeUIState = new();
@@ -25,22 +26,11 @@ namespace deeprockitems.UI.UpgradeUI
         public override void UpdateUI(GameTime gameTime)
         {
             Interface?.Update(gameTime);
-            if (!Main.playerInventory)
-            {
-                SetState(null);
-                // Give item in slot the player
-                if (UpgradeUIState.Panel.ParentSlot.ItemInSlot != null && UpgradeUIState.Panel.ParentSlot.ItemInSlot.type != 0)
-                {
-                    Main.LocalPlayer.QuickSpawnItem(UpgradeUIState.Panel.ParentSlot.ItemInSlot.GetSource_ReleaseEntity(), UpgradeUIState.Panel.ParentSlot.ItemInSlot);
-                }
-                UpgradeUIState.Panel.ParentSlot.ItemInSlot = new(0);
-                UpgradeUIState.Panel.UpgradeContainer.SetUpgrades(null);
-            }
             if (UpgradeUIState.Panel.IsMouseHovering)
             {
                 Main.LocalPlayer.mouseInterface = true;
             }
-        }
+        }        
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex((layer) => layer.Name.Equals("Vanilla: Mouse Text"));

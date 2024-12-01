@@ -1,13 +1,33 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.UI.UpgradeUI
 {
-    public class UpgradeItemSlotPlayer : ModPlayer
+    public class UpgradeUIPlayer : ModPlayer
     {
+        public static Point UpgradeStationLocation;
         public override void SetStaticDefaults() {
             _upgradeSystem = ModContent.GetInstance<UpgradeSystem>();
+        }
+        public void CloseUI() {
+            var system = ModContent.GetInstance<UpgradeSystem>();
+            UpgradeSystem.SetState(null);
+            // Give item in slot the player
+            if (system.UpgradeUIState.Panel.ParentSlot.ItemInSlot != null && system.UpgradeUIState.Panel.ParentSlot.ItemInSlot.type != 0)
+            {
+                Player.QuickSpawnItem(system.UpgradeUIState.Panel.ParentSlot.ItemInSlot.GetSource_ReleaseEntity(), system.UpgradeUIState.Panel.ParentSlot.ItemInSlot);
+            }
+            system.UpgradeUIState.Panel.ParentSlot.ItemInSlot = new(0);
+            system.UpgradeUIState.Panel.UpgradeContainer.SetUpgrades(null);
+        }
+        public override void ResetEffects() {
+            if (UpgradeStationLocation != new Point(-1, -1) && (!Main.LocalPlayer.IsInTileInteractionRange(UpgradeStationLocation.X, UpgradeStationLocation.Y, TileReachCheckSettings.Simple) || Player.chest != -1 || !Main.playerInventory || Player.talkNPC != -1)) {
+                CloseUI();
+                UpgradeStationLocation = new Point(-1, -1);
+            }
         }
         public override void OnEnterWorld() {
             // Give item to player

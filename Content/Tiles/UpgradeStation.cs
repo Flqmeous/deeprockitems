@@ -23,12 +23,15 @@ namespace deeprockitems.Content.Tiles
             UpgradeSystem system = ModContent.GetInstance<UpgradeSystem>();
             if (system.Interface.CurrentState == null)
             {
+                Main.LocalPlayer.chest = -1;
+                Main.LocalPlayer.sign = -1;
+                UpgradeUIPlayer.UpgradeStationLocation = new(i, j);
                 Main.playerInventory = true;
                 UpgradeSystem.SetState(system.UpgradeUIState);
             }
             else // Set state
             {
-                UpgradeSystem.SetState(null);
+                Main.LocalPlayer.GetModPlayer<UpgradeUIPlayer>().CloseUI();
             }
             return true;
         }
