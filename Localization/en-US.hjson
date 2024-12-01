@@ -222,6 +222,11 @@ Mods: {
 				DisplayName: Sludged
 				Description: You're being corroded!
 			}
+
+			FearingConfused: {
+				DisplayName: Fearing Confused
+				Description: Mods.deeprockitems.Buffs.FearingConfused.Description
+			}
 		}
 
 		Upgrades: {
