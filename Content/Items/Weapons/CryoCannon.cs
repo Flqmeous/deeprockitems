@@ -7,6 +7,7 @@ using deeprockitems.Content.Upgrades;
 using deeprockitems.Content.Buffs;
 using System.Linq;
 using System.Collections.Generic;
+using Terraria.Audio;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -193,6 +194,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             spread = MathHelper.Pi / 40;
+            SoundEngine.PlaySound(SoundID.Item13 with { Pitch = -0.5f, PitchVariance = 0.25f}, position: position);
         }
         public override void AddRecipes() {
             Recipe.Create(Type)
