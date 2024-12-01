@@ -103,7 +103,7 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 ),
                 new UpgradeTier(3,
-                    new Upgrade("LingeringSludge", Assets.Upgrades.Damage.Value) {
+                    /*new Upgrade("LingeringSludge", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Projectile_OnTileCollideHook = (proj, oldVelocity) => {
                                 // get instance of modsystem
@@ -155,7 +155,11 @@ namespace deeprockitems.Content.Items.Weapons
                                 }
                                 return true; // Continue vanilla behavior.
                             }
-                        }
+                        }*/
+                    new Upgrade("SpreadingSludge", Assets.Upgrades.GooBall.Value) {
+                        Recipe = new UpgradeRecipe()
+                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                                    .AddIngredient(ItemID.PinkGel, 15)
                     },
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
                         Behavior = {
@@ -204,11 +208,6 @@ namespace deeprockitems.Content.Items.Weapons
                         Recipe = new UpgradeRecipe()
                                     .AddCandidateIngredient([ItemID.CobaltBar, ItemID.OrichalcumBar], 8)
                                     .AddIngredient(ItemID.Stinger, 6)
-                    },
-                    new Upgrade("SpreadingSludge", Assets.Upgrades.GooBall.Value) {
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                                    .AddIngredient(ItemID.PinkGel, 15)
                     },
                     new Upgrade("SlowingPoison", Assets.Upgrades.Stun.Value) {
                         Recipe = new UpgradeRecipe()

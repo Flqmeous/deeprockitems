@@ -24,6 +24,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shootSpeed = 16f;
             Item.DamageType = DamageClass.Magic;
             Item.autoReuse = true;
+            Item.rare = ItemRarityID.Pink;
             this.ShotsUntilCooldown = 40f;
             this.TimeToEndCooldown = 180f;
         }

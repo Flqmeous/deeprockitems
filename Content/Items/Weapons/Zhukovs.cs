@@ -17,7 +17,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.height = 46;
             Item.rare = ItemRarityID.Cyan;
 
-            Item.damage = 28;
+            Item.damage = 34;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Ranged;
             Item.crit = 12;
@@ -34,7 +34,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
-            ShotsUntilCooldown = 12f;
+            ShotsUntilCooldown = 30f;
         }
         public override void AddRecipes()
         {
