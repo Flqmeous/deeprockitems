@@ -16,7 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
         private int original_projectile;
         public override void NewSetDefaults()
         {
-            Item.damage = 42;
+            Item.damage = 55;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.knockBack = 7.75f;
@@ -24,8 +24,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.width = 60;
             Item.height = 12;
             Item.useAmmo = AmmoID.Bullet;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;
@@ -34,6 +34,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.value = Item.sellPrice(0, 9, 25, 0);
             Item.consumable = false;
             Item.autoReuse = true;
+            this.ShotsUntilCooldown = 24f;
+            this.TimeToEndCooldown = 80f;
         }
         public float AmmoChance { get; set; } = 1f;
         public override bool CanConsumeAmmo(Item ammo, Player player) {
