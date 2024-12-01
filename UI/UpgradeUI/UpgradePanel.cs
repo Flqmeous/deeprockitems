@@ -90,6 +90,7 @@ namespace deeprockitems.UI.UpgradeUI
         private void UpgradeContainer_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
             // Determine which upgrade was clicked:
             if (evt.Target is not UpgradeSelectOption option) return;
+            SoundEngine.PlaySound(SoundID.MenuTick);
 
             // DEBUG: allow any upgrade to be equipped
             if (deeprockitems.DebugMode)
@@ -107,6 +108,7 @@ namespace deeprockitems.UI.UpgradeUI
 
             // Select this upgrade
             option.SelectThisUpgrade();
+            // Make click noise
         }
         private void ParentSlot_OnItemSwap(Item itemNowInSlot, Item itemThatLeftSlot)
         {
@@ -131,7 +133,12 @@ namespace deeprockitems.UI.UpgradeUI
             if (RecipeDisplay.Option is null || RecipeDisplay.Option.Upgrade is null) return;
 
             // Check if the ingredients of the recipe are in the player's inventory
-            if (!TryToCraftItem(Main.LocalPlayer, RecipeDisplay.Option.Upgrade.Recipe)) return;
+            if (!TryToCraftItem(Main.LocalPlayer, RecipeDisplay.Option.Upgrade.Recipe))
+            {
+                // cannot craft sound
+                SoundEngine.PlaySound(SoundID.Tink);
+                return;
+            }
 
             // Unlock the upgrade, equip it, and disable the recipe
             RecipeDisplay.Option.Upgrade.UpgradeState.IsUnlocked = true;
