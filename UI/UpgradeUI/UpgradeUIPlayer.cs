@@ -21,6 +21,7 @@ namespace deeprockitems.UI.UpgradeUI
                 Player.QuickSpawnItem(system.UpgradeUIState.Panel.ParentSlot.ItemInSlot.GetSource_ReleaseEntity(), system.UpgradeUIState.Panel.ParentSlot.ItemInSlot);
             }
             system.UpgradeUIState.Panel.ParentSlot.ItemInSlot = new(0);
+            system.UpgradeUIState.Panel.RecipeDisplay.Option = null;
             system.UpgradeUIState.Panel.UpgradeContainer.SetUpgrades(null);
         }
         public override void ResetEffects() {
