@@ -1,7 +1,4 @@
-﻿using Terraria;
-using Microsoft.Xna.Framework;
-
-namespace deeprockitems.Utilities
+﻿namespace deeprockitems.Utilities
 {
     public static class ArrayExtensions
     {

@@ -2,9 +2,6 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using static System.Math;
-using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {
@@ -24,24 +21,23 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             FireSound = SoundID.Item105;
             Cooldown = 4;
         }
-        public override void SpecialAI()
-        {
-            /*/ This section is used for playing a sound to help time the projectile
-            float critical_time = ChargeTime / 3; // This is how often we're going to play the sound effect
-            float charge_timer = Projectile.timeLeft - (int)ProjectileTime; // Adjusted timeLeft, just saves us a step.
-            
-            // Actually play the sound
-            if (charge_timer % critical_time < 1 && charge_timer < ChargeTime && Projectile.timeLeft != 0)
+        public override void ModifyProjectileAfterSpawning(Projectile projectile) {
+            if (ProjectileToSpawn == ModContent.ProjectileType<BigPlasma>())
             {
-                projectileOwner.itemLocation = projectileOwner.ShakeWeapon(3);
-                float dustSpeedX = Main.rand.NextFloat(-.1f, .1f);
-                float dustSpeedY = Main.rand.NextFloat(-.1f, .1f);
-                Terraria.Dust dust = Terraria.Dust.NewDustDirect(projectileOwner.position, projectileOwner.width, projectileOwner.height, DustID.Obsidian, dustSpeedX, dustSpeedY);
-                //dust.noGravity = true;
-                SoundEngine.PlaySound(SoundID.MaxMana with { Volume = .7f, Pitch = .2f });
+                Main.player[Projectile.owner].CheckMana(7, true, false);
             }
-*/
+        }
+        public override void WhileHeldAtCharge() {
+            // Drain mana to encourage the player to fire a projectile
+            if (this.HasReachedFullCharge && Main.player[Projectile.owner].statMana > 0)
+            {
+                Main.player[Projectile.owner].statMana -= 1;
+            }
 
+            if (Main.player[Projectile.owner].statMana < 7)
+            {
+                ProjectileToSpawn = ModContent.ProjectileType<PlasmaBullet>();
+            }
         }
     }
 }

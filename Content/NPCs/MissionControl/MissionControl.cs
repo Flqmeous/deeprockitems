@@ -1,19 +1,13 @@
 ﻿using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using deeprockitems.Common.Quests;
-using Terraria.Map;
-using System;
-using deeprockitems.Content.Buffs;
 using Terraria.GameContent.Personalities;
 using deeprockitems.Content.Projectiles.MissionControlAttack;
-using deeprockitems.Common.Items;
 using Terraria.GameContent.Bestiary;
 using System.Collections.Generic;
-using Humanizer;
 
 namespace deeprockitems.Content.NPCs.MissionControl
 {
@@ -39,6 +33,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 Velocity = 1f,
                 Direction = 1
             };
+
 
             NPC.Happiness
                 .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love) // Loves space!

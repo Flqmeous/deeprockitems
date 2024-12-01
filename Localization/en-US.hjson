@@ -25,116 +25,6 @@ Mods: {
 				Tooltip: Can be crafted into weapon upgrades
 			}
 
-			AntiGravOC: {
-				DisplayName: Overclock: AG Mixture
-				Tooltip: Shots are no longer affected by gravity
-				Positives: "[c/23DF24:▲Sludge balls are no longer affected by gravity]"
-				Negatives: ""
-			}
-
-			ArmorPierce: {
-				DisplayName: Upgrade: Penetration Rounds
-				Tooltip: Shots ignore 10 defense
-			}
-
-			Blowthrough: {
-				DisplayName: Upgrade: Blowthrough Rounds
-				Tooltip: Shots pierce enemies
-			}
-
-			BumpFire: {
-				DisplayName: Upgrade: Bump Fire
-				Tooltip: 16% increased fire rate
-			}
-
-			DamageUpgrade: {
-				DisplayName: Upgrade: Small Damage Upgrade
-				Tooltip: +15% base damage
-			}
-
-			DiggingRoundsOC: {
-				DisplayName: Overclock: Digging Rounds
-				Tooltip: All bullets fired from this gun will pass through terrain
-				Positives: "[c/23DF24:▲Shots travel through blocks]"
-				Negatives: ""
-			}
-
-			GooSpecialOC: {
-				DisplayName: Overclock: Goo Bomber Special
-				Tooltip: Charge shots drop goo fragments as they travel, but no longer fragment on death and normal shots deal less damage
-				Positives: "[c/23DF24:▲Charge shots drop goo fragments while travelling]"
-				Negatives:
-					'''
-					[c/F01318:▼Charge shots no longer fragment on death]
-					[c/F01318:▼Normal shots deal less damage]
-					'''
-			}
-
-			HipsterOC: {
-				DisplayName: Overclock: Hipster
-				Tooltip: Increased normal shot damage, with an inability to focus
-				Positives: "[c/23DF24:▲Increased normal shot damage]"
-				Negatives: "[c/F01318:▼Inability to fire focus shots]"
-			}
-
-			PelletAlignmentOC: {
-				DisplayName: Overclock: Magnetic Pellet Alignment
-				Tooltip: Shots get tighter spread
-				Positives: "[c/23DF24:▲Tighter spread]"
-				Negatives: ""
-			}
-
-			QuickCharge: {
-				DisplayName: Upgrade: Quick Charge
-				Tooltip: 25% faster charge speed
-			}
-
-			SludgeExplosionOC: {
-				DisplayName: Overclock: Waste Ordnance
-				Tooltip: Regular shots explode on contact
-				Positives: "[c/23DF24:▲Shots explode when hitting targets]"
-				Negatives: "[c/F01318:▼Focus shots no longer fragment when destroyed]"
-			}
-
-			SpecialPowderOC: {
-				DisplayName: Overclock: Special Powder
-				Tooltip: WHEEEEEEEEE!
-				Positives: "[c/23DF24:▲Shooting propels you backward]"
-				Negatives: "[c/F01318:▼Slight damage decrease]"
-			}
-
-			StuffedShellsOC: {
-				DisplayName: Overclock: Stuffed Shells
-				Tooltip: Doubled pellet count, but lower fire rate and heavily increased spread
-				Positives: "[c/23DF24:▲Doubled pellet count]"
-				Negatives:
-					'''
-					[c/F01318:▼Lower fire rate]
-					[c/F01318:▼Heavy spread]
-					'''
-			}
-
-			SupercoolOC: {
-				DisplayName: Overclock: Supercooling Chamber
-				Tooltip: 2x focus shot damage, with slower focus speed and lower normal shot fire rate
-				Positives: "[c/23DF24:▲2x focus shot damage]"
-				Negatives:
-					'''
-					[c/F01318:▼Slower focus speed]
-					[c/F01318:▼Lower normal shot fire rate]
-					'''
-			}
-
-			TracerRounds: {
-				DisplayName: Upgrade: Visual Calculus
-				Tooltip: Shows the projectile's trajectory
-			}
-
-			WhitePhosphorus: {
-				DisplayName: Upgrade: White Phosphorus Shells
-				Tooltip: Ignites enemies that are within 10 feet of the player
-			}
-
 			JuryShotgun: {
 				DisplayName: Jury-Rigged Boomstick
 				Tooltip:
@@ -166,44 +56,9 @@ Mods: {
 				DisplayName: Experimental Plasma Charger
 				Tooltip:
 					'''
-					'Do you eat rocks for breakfast?'
 					Hold click to fire a larger, slow moving projectile
+					'I eat rock for breakfast!'
 					'''
-			}
-
-			MountainMoverOC: {
-				DisplayName: Overclock: Mountain Carver
-				Tooltip: The explosion from charged shots can destroy terrain, but the weapon will [c/DC143C:no longer] deal damage
-				Positives: "[c/23DF24:▲Plasma explosions destroy terrain]"
-				Negatives:
-					'''
-					[c/F01318:▼Plasma explosions destroy terrain]
-					[c/F01318:▼The weapon is incapable of dealing damage]
-					'''
-			}
-
-			EzBoomOC: {
-				DisplayName: Overclock: E-Z Explosion
-				Tooltip: Charged plasma will automatically explode on death
-				Positives: "[c/23DF24:▲Plasma explodes on contact with terrain or enemies]"
-				Negatives: ""
-			}
-
-			PiercingPlasmaOC: {
-				DisplayName: Overclock: Piercing Plasma
-				Tooltip: Charged shots will pass through anything, but will no longer explode
-				Positives: "[c/23DF24:▲Charged plasma will travel through blocks and enemies]"
-				Negatives: "[c/F01318:▼Charged plasma can no longer be manually detonated]"
-			}
-
-			HotPlasma: {
-				DisplayName: Upgrade: Hot Plasma
-				Tooltip: All projectiles will burn targets
-			}
-
-			OvertunedNozzle: {
-				DisplayName: Upgrade: Overtuned Nozzle
-				Tooltip: Increases the velocity of shots by 1.5x
 			}
 
 			ChunkOfNitra: {
@@ -224,92 +79,26 @@ Mods: {
 					'''
 			}
 
-			CryoMineletsOC: {
-				DisplayName: Overclock: Cryo Minelets
-				Tooltip: Shots will produce frostburn mines on the ground
-				Positives: "[c/23DF24:▲Frostburn mines]"
-				Negatives: ""
-			}
-
-			EmbeddedDetsOC: {
-				DisplayName: Overclock: Embedded Detonators
-				Tooltip: Shots will lodge remote bombs in enemies which explode with right click
-				Positives: "[c/23DF24:▲Detonators embed on hit]"
-				Negatives:
+			CryoCannon: {
+				DisplayName: Cryo Cannon
+				Tooltip:
 					'''
-					[c/F01318:▼0.75x direct damage]
-					[c/F01318:▼0.75x fire rate]
+					Shoots a stream of chilled mist that freezes enemies
+					'Fueled up and raring to go!'
 					'''
 			}
 
-			StaticBlastOC: {
-				DisplayName: Overclock: Static Blast
-				Tooltip: Bullets will arc electricity between them
-				Positives: "[c/23DF24:▲Electricity arcs between bullets]"
-				Negatives: "[c/F01318:▼Bullets shoot at the same time with wide spread]"
-			}
-
-			DrumMagazine: {
-				DisplayName: Upgrade: Drum Magazine
-				Tooltip: Each gun shoots 2 bullets per volley
-			}
-
-			GetInGetOut: {
-				DisplayName: Upgrade: Get In, Get Out
-				Tooltip: Grants a speed boost after killing an enemy
-			}
-
-			ThinContainmentField: {
-				DisplayName: Upgrade: Thin Containment Field
-				Tooltip: Charged projectiles 'pop' when struck by an uncharged projectile
-			}
-
-			PlasmaSplash: {
-				DisplayName: Upgrade: Plasma Splash
-				Tooltip: Uncharged plasma will damage in a small area of effect
-			}
-
-			ColdPlasmaOC: {
-				DisplayName: Overclock: Cold Plasma
-				Tooltip: Plasma will inflict freeze or frostburn, dependent on the charge time.
-				Positives: "[c/23DF24:▲Plasma inflicts freeze and frostburn]"
-				Negatives: "[c/F01318:▼Plasma moves slower]"
-			}
-
-			HeavyHitterOC: {
-				DisplayName: Overclock: Heavy Hitter
-				Tooltip: Plasma comes out fully charged and with more damage
-				Positives:
-					'''
-						[c/23DF24:▲Plasma is always fully charged]
-						[c/23DF24:▲Plasma deals more damage]
-					'''
-				Negatives:
-					'''
-						[c/F01318:▼Can no longer be charged]
-						[c/F01318:▼Slower shoot speed]
-					'''
-			}
-
-			PersistantPlasmaOC: {
-				DisplayName: Overclock: Persistant Plasma
-				Tooltip: Charged plasma will explode and linger for 5 seconds on death
-				Positives: "[c/23DF24:▲Plasma persists on death]"
-				Negatives: ""
-			}
-
-			HollowPointRounds: {
-				DisplayName: Upgrade: Hollow Point Rounds
-				Tooltip: Shots balloon on impact, stunning enemies
+			UpgradeStationItem: {
+				DisplayName: Upgrade Station Item
+				Tooltip: ""
 			}
 		}
 
 		Misc: {
-			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
-			ValidUpgradesText: "{0} can upgrade the following weapons:"
-			WeaponShiftTooltip: Hold Left Shift to show what weapons this upgrade can affect
-			UpgradeShiftTooltip: Hold Left Shift to show the currently equipped upgrades
-			HowToOpenMenu: Right click on this weapon to open the upgrade menu
+			UsefulWords: {
+				$parentVal: Recipe: "Recipe:"
+				Recipe: Recipe:
+			}
 		}
 
 		NPCs: {
@@ -318,14 +107,14 @@ Mods: {
 
 				TownNPCMood: {
 					// Neutral mood
-					Content: This is... fine. Better than the surface of Hoxxes!
+					Content: This is fine. I'd say it beats the surface of Hoxxes.
 					// Messages pertaining to housing
-					NoHome: Just because I'm a dwarf doesn't mean I'll go live in a cave!
-					FarFromHome: What did you do? I can't observe from here!
+					NoHome: I'm a dwarf, not a troll! I'd like to stay somewhere that isn't under a bridge.
+					FarFromHome: What did you do? I can't keep tabs on anything from here!
 					// Messages regarding crowding
-					LoveSpace: Ah, I love the alone time I get! No one bothering me--except you I guess.
-					DislikeCrowded: I miss the days of having the rig to myself.
-					HateCrowded: Get me out of here! I feel like a dwarf in a glyphid storm.
+					LoveSpace: I love the alone time I get here.
+					DislikeCrowded: I miss the days of having my operations to myself.
+					HateCrowded: Get me out of here! I feel like a chicken surrounded by glyphids!
 					// Biome messages
 					LoveBiome: This place is excellent; it reminds me of the space rig.
 					LikeBiome: "{BiomeName} really makes me feel at home."
@@ -393,6 +182,9 @@ Mods: {
 			CryoMineletProjectile.DisplayName: Cryo Minelet Projectile
 			ElectricityArc.DisplayName: Electricity Arc
 			PlasmaSplashProj.DisplayName: Plasma Splash Proj
+			CryoProjectile.DisplayName: Cryo Projectile
+			IceTrail.DisplayName: Ice Trail
+			DebugProjectile.DisplayName: Debug Projectile
 		}
 
 		Buffs: {
@@ -407,13 +199,13 @@ Mods: {
 			}
 
 			FrozenEnemy: {
-				DisplayName: Frozen
-				Description: You are frozen!
+				DisplayName: Frozen (Enemy)
+				Description: You're extremely fragile!
 			}
 
 			ElectrifiedEnemy: {
-				DisplayName: Electrified Enemy
-				Description: You are losing life
+				DisplayName: Electrified (Enemy)
+				Description: Losing lots of life
 			}
 
 			Haste: {
@@ -423,7 +215,362 @@ Mods: {
 
 			StunnedEnemy: {
 				DisplayName: Stunned Enemy
-				Description: Mods.deeprockitems.Buffs.StunnedEnemy.Description
+				Description: You cannot move!
+			}
+
+			Sludged: {
+				DisplayName: Sludged
+				Description: You're being corroded!
+			}
+
+			FearingConfused: {
+				DisplayName: Fearing Confused
+				Description: Mods.deeprockitems.Buffs.FearingConfused.Description
+			}
+		}
+
+		Upgrades: {
+			M1000: {
+				DamageUpgrade: {
+					DisplayName: High-Cal Bullets
+					HoverText: Increases damage by 15%
+				}
+
+				BumpFire: {
+					DisplayName: Bump Stock
+					HoverText: Increases fire rate by 25%
+				}
+
+				QuickCharge: {
+					DisplayName: Quick-Charge Coils
+					HoverText: Reduces total charge time by 25%
+				}
+
+				FocusDamage: {
+					DisplayName: Pin-Point Sights
+					HoverText: Increases focus damage by 50%
+				}
+
+				Blowthrough: {
+					DisplayName: Blowthrough Rounds
+					HoverText: Shots can penetrate 5 total enemies
+				}
+
+				HollowPointRounds: {
+					DisplayName: Hollow Point Rounds
+					HoverText: Enemies will become stunned on hit
+				}
+
+				BiggerClip: {
+					DisplayName: Bigger Clip
+					HoverText: Fire 33% more shots before cooling down
+				}
+
+				DiggingRounds: {
+					DisplayName: The Mole
+					HoverText: Rounds will travel through blocks
+				}
+
+				ArmorPiercing: {
+					DisplayName: Armor Piercing
+					HoverText: Ignores 25% of enemy defence
+				}
+
+				QuickReload: {
+					DisplayName: Quick Reload
+					HoverText: Cuts reload time in half
+				}
+
+				EfficientCharge: {
+					DisplayName: Efficient Coils
+					HoverText: Charge shots only consume 1 ammo
+				}
+			}
+
+			JuryShotgun: {
+				DamageUpgrade: {
+					DisplayName: Damage Upgrade
+					HoverText: Each pellet will deal x1.2 damage
+				}
+
+				QuadrupleBarrel: {
+					DisplayName: Quad-Barrel
+					HoverText: Ability to fire 4 shots without cooldown
+				}
+
+				WhitePhosphorusShells: {
+					DisplayName: White Phosphorus Shells
+					HoverText: Pellets inflict heat on hit
+				}
+
+				QuickFire: {
+					DisplayName: Quick-Fire Ejectors
+					HoverText: Both shots fire in quick succession
+				}
+
+				Shockwave: {
+					DisplayName: Shockwave
+					HoverText: Damages enemies in radius upon firing
+				}
+
+				Birdshot: {
+					DisplayName: Birdshot
+					HoverText: +3 pellets with a slight damage decrease
+				}
+
+				Buckshot: {
+					DisplayName: Buckshot
+					HoverText: +12 damage with one less pellet
+				}
+
+				Sniper: {
+					DisplayName: Sniper
+					HoverText: Halves the spread of the gun
+				}
+
+				ReloadSpeed: {
+					DisplayName: Snaploader
+					HoverText: Reduces the cooldown time by 50%
+				}
+
+				Blowthrough: {
+					DisplayName: Blowthrough Rounds
+					HoverText: Shots will penetrate up to 3 enemies
+				}
+			}
+
+			SludgePump: {
+				MoreFragments: {
+					DisplayName: Perforated Nozzle
+					HoverText: +4 fragments on charged shots
+				}
+
+				EfficientCharge: {
+					DisplayName: Foaming Mixture
+					HoverText: Reduces the cooldown gained by charging a shot
+				}
+
+				VisualCalculus: {
+					DisplayName: Visual Calculus
+					HoverText: Shows a tracer where the projectile will travel
+				}
+
+				Glowstick: {
+					DisplayName: Glowstick
+					HoverText: Goo emits light in the dark
+				}
+
+				WasteOrdnance: {
+					DisplayName: Waste Ordnance
+					HoverText: Fully charged goo explodes instead of fragmenting
+				}
+
+				QuickCharge: {
+					DisplayName: Smaller Pressure Chamber
+					HoverText: 25% faster charge time
+				}
+
+				SlowingPoison: {
+					DisplayName: Paralytic Agents
+					HoverText: Slows down sludged enemies
+				}
+
+				StrongSludge: {
+					DisplayName: Hydofluoric Acid
+					HoverText: 2x damage over time
+				}
+
+				LingeringSludge: {
+					DisplayName: Sticky Mix
+					HoverText: Sludge will stick to tiles
+				}
+
+				SpreadingSludge: {
+					DisplayName: Biochemical Warfare
+					HoverText: Enemies affected by sludge will infect other enemies
+				}
+
+				DamageUpgrade: {
+					DisplayName: Hardened Mixture
+					HoverText: +15% damage to sludge
+				}
+			}
+
+			PlasmaPistol: {
+				ThinContainmentField: {
+					DisplayName: Thin Containment Field
+					HoverText: Hitting charged plasma with uncharged plasma will make it explode
+				}
+
+				HeatDump: {
+					DisplayName: Heat Dump
+					HoverText: Plasma sheds heat onto enemies
+				}
+
+				DamageUpgrade: {
+					DisplayName: DamageUpgrade
+					HoverText: Hover text
+				}
+
+				PlasmaSplash: {
+					DisplayName: Plasma Splash
+					HoverText: Uncharged plasma impacts with a small area of effect
+				}
+
+				IncreasedBattery: {
+					DisplayName: Higher Capacity Battery
+					HoverText: Increased cooldown capacity
+				}
+
+				SuperSpeedPlasma: {
+					DisplayName: Overtuned Nozzle
+					HoverText: Increased velocity of plasma
+				}
+
+				FlyingNightmare: {
+					DisplayName: Flying Nightmare
+					HoverText: Charged plasma will pass through enemies
+				}
+
+				ArmorBreak: {
+					DisplayName: Gamma Ray Bursts
+					HoverText: Plasma will ignore 10 defense
+				}
+
+				QuickCharge: {
+					DisplayName: Quick Charge Coils
+					HoverText: Procure a charge shot 25% faster
+				}
+
+				IncreasedChargeDamage: {
+					DisplayName: Oxygen Coil Injectors
+					HoverText: Increased charge daamge
+				}
+
+				FireRateIncrease: {
+					DisplayName: Crystal Capacitors
+					HoverText: 33% faster fire rate
+				}
+			}
+
+			Zhukovs: {
+				DamageUpgrade: {
+					DisplayName: Increased Caliber Rounds
+					HoverText: +10% damage
+				}
+
+				FireRate: {
+					DisplayName: Bump Stock
+					HoverText: +20% fire rate increase
+				}
+
+				FireRounds: {
+					DisplayName: Incendiary Rounds
+					HoverText: Shots add heat on hit
+				}
+
+				CryoRounds: {
+					DisplayName: Cryo Rounds
+					HoverText: Shots add cryo on hit
+				}
+
+				GetInGetOut: {
+					DisplayName: Get In, Get Out
+					HoverText: +50% haste while actively fighting an enemy
+				}
+
+				Blowthrough: {
+					DisplayName: Blowthrough Rounds
+					HoverText: Shots will penetrate up to 5 enemies
+				}
+
+				ReducedSpread: {
+					DisplayName: Red Dot Sights
+					HoverText: Reduces spread by 50%
+				}
+
+				HighVelocityRounds: {
+					DisplayName: Dense-Packed Propellant
+					HoverText: +25% velocity increase
+				}
+
+				DamageUpgrade2: {
+					DisplayName: Titanium Rounds
+					HoverText: +20% damage
+				}
+
+				BiggerMagazine: {
+					DisplayName: Drum Magazines
+					HoverText: Fire 75% bullets until having to reload
+				}
+			}
+
+			CryoCannon: {
+				IncreasedCooling: {
+					DisplayName: Adiabatic Chambers
+					HoverText: +2 cooling on hit
+				}
+
+				ReloadSpeed: {
+					DisplayName: Faster Chamber Recharge
+					HoverText: 25% faster cooldown
+				}
+
+				ReducedManaCost: {
+					DisplayName: Exorcist
+					HoverText: Reduced mana cost by 1
+				}
+
+				FireRate: {
+					DisplayName: FireRate
+					HoverText: Increased the fire rate of cooling particles
+				}
+
+				ColdRadiance: {
+					DisplayName: Cold Radiance
+					HoverText: Enemies nearby the player will begin to freeze
+				}
+
+				ReversedEntropy: {
+					DisplayName: ReversedEntropy
+					HoverText: Enemies above 25% freeze will spread to nearby enemies
+				}
+
+				FartherStream: {
+					DisplayName: High Pressure Nozzles
+					HoverText: Increased the maximum distance of the stream
+				}
+
+				DamageUpgrade: {
+					DisplayName: Nucleation
+					HoverText: +2 damage on hit
+				}
+			}
+		}
+
+		Configs: {
+			DRGClientConfig: {
+				DisplayName: Client Configuration
+				Headers.UI: UI
+
+				temperatureDisplaySetting: {
+					Label: Temperature Display
+					Tooltip: Dictates the style of the enemy temperature meter
+				}
+			}
+
+			TemperatureOptions: {
+				Tooltip: ""
+
+				Vanilla: {
+					Label: Vanilla
+					Tooltip: Uses vanilla's healthbar system
+				}
+
+				Fancy: {
+					Label: Fancy
+					Tooltip: Visually larger bar with DRG-inspired flair
+				}
 			}
 		}
 	}

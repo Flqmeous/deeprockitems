@@ -1,22 +1,17 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using deeprockitems.Audio;
+using deeprockitems.Content.Buffs;
+using Terraria;
 using Terraria.Audio;
+using Terraria.ModLoader;
 using static System.Math;
-using Microsoft.Xna.Framework;
-using deeprockitems.Content.Items.Weapons;
-using Terraria.DataStructures;
-using deeprockitems.Utilities;
-using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeBall : ModProjectile
     {
+        public bool ShouldSplatter { get; set; } = false;
+        public int NumProjectilesToSpawn { get; set; } = 8;
         float GooTimer = 5f;
-
-        public bool CancelBaseKill = false;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -31,72 +26,40 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 
 
         }
-        public override void OnSpawn(IEntitySource source)
-        {
-            /*if (source is EntitySource_ItemUse { Item.ModItem: SludgePump item })
-            {
-                parentItem = item;
-            }*/
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[1] > 900f)
-            {
-                Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
-            }
-
-        }
         public override void AI()
         {
-            if (!(Projectile.ai[2] == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
+            if (Projectile.velocity.Y <= 30f) // Set gravity cap
             {
-                if (Projectile.velocity.Y <= 30f) // Set gravity cap
-                {
-                    Projectile.velocity.Y += .5f;
-                }
+                Projectile.velocity.Y += .5f;
             }
 
             Projectile.rotation += Projectile.velocity.X / 100;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.ai[1] <= 900 && Projectile.ai[0] > 0)
+            if (target.AddInstancedBuff(300, out Sludged? buff))
             {
-                target.AddBuff(BuffID.Venom, 300);
-            }
-            else
-            {
-                target.AddBuff(BuffID.Venom, 150);
-            }
-
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            if (info.PvP)
-            {
-                if (Projectile.ai[1] == 1)
-                {
-                    target.AddBuff(BuffID.Venom, 150);
-                }
-                else
-                {
-                    target.AddBuff(BuffID.Venom, 75);
-                }
-            }
+                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
+                buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
+                buff.AmContagious = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SpreadingSludge");
+            }        
         }
         public override void OnKill(int timeLeft)
         {
             // Hit effects, dusts, sound
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);
+            SoundEngine.PlaySound(DRGSoundIDs.SludgeBallHit with { Volume = .3f }, Projectile.position);
             for (int i = 0; i < 12; i++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
 
             // Check if projectile should splatter
-            if (!CancelBaseKill && Projectile.ai[1] <= 900 && Projectile.ai[1] > 0 && Main.myPlayer == Projectile.owner)
+            if (ShouldSplatter && Main.myPlayer == Projectile.owner)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < NumProjectilesToSpawn; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
                 }
             }
         }

@@ -244,7 +244,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
 
 namespace deeprockitems.Common.Quests
 {

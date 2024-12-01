@@ -1,14 +1,8 @@
-﻿using Terraria;
-using deeprockitems.Content.Items.Upgrades;
-using Terraria.ModLoader;
+﻿using deeprockitems.Audio;
+using Terraria;
 using Terraria.Audio;
+using Terraria.ModLoader;
 using static System.Math;
-using Microsoft.Xna.Framework;
-using deeprockitems.Content.Items.Weapons;
-using Terraria.DataStructures;
-using static Humanizer.In;
-using deeprockitems.Assets.Sounds;
-using Terraria.ID;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -18,9 +12,17 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override float ChargeTime { get; set; } = 50f;
         public override SoundStyle? ChargeSound => DRGSoundIDs.SludgePumpFocus with { Volume = .8f, PitchVariance = 1f};
         public override SoundStyle? FireSound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
+        public override void NewSetDefaults() {
+            ChargeShotCooldownMultiplier = 4f;
+        }
         public override void WhenReachedFullCharge()
         {
-            Projectile.damage = (int)Floor(Projectile.damage * 1.75f);
+            Projectile.damage = (int)Floor(Projectile.damage * 1.25f);
+        }
+        public override void ModifyProjectileAfterSpawning(Projectile projectile) {
+            if (!HasReachedFullCharge) return;
+
+            (projectile.ModProjectile as SludgeBall).ShouldSplatter = true;
         }
     }
 }

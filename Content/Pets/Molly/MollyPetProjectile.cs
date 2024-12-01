@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -7,14 +6,11 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using deeprockitems.Utilities;
 using Terraria.GameInput;
 using Terraria.UI;
 using Terraria.Audio;
 using deeprockitems.Common.Items;
-using Terraria.GameContent;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 
 namespace deeprockitems.Content.Pets.Molly
 {

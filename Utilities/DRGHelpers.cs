@@ -1,14 +1,46 @@
-﻿using deeprockitems.Common.PlayerLayers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using ReLogic.Content;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Utilities
 {
     public static class DRGHelpers
     {
+        /// <summary>
+        /// Draws a panel with the provided texture in 9 parts. Drawing involves stretching the edges and center to fit the dimensions.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="texture"></param>
+        /// <param name="insetWidth"></param>
+        /// <param name="insetHeight"></param>
+        /// <param name=""></param>
+        public static void DrawPanel(SpriteBatch spriteBatch, Texture2D texture, int insetWidth, int insetHeight, Vector2 position, float width, float height, Color color) {
+            // Draw each edge
+            Rectangle dimensions = new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height);
+            // Left
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y + insetHeight, insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(0, insetHeight, insetWidth, texture.Height - 2 * insetHeight), color);
+            // Right
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X + dimensions.Width - insetWidth, dimensions.Y + insetHeight, insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(texture.Width - insetWidth, insetHeight, insetWidth, texture.Height - 2 * insetHeight), color);
+            // Top
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y, dimensions.Width - 2 * insetWidth, insetHeight), new Rectangle(insetWidth, 0, texture.Width - 2 * insetWidth, insetHeight), color);
+            // Bottom
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y + dimensions.Height - insetHeight, dimensions.Width - 2 * insetWidth, insetHeight), new Rectangle(insetWidth, texture.Height - insetHeight, texture.Width - 2 * insetWidth, insetHeight), color);
+
+            // Draw corners, top left
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y, insetWidth, insetHeight), new Rectangle(0, 0, insetWidth, insetHeight), color);
+            // top right
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X + dimensions.Width - insetWidth, dimensions.Y, insetWidth, insetHeight), new Rectangle(texture.Width - insetWidth, 0, insetWidth, insetHeight), color);
+            // bottom left
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y + dimensions.Height - insetHeight, insetWidth, insetHeight), new Rectangle(0, texture.Height - insetHeight, insetWidth, insetHeight), color);
+            // bottom right
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X + dimensions.Width - insetWidth, dimensions.Y + dimensions.Height - insetHeight, insetWidth, insetHeight), new Rectangle(texture.Width - insetWidth, texture.Height - insetHeight, insetWidth, insetHeight), color);
+
+            // Draw center
+            spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y + insetHeight, dimensions.Width - 2 * insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(insetWidth, insetHeight, texture.Width - 2 * insetWidth, texture.Height - 2 * insetHeight), color);
+        }
         public static Color GetTeamColor(int team)
         {
             Color color = team switch
@@ -56,6 +88,26 @@ namespace deeprockitems.Utilities
             }
 
             return new(targetX, targetY);
+        }
+        /// <summary>
+        /// Returns the namespace of a given type.
+        /// </summary>
+        /// <param name="t">The type to retrieve the namespace of</param>
+        /// <returns></returns>
+        public static string GetNamespace(this object self)
+        {
+            return self.GetType().Namespace;
+        }
+        /// <summary>
+        /// Returns the requested asset within the namespace of the object. Invoke like <code>this.RequestFromNamespace</code>
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static Asset<T> RequestFromNamespace<T>(this object self, string name) where T : class
+        {
+            // Swap periods with slashes
+            var newString = self.GetNamespace().Replace('.', '/');
+            return ModContent.Request<T>(newString + "/" + name, AssetRequestMode.ImmediateLoad);
         }
     }
 }

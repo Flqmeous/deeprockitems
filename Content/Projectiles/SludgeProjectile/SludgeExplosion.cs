@@ -1,6 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Content.Buffs;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
@@ -38,14 +37,14 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Venom, 300);
+            if (target.AddInstancedBuff(600, out Sludged? buff))
+            {
+                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
+                buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
+            }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (info.PvP)
-            {
-                target.AddBuff(BuffID.Venom, 150);
-            }
         }
         public override void AI()
         {
