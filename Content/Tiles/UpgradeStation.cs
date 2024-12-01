@@ -1,5 +1,6 @@
 ﻿using deeprockitems.UI.UpgradeUI;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -16,6 +17,11 @@ namespace deeprockitems.Content.Tiles
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);
+        }
+        public override void MouseOver(int i, int j) {
+            Main.LocalPlayer.cursorItemIconEnabled = true;
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<UpgradeStationItem>();
+            Main.LocalPlayer.noThrow = 2;
         }
         public override bool RightClick(int i, int j)
         {
