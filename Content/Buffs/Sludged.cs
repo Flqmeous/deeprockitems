@@ -21,22 +21,22 @@ namespace deeprockitems.Content.Buffs
                 // All NPCs get horizontal slowing
                 npc.position.X -= npc.velocity.X * (1 - SlowMultiplier);
             }
-            else if (AmContagious)
+            if (AmContagious)
             {
                 // Get all NPCs around this npc
-                var query = Main.npc.Where(n => n.active && npc.Center.DistanceSQ(n.Center) <= 2304);
+                var query = Main.npc.Where(n => n.active && npc.Center.DistanceSQ(n.Center) <= 9162);
                 foreach (NPC n in query)
                 {
                     // If an NPC has the buff but is not contagious, add buff
-                    if (npc.HasInstancedBuff(out Sludged buff))
+                    if (n.HasInstancedBuff(out Sludged buff))
                     {
                         if (buff.AmContagious) continue;
 
-                        npc.AddInstancedBuff<Sludged>(60, out _);
+                        n.AddInstancedBuff<Sludged>(180, out _);
                         continue;
                     }
                     // Else, add buff regardless
-                    npc.AddInstancedBuff<Sludged>(60, out _);
+                    n.AddInstancedBuff<Sludged>(180, out _);
                 }
             }
         }
