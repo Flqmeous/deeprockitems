@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -107,6 +109,10 @@ namespace deeprockitems.Content.Buffs
             else if (Temperature >= this.HeatThreshold)
             {
                 buffId = Main.hardMode ? BuffID.OnFire3 : BuffID.OnFire;
+                /*if (!ImmuneToMarkForDeath)
+                {
+                    npc.AddBuff(ModContent.BuffType<FearingConfused>(), 2);
+                }*/
             }
             // If buff id wasn't -1, apply the buff for 2 ticks
             if (buffId != -1)
@@ -125,13 +131,8 @@ namespace deeprockitems.Content.Buffs
             {
                 if (!ImmuneToFreeze)
                 {
-                    // Set enemy to be frozen
+                    // Freeze enemy
                     IsFrozen = true;
-                }
-                else
-                {
-                    npc.onFrostBurn = !Main.hardMode;
-                    npc.onFrostBurn2 = Main.hardMode;
                 }
             }
             else if (Temperature >= this.HeatThreshold)
@@ -141,9 +142,6 @@ namespace deeprockitems.Content.Buffs
                     // Mark enemy for death
                     IsMarkedForDeath = true;
                 }
-                // Add fire debuffs
-                npc.onFire = !Main.hardMode;
-                npc.onFire2 = Main.hardMode;
             }
 
             // If temperature is not zero and enemy is not falling, increase time since temperature changed
@@ -257,6 +255,7 @@ namespace deeprockitems.Content.Buffs
                 npc.noTileCollide = LastTileCollide;
                 npc.knockBackResist = _lastKBResist;
             }
+
             // Do vanilla PreAI code.
             return base.PreAI(npc);
         }
