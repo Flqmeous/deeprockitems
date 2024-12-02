@@ -18,6 +18,8 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
         }
         public override void AI()
         {

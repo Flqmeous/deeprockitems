@@ -1,9 +1,5 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Terraria.ModLoader;
 using Terraria.DataStructures;
-using System.Collections.Generic;
 
 namespace deeprockitems.Common.PlayerLayers
 {

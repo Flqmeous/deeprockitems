@@ -1,13 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using deeprockitems.Utilities;
-using Terraria.Audio;
-using Terraria.ID;
-using System;
-using Terraria.DataStructures;
-using deeprockitems.Content.Items.Weapons;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {

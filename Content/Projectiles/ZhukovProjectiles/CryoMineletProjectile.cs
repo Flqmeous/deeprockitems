@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using deeprockitems.Utilities;
 using Terraria.ID;
 using Terraria.Audio;
 using deeprockitems.Content.Buffs;
@@ -92,7 +91,7 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
                 if (Projectile.Center.DistanceSQ(npc.Center) <= 5000)
                 {
                     // Apply freeze
-                    npc.AddBuff(ModContent.BuffType<FrozenEnemy>(), 120);
+                    npc.ChangeTemperature(-100, Projectile.owner);
                 }
             }
         }

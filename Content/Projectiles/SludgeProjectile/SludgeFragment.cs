@@ -1,11 +1,8 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using static System.Math;
-using Microsoft.Xna.Framework;
-using deeprockitems.Content.Items.Weapons;
-using Terraria.DataStructures;
+using deeprockitems.Audio;
+using deeprockitems.Content.Buffs;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -35,7 +32,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .2f }, Projectile.position);
+            SoundEngine.PlaySound(DRGSoundIDs.SludgeBallHit with { Volume = .2f }, Projectile.position);
             for (int i = 0; i < 2; i++)
             {
                 int dust = Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(.9f, 1.1f));
@@ -43,14 +40,14 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Venom, 60);
+            if (target.AddInstancedBuff(180, out Sludged? buff))
+            {
+                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
+                buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
+            }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (info.PvP)
-            {
-                target.AddBuff(BuffID.Venom, 30);
-            }
         }
     }
 }
