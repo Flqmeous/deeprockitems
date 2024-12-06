@@ -19,6 +19,10 @@ namespace deeprockitems.UI.UpgradeUI
         }   
         public override void Load()
         {
+            if (Main.dedServ)
+            {
+                return;
+            }
             UpgradeUIState = new();
             UpgradeUIState.Activate();
             Interface = new();

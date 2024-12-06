@@ -11,6 +11,10 @@ namespace deeprockitems.UI.CooldownUI
         public PlayerCooldownUIState CooldownState;
         public UserInterface Interface;
         public override void Load() {
+            if (Main.dedServ)
+            {
+                return;
+            }
             CooldownState = new();
             CooldownState.Activate();
             Interface = new();
