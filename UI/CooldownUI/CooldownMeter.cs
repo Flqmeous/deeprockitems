@@ -14,12 +14,12 @@ using Terraria.GameContent;
 
 namespace deeprockitems.UI.CooldownUI
 {
-    public class CooldownMeter : UIElement, ILoadable
+    public class CooldownMeter : UIElement
     {
         #region Initialize/dispose of basicEffect
         // BasicEffect is a shader that is required to draw primitives
         static BasicEffect basicEffect;
-        void ILoadable.Load(Mod mod) {
+        /*void ILoadable.Load(Mod mod) {
             // Initialize the basic effect
             Main.RunOnMainThread(() => {
                 basicEffect = new(Main.instance.GraphicsDevice);
@@ -33,7 +33,7 @@ namespace deeprockitems.UI.CooldownUI
                 basicEffect?.Dispose();
                 basicEffect = null;
             });
-        }
+        }*/
         #endregion
 #nullable enable
         private static UpgradableWeapon? PlayerWeapon {
@@ -126,11 +126,8 @@ namespace deeprockitems.UI.CooldownUI
             // Draw the outer layer of the fancy meter
             
         }
-        private void DrawSectorPrimitive(GraphicsDevice graphics, Vector2 center, float radius, float beginAngle, float sectorAngle, int direction, Color color) {
-            
-        }
-        private void DrawFancyCooldownMeterPrimitives(GraphicsDevice graphics, Vector2 center, float radius, float percentFilled, Color color) {
-            /*// In order to draw this correctly, we're going to draw a 20-gon and remove some vertices.
+        /*private void DrawFancyCooldownMeterPrimitives(GraphicsDevice graphics, Vector2 center, float radius, float percentFilled, Color color) {
+            // In order to draw this correctly, we're going to draw a 20-gon and remove some vertices.
             // Get the vertices involved in a 20-gon
             List<Vector3> oldVertices = [..GetVerticesOfPolygon(center, 99, radius)];
             List<Vector3> newVertices = [];
@@ -181,8 +178,8 @@ namespace deeprockitems.UI.CooldownUI
                 newVertices.Add(vertex);
             }
             // Draw the new "polygon"
-            DrawPrimPolygon(graphics, color, [..newVertices]);*/
-        }
+            DrawPrimPolygon(graphics, color, [..newVertices]);
+        }*/
         private Vector3[] GetVerticesOfPolygon(Vector2 center, int numberOfSides, float radius, float rotationOffset = 0f) {
             if (numberOfSides < 3)
             {
