@@ -92,6 +92,11 @@ Mods: {
 				DisplayName: Upgrade Station Item
 				Tooltip: ""
 			}
+
+			NishankaBoltshark: {
+				DisplayName: Nishanka Boltshark
+				Tooltip: "Fires a unique bolt every 5 shots."
+			}
 		}
 
 		Misc: {
@@ -185,6 +190,7 @@ Mods: {
 			CryoProjectile.DisplayName: Cryo Projectile
 			IceTrail.DisplayName: Ice Trail
 			DebugProjectile.DisplayName: Debug Projectile
+			Bolt.DisplayName: Bolt
 		}
 
 		Buffs: {
@@ -544,6 +550,43 @@ Mods: {
 				DamageUpgrade: {
 					DisplayName: Nucleation
 					HoverText: +2 damage on hit
+				}
+			}
+
+			NishankaBoltshark: {
+				T1: {
+					1: {
+						DisplayName: T1.1
+						HoverText: Hover text
+					}
+				}
+
+				T2: {
+					1: {
+						DisplayName: T2.1
+						HoverText: Hover text
+					}
+				}
+
+				T3: {
+					1: {
+						DisplayName: T3.1
+						HoverText: Hover text
+					}
+				}
+
+				T4: {
+					1: {
+						DisplayName: T4.1
+						HoverText: Hover text
+					}
+				}
+
+				T5: {
+					1: {
+						DisplayName: T5.1
+						HoverText: Hover text
+					}
 				}
 			}
 		}
