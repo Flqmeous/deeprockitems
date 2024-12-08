@@ -11,7 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Projectiles.NishankaBoltsharkProjectiles {
-    public class Bolt : ModProjectile {
+    public class SpecialBolt : ModProjectile {
         public override void SetDefaults() {
             Projectile.height = 10;
             Projectile.width = 10;

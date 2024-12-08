@@ -191,6 +191,7 @@ Mods: {
 			IceTrail.DisplayName: Ice Trail
 			DebugProjectile.DisplayName: Debug Projectile
 			Bolt.DisplayName: Bolt
+			SpecialBolt.DisplayName: Special Bolt
 		}
 
 		Buffs: {
