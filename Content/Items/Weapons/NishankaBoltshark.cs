@@ -60,16 +60,16 @@ namespace deeprockitems.Content.Items.Weapons {
             return true;
         }
 
-        /* Overwrites UpdateInventory in UpgradableWeapon.cs, so I'm writing it out for this commit. Would reset shotCounter after shotCounterCooldown ticks.
         public override void UpdateInventory(Player player) {
+            base.UpdateInventory(player);
+
             if (shotCounter != 0) {
                 shotCounterTimer = (shotCounterTimer % shotCounterCooldown) + 1;
                 if (shotCounterTimer == shotCounterCooldown) {
                     shotCounter = 0;
                 }
             } else { shotCounterTimer = 0; }
-            
-        }*/
+        }
 
         public override Vector2? HoldoutOffset() {
             return new Vector2(-3f, 0f);

@@ -95,7 +95,7 @@ Mods: {
 
 			NishankaBoltshark: {
 				DisplayName: Nishanka Boltshark
-				Tooltip: "Fires a unique bolt every 5 shots."
+				Tooltip: Fires a unique bolt every 5 shots.
 			}
 		}
 
