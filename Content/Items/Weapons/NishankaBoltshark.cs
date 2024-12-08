@@ -33,10 +33,10 @@ namespace deeprockitems.Content.Items.Weapons {
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.DamageType = DamageClass.Ranged;
             Item.rare = ItemRarityID.Blue;
-            Item.autoReuse = true; // set to false and have true as an upgrade, this is just set as it is for now because it's nicer to my finger
+            Item.autoReuse = false; // set to false and have true as an upgrade, this is just set as it is for now because it's nicer to my finger
 
-            this.ShotsUntilCooldown = 14.9f; // 15 gives 16 shots?
-            this.TimeToEndCooldown = 60;
+            this.ShotsUntilCooldown = 14.9f; // 15 gives 16 shots so this is bad solution
+            this.TimeToEndCooldown = 90;
         }
 
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
@@ -51,7 +51,7 @@ namespace deeprockitems.Content.Items.Weapons {
             shotCounterTimer = 0;
             if (shotCounter == shotCounterMaximum) {
                 velocity *= 2f;
-                damage += (int)(1.5 * _critChance);
+                damage += (int)(2 * _critChance);
                 knockback += 2.0f;
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SpecialBolt>(), damage, knockback); // Fire custom bolt
                 SoundEngine.PlaySound(SoundID.Item11 with { Pitch = -0.6f }, position);
@@ -94,16 +94,27 @@ namespace deeprockitems.Content.Items.Weapons {
             // upgrade ideas oops you didn't see this: alt shot but higher cooldown / 3rd shot but higher heat-up / no cooldown / auto-reuse
             return new UpgradeList("NishankaBoltshark",
                 new UpgradeTier(1,
-                    new Upgrade("T1.1", Assets.Upgrades.Focus.Value) {
+                    new Upgrade("Automatic", Assets.Upgrades.Focus.Value) {
                         Behavior = {
-                            /**/
+                            Item_ModifyStats = (item) => {
+                                item.autoReuse = true;
+                            }
+                        },
+                        Recipe = new UpgradeRecipe()
+                               .AddCandidateIngredient([ItemID.AaronsBreastplate, ItemID.ZombieMermanBanner], 1)
+                    },
+                    new Upgrade("T1", Assets.Upgrades.Focus.Value) {
+                        Behavior = {
+                            Item_ModifyStats = (item) => {
+                                item.damage += 1000000; // a little silly, a tiny bit goofy, perhaps somewhat whimsical
+                            }
                         },
                         Recipe = new UpgradeRecipe()
                                .AddCandidateIngredient([ItemID.AaronsBreastplate, ItemID.ZombieMermanBanner], 1)
                     }
                 ),
                 new UpgradeTier(2,
-                    new Upgrade("T2.1", Assets.Upgrades.TemperatureDecrease.Value) {
+                    new Upgrade("T2", Assets.Upgrades.TemperatureDecrease.Value) {
                         Behavior = {
                             /**/
                         },
@@ -112,7 +123,7 @@ namespace deeprockitems.Content.Items.Weapons {
                     }
                 ),
                 new UpgradeTier(3,
-                    new Upgrade("T3.1", Assets.Upgrades.TemperatureDecrease.Value) {
+                    new Upgrade("T3", Assets.Upgrades.TemperatureDecrease.Value) {
                         Behavior = {
                             /**/
                         },
@@ -121,7 +132,7 @@ namespace deeprockitems.Content.Items.Weapons {
                     }
                 ),
                 new UpgradeTier(4,
-                    new Upgrade("T4.1", Assets.Upgrades.TemperatureDecrease.Value) {
+                    new Upgrade("T4", Assets.Upgrades.TemperatureDecrease.Value) {
                         Behavior = {
                             /**/
                         },
@@ -130,7 +141,7 @@ namespace deeprockitems.Content.Items.Weapons {
                     }
                 ),
                 new UpgradeTier(5,
-                    new Upgrade("T5.1", Assets.Upgrades.TemperatureDecrease.Value) {
+                    new Upgrade("T5", Assets.Upgrades.TemperatureDecrease.Value) {
                         Behavior = {
                             /**/
                         },

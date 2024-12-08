@@ -555,40 +555,36 @@ Mods: {
 			}
 
 			NishankaBoltshark: {
+				Automatic: {
+					DisplayName: Automatic Fire
+					HoverText: Enables automatic weapon firing.
+				}
+
 				T1: {
-					1: {
-						DisplayName: T1.1
-						HoverText: Hover text
-					}
+					DisplayName: T1
+					HoverText: Hover text
 				}
 
 				T2: {
-					1: {
-						DisplayName: T2.1
-						HoverText: Hover text
-					}
+					DisplayName: T2
+					HoverText: Hover text
 				}
 
 				T3: {
-					1: {
-						DisplayName: T3.1
-						HoverText: Hover text
-					}
+					DisplayName: T3
+					HoverText: Hover text
 				}
 
 				T4: {
-					1: {
-						DisplayName: T4.1
-						HoverText: Hover text
-					}
+					DisplayName: T4
+					HoverText: Hover text
 				}
 
 				T5: {
-					1: {
-						DisplayName: T5.1
-						HoverText: Hover text
-					}
+					DisplayName: T5
+					HoverText: Hover text
 				}
+
 			}
 		}
 
