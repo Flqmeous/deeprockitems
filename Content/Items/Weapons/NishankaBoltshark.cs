@@ -18,12 +18,12 @@ namespace deeprockitems.Content.Items.Weapons {
         private int shotCounter = 0;
         public int shotCounterCooldown = 90;
         private int shotCounterTimer = 0;
-        private float _critChance = 0.0f;
+        public float _critChance = 0.0f;
 
         public override void NewSetDefaults() {
             Item.width = 52;
             Item.height = 20;
-            Item.damage = 15;
+            Item.damage = 35;
             Item.knockBack = 1.5f;
             Item.noMelee = true;
             Item.useAnimation = Item.useTime = 30;

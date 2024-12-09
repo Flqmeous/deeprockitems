@@ -17,7 +17,7 @@ namespace deeprockitems.Content.Projectiles.NishankaBoltsharkProjectiles {
             Projectile.width = 10;
 
             Projectile.damage = 10;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 2;
 
             Projectile.friendly = true;
             Projectile.arrow = true;
@@ -29,17 +29,7 @@ namespace deeprockitems.Content.Projectiles.NishankaBoltsharkProjectiles {
         }
 
         public override void AI() {
-            Projectile.ai[0] += 1f;
-            if (Projectile.ai[0] >= 15f) {
-                Projectile.ai[0] = 15f;
-                Projectile.velocity.Y += 0.1f;
-            }
-
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-
-            if (Projectile.velocity.Y > 16f) {
-                Projectile.velocity.Y = 16f;
-            }
         }
 
         public override void OnKill(int timeLeft) {
